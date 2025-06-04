@@ -6,12 +6,7 @@ import { Link } from "react-router-dom";
 interface NavbarProps {}
 
 import * as React from "react";
-import {
-  Button,
-  IconButton,
-  Typography,
-  Collapse,
-} from "@material-tailwind/react";
+import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
 
 const LINKS = [
@@ -29,7 +24,10 @@ function NavList() {
   return (
     <ul className="mt-4 flex flex-col gap-x-8 gap-y-1.5 lg:mt-0 lg:flex-row lg:items-center">
       {LINKS.map(({ title, href }) => (
-        <li key={title} className="hover:text-valentino-hv">
+        <li
+          key={title}
+          className="hover:text-valentino-hv transition duration-150 ease-in"
+        >
           <Link
             to={href}
             className="flex items-center gap-x-2 p-1 hover:text-primary"
@@ -65,7 +63,7 @@ export default function Navbar(): JSX.Element {
         <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
           <NavList />
         </div>
-        <button className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer">
+        <button className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
           Log In
         </button>
         <IconButton
