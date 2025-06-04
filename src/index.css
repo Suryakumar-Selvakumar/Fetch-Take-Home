@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@theme {
+  --color-valentino: #300d38;
+  --color-valentino-hv: rgb(137, 0, 117);
+  --color-alabaster: #f9f8f9;
+  --color-web-orange: #ffa900;
+}
