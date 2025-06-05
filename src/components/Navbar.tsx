@@ -1,22 +1,20 @@
 import type { JSX } from "react";
 import fetchLogo from "../assets/Fetch.svg";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-interface NavbarProps {}
-
-import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
+
+interface NavbarProps {}
 
 const LINKS = [
   {
     title: "Home",
-    href: "#",
+    href: "/",
   },
   {
     title: "Search",
-    href: "#",
+    href: "/search",
   },
 ];
 
@@ -41,9 +39,10 @@ function NavList() {
 }
 
 export default function Navbar(): JSX.Element {
-  const [openNav, setOpenNav] = React.useState(false);
+  const [openNav, setOpenNav] = useState(false);
+  const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) {
         setOpenNav(false);
@@ -63,7 +62,10 @@ export default function Navbar(): JSX.Element {
         <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
           <NavList />
         </div>
-        <button className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
+        <button
+          onClick={() => navigate("/login")}
+          className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+        >
           Log In
         </button>
         <IconButton
@@ -83,7 +85,9 @@ export default function Navbar(): JSX.Element {
       {openNav && (
         <Collapse open={openNav}>
           <NavList />
-          <button className="mt-4">Log In</button>
+          <button className="mt-4 px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
+            Log In
+          </button>
         </Collapse>
       )}
     </nav>

@@ -56,8 +56,6 @@ const dogsData = [
 ];
 
 function Home() {
-  const spotsUrl: string = new URL("../assets/spots.svg", import.meta.url).href;
-
   return (
     <main className="w-full h-screen flex flex-col">
       <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
