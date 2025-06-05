@@ -1,14 +1,14 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
-import dogFamImg from "../assets/dog-family.jpg";
-import gdImg from "../assets/gd-3.jpg";
-import fbImg from "../assets/fb-1.jpg";
-import pImg from "../assets/p-1.jpg";
-import gsImg from "../assets/gs-3.jpg";
-import bImg from "../assets/b-1.jpg";
-import dImg from "../assets/d-3.jpg";
-import HoverCard from "../components/HoverCard";
-import spotsBg from "../assets/spots.png";
+import Navbar from "@/components/Navbar";
+import dogFamImg from "@/assets/dog-family.jpg";
+import gdImg from "@/assets/gd-3.jpg";
+import fbImg from "@/assets/fb-1.jpg";
+import pImg from "@/assets/p-1.jpg";
+import gsImg from "@/assets/gs-3.jpg";
+import bImg from "@/assets/b-1.jpg";
+import dImg from "@/assets/d-3.jpg";
+import HoverCard from "@/components/HoverCard";
+import spotsBg from "@/assets/spots.png";
 
 const dogsData = [
   {

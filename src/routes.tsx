@@ -1,9 +1,9 @@
-import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/Home";
-import Layout from "./pages/Layout";
-import Login from "./pages/Login";
-import Search from "./pages/Search";
-import AuthProvider from "./AuthProvider";
+import ErrorPage from "@/pages/ErrorPage";
+import Home from "@/pages/Home";
+import Layout from "@/pages/Layout";
+import Login from "@/pages/Login";
+import Search from "@/pages/Search";
+import AuthProvider from "@/AuthProvider";
 
 export const routes = [
   {

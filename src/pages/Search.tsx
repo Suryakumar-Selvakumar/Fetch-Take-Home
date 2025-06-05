@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import spotsBg from "../assets/spots.png";
+import spotsBg from "@/assets/spots.png";
 
 function Search() {
   return (

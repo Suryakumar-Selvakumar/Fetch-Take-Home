@@ -4,6 +4,7 @@
     "target": "ES2022",
     "lib": ["ESNext"],
     "module": "ESNext",
+    "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 

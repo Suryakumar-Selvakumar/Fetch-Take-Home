@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import fetchLogo from "../assets/Fetch.svg";
+import fetchLogo from "@/assets/Fetch.svg";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
