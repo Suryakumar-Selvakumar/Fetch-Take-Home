@@ -4,8 +4,12 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
+import checkIsAuthenticated from "@/lib/checkIsAuthenticated";
+import { toast, Toaster } from "sonner";
 
-interface NavbarProps {}
+interface NavbarProps {
+  loggedIn?: boolean;
+}
 
 const LINKS = [
   {
@@ -18,7 +22,7 @@ const LINKS = [
   },
 ];
 
-function NavList() {
+function NavList(): JSX.Element {
   return (
     <ul className="mt-4 flex flex-col gap-x-8 gap-y-1.5 lg:mt-0 lg:flex-row lg:items-center">
       {LINKS.map(({ title, href }) => (
@@ -38,7 +42,8 @@ function NavList() {
   );
 }
 
-export default function Navbar(): JSX.Element {
+export default function Navbar({ loggedIn }: NavbarProps): JSX.Element {
+  const [isLoggedIn, setIsLoggedIn] = useState(loggedIn || false);
   const [openNav, setOpenNav] = useState(false);
   const navigate = useNavigate();
 
@@ -53,8 +58,32 @@ export default function Navbar(): JSX.Element {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    checkIsAuthenticated().then(setIsLoggedIn);
+  }, [loggedIn]);
+
+  const handleLogout = async (): Promise<void> => {
+    try {
+      const res = await fetch(
+        "https://frontend-take-home-service.fetch.com/auth/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        toast.info("Logout Successful");
+        setIsLoggedIn(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <nav className="mx-auto w-full max-w-screen-xl">
+      <Toaster richColors position={"top-center"} />
       <div className="flex items-center gap-8">
         <Link to={"/"} className="w-50 ml-2 mr-2 block py-1">
           <img src={fetchLogo} alt="fetch logo" />
@@ -62,12 +91,21 @@ export default function Navbar(): JSX.Element {
         <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
           <NavList />
         </div>
-        <button
-          onClick={() => navigate("/login")}
-          className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
-        >
-          Log In
-        </button>
+        {isLoggedIn ? (
+          <button
+            onClick={() => navigate("/login")}
+            className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+          >
+            Log In
+          </button>
+        ) : (
+          <button
+            onClick={handleLogout}
+            className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+          >
+            Log Out
+          </button>
+        )}
         <IconButton
           size="sm"
           variant="filled"

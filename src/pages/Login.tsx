@@ -10,6 +10,7 @@ import { toast } from "sonner";
 function Login(): JSX.Element {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,6 +36,7 @@ function Login(): JSX.Element {
         toast.success("Login Successful");
         setName("");
         setEmail("");
+        setLoggedIn(true);
       }
     } catch (err) {
       console.error(err);
@@ -43,10 +45,9 @@ function Login(): JSX.Element {
 
   return (
     <>
-      <Toaster richColors position={"top-center"} />
       <main className="w-full h-screen flex flex-col gap-50">
         <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
-          <Navbar />
+          <Navbar loggedIn={loggedIn} />
         </div>
         <form
           onSubmit={handleSubmit}
