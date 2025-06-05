@@ -1,7 +1,7 @@
 import type { JSX, ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
-import checkIsAuthenticated from "./lib/checkIsAuthenticated";
+import checkIsAuthenticated from "./utils/checkIsAuthenticated";
 
 interface AuthProviderProps {
   children: ReactNode;

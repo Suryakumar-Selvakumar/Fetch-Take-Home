@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
-import { toast, Toaster } from "sonner";
+import { Toaster } from "sonner";
 import useAuth from "@/hooks/useAuth";
+import handleLogout from "@/utils/handleLogout";
 
 const LINKS = [
   {
@@ -54,25 +55,6 @@ export default function Navbar(): JSX.Element {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogout = async (): Promise<void> => {
-    try {
-      const res = await fetch(
-        "https://frontend-take-home-service.fetch.com/auth/logout",
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
-
-      if (res.ok) {
-        toast.info("Logout Successful");
-        setIsLoggedIn(false);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
     <nav className="mx-auto w-full max-w-screen-xl">
       <Toaster richColors position={"top-center"} />
@@ -85,7 +67,7 @@ export default function Navbar(): JSX.Element {
         </div>
         {isLoggedIn ? (
           <button
-            onClick={handleLogout}
+            onClick={() => handleLogout(setIsLoggedIn)}
             className="hidden lg:hover:shadow-xs lg:ml-auto lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
           >
             Logout
