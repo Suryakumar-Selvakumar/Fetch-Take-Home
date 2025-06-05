@@ -1,27 +1,16 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import dogFamImg from "../assets/dog-family.jpg";
-import gdImg from "../assets/gd-1.jpg";
+import gdImg from "../assets/gd-3.jpg";
 import fbImg from "../assets/fb-1.jpg";
 import pImg from "../assets/p-1.jpg";
 import gsImg from "../assets/gs-3.jpg";
+import bImg from "../assets/b-1.jpg";
+import dImg from "../assets/d-3.jpg";
 import HoverCard from "../components/HoverCard";
+import spotsBg from "../assets/spots.png";
 
 const dogsData = [
-  {
-    imgUrl: gdImg,
-    gifUrl:
-      "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTJqMHU2NXM3azNqMzh2c2ozZGNlamJtazg3amxocW16MHRyaHNjaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Q343jgPdGDu251pGvI/giphy.gif",
-    name: "Golden Retriever",
-    desc: "A Scottish breed of retriever dog characterised by an affectionate nature and a striking golden coat.",
-  },
-  {
-    imgUrl: fbImg,
-    gifUrl:
-      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc293eGVteXV3NjgzcjRycms4N2JzaTM0dm9xeDZtZ3BtZmo2amVheSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/mYb4JOmRfa5oKRh6k4/giphy.gif",
-    name: "French Bulldog",
-    desc: "A French breed of companion dog or toy dog, which appeared in Paris in the mid-nineteenth century.",
-  },
   {
     imgUrl: pImg,
     gifUrl:
@@ -36,12 +25,42 @@ const dogsData = [
     name: "German Shepherd",
     desc: "A German breed of working dog of medium to large size characterized by its versatility, courage, and confidence.",
   },
+  {
+    imgUrl: fbImg,
+    gifUrl:
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc293eGVteXV3NjgzcjRycms4N2JzaTM0dm9xeDZtZ3BtZmo2amVheSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/mYb4JOmRfa5oKRh6k4/giphy.gif",
+    name: "French Bulldog",
+    desc: "A French breed of companion dog or toy dog, which appeared in Paris in the mid-nineteenth century.",
+  },
+  {
+    imgUrl: gdImg,
+    gifUrl:
+      "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTJqMHU2NXM3azNqMzh2c2ozZGNlamJtazg3amxocW16MHRyaHNjaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Q343jgPdGDu251pGvI/giphy.gif",
+    name: "Golden Retriever",
+    desc: "A Scottish breed of retriever dog characterised by an affectionate nature and a striking golden coat.",
+  },
+  {
+    imgUrl: dImg,
+    gifUrl:
+      "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDQ1Y2N4OWYxbXBnZ2QxdDA1aXZnY2tkejBiNDkxZmpha2UwNDhnMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NmGbJwLl7Y4lG/giphy.gif",
+    name: "Dachshund",
+    desc: "A short-legged, long-bodied, hound-type dog breed with smooth, wire, or long hair. Also known as Weiner dog.",
+  },
+  {
+    imgUrl: bImg,
+    gifUrl:
+      "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXFvODh4MjNmbnRxdHh4YnNveGVxeDYwN3JvN2hlbzlrMjYwcHB0NCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/65VFOpltBDvIRdOpgD/giphy.gif",
+    name: "Boxer",
+    desc: "A medium to large, short-haired dog breed of mastiff-type, characterized by a smooth and tight-fitting coat.",
+  },
 ];
 
 function Home() {
+  const spotsUrl: string = new URL("../assets/spots.svg", import.meta.url).href;
+
   return (
     <main className="w-full h-screen flex flex-col">
-      <div className="bg-amber-400 h-min py-4 flex flex-col items-end">
+      <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
         <Navbar />
       </div>
       <div
@@ -75,7 +94,18 @@ function Home() {
           ))}
         </div>
       </div>
-      <div className="bg-alabaster h-full"></div>
+      <div className="flex h-full max-h-150 bg-white overflow-hidden">
+        <img
+          src={spotsBg}
+          alt="spots background"
+          className="h-full w-full object-cover"
+        />
+        <img
+          src={spotsBg}
+          alt="spots background"
+          className="h-full w-full object-cover"
+        />
+      </div>
     </main>
   );
 }
