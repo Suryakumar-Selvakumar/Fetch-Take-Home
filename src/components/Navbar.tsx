@@ -4,12 +4,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
-import checkIsAuthenticated from "@/lib/checkIsAuthenticated";
 import { toast, Toaster } from "sonner";
-
-interface NavbarProps {
-  loggedIn?: boolean;
-}
+import useAuth from "@/hooks/useAuth";
 
 const LINKS = [
   {
@@ -42,10 +38,10 @@ function NavList(): JSX.Element {
   );
 }
 
-export default function Navbar({ loggedIn }: NavbarProps): JSX.Element {
-  const [isLoggedIn, setIsLoggedIn] = useState(loggedIn || false);
+export default function Navbar(): JSX.Element {
   const [openNav, setOpenNav] = useState(false);
   const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,10 +53,6 @@ export default function Navbar({ loggedIn }: NavbarProps): JSX.Element {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    checkIsAuthenticated().then(setIsLoggedIn);
-  }, [loggedIn]);
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -93,17 +85,17 @@ export default function Navbar({ loggedIn }: NavbarProps): JSX.Element {
         </div>
         {isLoggedIn ? (
           <button
-            onClick={() => navigate("/login")}
-            className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+            onClick={handleLogout}
+            className="hidden lg:hover:shadow-xs lg:ml-auto lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
           >
-            Log In
+            Logout
           </button>
         ) : (
           <button
-            onClick={handleLogout}
-            className="hidden lg:ml-auto lg:inline-block lg:min-w-max px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+            onClick={() => navigate("/login")}
+            className="hidden lg:ml-auto lg:hover:shadow-xs lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
           >
-            Log Out
+            Login
           </button>
         )}
         <IconButton

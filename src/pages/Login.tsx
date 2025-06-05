@@ -4,13 +4,13 @@ import Navbar from "../components/Navbar";
 import { Input } from "@/components/ui/input";
 import { Typography } from "@material-tailwind/react";
 import type { FormEvent, JSX } from "react";
-import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
+import useAuth from "@/hooks/useAuth";
 
 function Login(): JSX.Element {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,7 +36,7 @@ function Login(): JSX.Element {
         toast.success("Login Successful");
         setName("");
         setEmail("");
-        setLoggedIn(true);
+        setIsLoggedIn(true);
       }
     } catch (err) {
       console.error(err);
@@ -47,11 +47,11 @@ function Login(): JSX.Element {
     <>
       <main className="w-full h-screen flex flex-col gap-50">
         <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
-          <Navbar loggedIn={loggedIn} />
+          <Navbar />
         </div>
         <form
           onSubmit={handleSubmit}
-          className="self-center flex flex-col gap-8 inset-ring shadow-lg shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black"
+          className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-lg shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black"
         >
           <h1 className="text-2xl m-auto font-bold text-neutral-800 dark:text-neutral-200">
             Welcome to Fetch
