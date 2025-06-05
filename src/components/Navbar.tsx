@@ -70,8 +70,8 @@ export default function Navbar(): JSX.Element {
         </button>
         <IconButton
           size="sm"
-          variant="ghost"
-          color="secondary"
+          variant="filled"
+          color="gray"
           onClick={() => setOpenNav(!openNav)}
           className="ml-auto grid lg:hidden"
         >
