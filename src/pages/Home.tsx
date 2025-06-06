@@ -58,9 +58,7 @@ const dogsData = [
 function Home() {
   return (
     <main className="w-full h-screen flex flex-col">
-      <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
-        <Navbar />
-      </div>
+      <Navbar />
       <div
         style={{
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,

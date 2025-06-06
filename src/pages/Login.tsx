@@ -49,9 +49,7 @@ function Login(): JSX.Element {
   return (
     <>
       <main className="w-full h-screen flex flex-col gap-50">
-        <div className="bg-amber-400 h-min py-3 flex flex-col items-end">
           <Navbar />
-        </div>
         {isLoggedIn ? (
           <div className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-lg shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
             <h1 className="text-2xl m-auto font-bold text-neutral-800 dark:text-neutral-200">
@@ -80,7 +78,7 @@ function Login(): JSX.Element {
               <Typography
                 as={"label"}
                 type="small"
-                className="font-semibold"
+                className="font-medium"
                 htmlFor="name"
               >
                 Name
@@ -102,7 +100,7 @@ function Login(): JSX.Element {
               <Typography
                 as={"label"}
                 type="small"
-                className="font-semibold"
+                className="font-medium"
                 htmlFor="email"
               >
                 Email

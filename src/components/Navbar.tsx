@@ -51,52 +51,54 @@ export default function Navbar(): JSX.Element {
   }, []);
 
   return (
-    <nav className="mx-auto w-full max-w-screen-xl">
-      <Toaster richColors position={"top-center"} />
-      <div className="flex items-center gap-8">
-        <Link to={"/"} className="w-50 ml-2 mr-2 block py-1">
-          <img src={fetchLogo} alt="fetch logo" />
-        </Link>
-        <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
-          <NavList />
-        </div>
-        {isLoggedIn ? (
-          <button
-            onClick={() => handleLogout(setIsLoggedIn, navigate)}
-            className="hidden lg:hover:shadow-xs lg:ml-auto lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
-          >
-            Logout
-          </button>
-        ) : (
-          <button
-            onClick={() => navigate("/login")}
-            className="hidden lg:ml-auto lg:hover:shadow-xs lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
-          >
-            Login
-          </button>
-        )}
-        <IconButton
-          size="sm"
-          variant="filled"
-          color="gray"
-          onClick={() => setOpenNav(!openNav)}
-          className="ml-auto grid lg:hidden"
-        >
-          {openNav ? (
-            <Xmark className="h-4 w-4" />
+    <div className="bg-amber-400">
+      <nav className="mx-auto w-full max-w-screen-xl h-min py-3">
+        <Toaster richColors position={"top-center"} />
+        <div className="flex items-center gap-8">
+          <Link to={"/"} className="w-50 ml-2 mr-2 block py-1">
+            <img src={fetchLogo} alt="fetch logo" />
+          </Link>
+          <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
+            <NavList />
+          </div>
+          {isLoggedIn ? (
+            <button
+              onClick={() => handleLogout(setIsLoggedIn, navigate)}
+              className="hidden lg:hover:shadow-xs lg:ml-auto lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+            >
+              Logout
+            </button>
           ) : (
-            <Menu className="h-4 w-4" />
+            <button
+              onClick={() => navigate("/login")}
+              className="hidden lg:ml-auto lg:hover:shadow-xs lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
+            >
+              Login
+            </button>
           )}
-        </IconButton>
-      </div>
-      {openNav && (
-        <Collapse open={openNav}>
-          <NavList />
-          <button className="mt-4 px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
-            Log In
-          </button>
-        </Collapse>
-      )}
-    </nav>
+          <IconButton
+            size="sm"
+            variant="filled"
+            color="gray"
+            onClick={() => setOpenNav(!openNav)}
+            className="ml-auto grid lg:hidden"
+          >
+            {openNav ? (
+              <Xmark className="h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
+          </IconButton>
+        </div>
+        {openNav && (
+          <Collapse open={openNav}>
+            <NavList />
+            <button className="mt-4 px-3 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
+              Log In
+            </button>
+          </Collapse>
+        )}
+      </nav>
+    </div>
   );
 }
