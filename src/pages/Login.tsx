@@ -6,13 +6,14 @@ import { Typography } from "@material-tailwind/react";
 import type { FormEvent, JSX } from "react";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import handleLogout from "@/utils/handleLogout";
 
 function Login(): JSX.Element {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -60,7 +61,7 @@ function Login(): JSX.Element {
               Browse our catalog of dogs
             </Link>
             <button
-              onClick={() => handleLogout(setIsLoggedIn)}
+              onClick={() => handleLogout(setIsLoggedIn, navigate)}
               className="cursor-pointer flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             >
               <span>Logout</span>{" "}

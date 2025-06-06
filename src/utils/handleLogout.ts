@@ -1,7 +1,8 @@
 import { toast } from "sonner";
 
 const handleLogout = async (
-  setIsLoggedIn: (value: boolean) => void
+  setIsLoggedIn: (value: boolean) => void,
+  navigate: (value: string) => void
 ): Promise<void> => {
   try {
     const res = await fetch(
@@ -13,8 +14,9 @@ const handleLogout = async (
     );
 
     if (res.ok) {
-      toast.info("Logout Successful");
+      setTimeout(() => toast.info("Logout Successful"), 1500);
       setIsLoggedIn(false);
+      navigate("/");
     }
   } catch (err) {
     console.error(err);

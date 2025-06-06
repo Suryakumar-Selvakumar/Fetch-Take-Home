@@ -4,37 +4,32 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IconButton, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import handleLogout from "@/utils/handleLogout";
 
-const LINKS = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "Search",
-    href: "/search",
-  },
-];
-
 function NavList(): JSX.Element {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
+  const handleSearch = (): void => {
+    if (isLoggedIn) navigate("/search");
+    else toast.info("User must be logged in to access the catalog");
+  };
+
   return (
     <ul className="mt-4 flex flex-col gap-x-8 gap-y-1.5 lg:mt-0 lg:flex-row lg:items-center">
-      {LINKS.map(({ title, href }) => (
-        <li
-          key={title}
-          className="hover:text-valentino-hv transition duration-150 ease-in"
-        >
-          <Link
-            to={href}
-            className="flex items-center gap-x-2 p-1 hover:text-primary"
-          >
-            {title}
-          </Link>
-        </li>
-      ))}
+      <li className="hover:text-valentino-hv transition-all duration-150 ease-in">
+        <Link to="/" className="flex items-center gap-x-2 p-1">
+          Home
+        </Link>
+      </li>
+      <li
+        onClick={handleSearch}
+        className="hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer"
+      >
+        <div className="flex items-center gap-x-2 p-1">Search</div>
+      </li>
     </ul>
   );
 }
@@ -67,7 +62,7 @@ export default function Navbar(): JSX.Element {
         </div>
         {isLoggedIn ? (
           <button
-            onClick={() => handleLogout(setIsLoggedIn)}
+            onClick={() => handleLogout(setIsLoggedIn, navigate)}
             className="hidden lg:hover:shadow-xs lg:ml-auto lg:inline-block lg:w-25 py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in"
           >
             Logout
