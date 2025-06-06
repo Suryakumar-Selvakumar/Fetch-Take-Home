@@ -2,6 +2,7 @@ import type { JSX, ReactNode } from "react";
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 import checkIsAuthenticated from "./utils/checkIsAuthenticated";
+import { useNavigate } from "react-router-dom";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -9,11 +10,13 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const checkAuth = async () => {
     const res = await checkIsAuthenticated();
     setIsLoggedIn(res);
     console.log(`[Auth] checkAuth ran. Logged in: ${res}`);
+    navigate("/");
   };
 
   useEffect(() => {

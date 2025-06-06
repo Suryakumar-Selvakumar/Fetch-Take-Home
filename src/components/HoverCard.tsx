@@ -23,7 +23,7 @@ export default function HoverCard({
           backgroundSize: "cover",
         }}
         className={cn(
-          "group relative w-full h-96 cursor-pointer overflow-hidden rounded-2xl shadow-xl mx-auto flex flex-col justify-end p-4 border border-transparent dark:border-neutral-800 transition-all duration-500"
+          "group relative w-full h-96 overflow-hidden rounded-2xl shadow-xl mx-auto flex flex-col justify-end p-4 border border-transparent dark:border-neutral-800 transition-all duration-500"
         )}
       >
         <div

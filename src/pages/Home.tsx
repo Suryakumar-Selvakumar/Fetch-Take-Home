@@ -66,7 +66,7 @@ function Home() {
           backgroundSize: "cover",
           backgroundPosition: "100% 55%",
         }}
-        className={`h-400 border-b-10 border-b-amber-400`}
+        className={`h-350 border-b-10 border-b-amber-400`}
       />
       <div className="relative z-10 flex flex-col w-screen items-center justify-center">
         <div className="absolute -top-50 flex flex-col items-center justify-center">
