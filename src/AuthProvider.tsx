@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     const res = await checkIsAuthenticated();
     setIsLoggedIn(res);
     console.log(`[Auth] checkAuth ran. Logged in: ${res}`);
-    navigate("/");
+    if (!res) navigate("/");
   };
 
   useEffect(() => {

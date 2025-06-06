@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import dogFamImg from "@/assets/dog-family.jpg";
 import gdImg from "@/assets/gd-3.jpg";
@@ -6,7 +5,7 @@ import fbImg from "@/assets/fb-1.jpg";
 import pImg from "@/assets/p-1.jpg";
 import gsImg from "@/assets/gs-3.jpg";
 import bImg from "@/assets/b-1.jpg";
-import dImg from "@/assets/d-3.jpg";
+import cImg from "@/assets/c-2.jpeg";
 import HoverCard from "@/components/HoverCard";
 import spotsBg from "@/assets/spots.png";
 
@@ -15,8 +14,8 @@ const dogsData = [
     imgUrl: pImg,
     gifUrl:
       "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3IzbmptNzMwdmd1aG13d2ZncHZtd3llaHphZ3Z0aHFudzdrcWMweSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jDilStKwxCSSQ/giphy.gif",
-    name: "Poodle",
-    desc: "A breed of water dog characterized by a distinctive thick, curly coat that comes in many colours and patterns.",
+    name: "Toy Poodle",
+    desc: "A breed of water dog characterized by its small size and a distinctive thick, curly coat that comes in many colours.",
   },
   {
     imgUrl: gsImg,
@@ -40,11 +39,11 @@ const dogsData = [
     desc: "A Scottish breed of retriever dog characterised by an affectionate nature and a striking golden coat.",
   },
   {
-    imgUrl: dImg,
+    imgUrl: cImg,
     gifUrl:
-      "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDQ1Y2N4OWYxbXBnZ2QxdDA1aXZnY2tkejBiNDkxZmpha2UwNDhnMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NmGbJwLl7Y4lG/giphy.gif",
-    name: "Dachshund",
-    desc: "A short-legged, long-bodied, hound-type dog breed with smooth, wire, or long hair. Also known as Weiner dog.",
+      "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M2JmZWQxNnBkeWxnaGlmeGUwazNrYTFlOG9xd3I4bXB0N3ZoM201diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/WAkTocsutMLrG/giphy.gif",
+    name: "Cardigan",
+    desc: "A livestock-herding breed characterized by a long, low stature, upright ears, extreme loyalty and trainability.",
   },
   {
     imgUrl: bImg,
