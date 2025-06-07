@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import spotsBg from "@/assets/spots.png";
 import Filterbar from "@/components/Filterbar";
 import Sidebar from "@/components/Sidebar";
+import getSearchUrl from "@/utils/getSearchUrl";
+import { getDogIds } from "@/utils/getDogIds";
+import { getDogsData } from "@/utils/getDogsData";
 
 export type FilterState = {
   search: string[];
@@ -16,6 +19,22 @@ export type SortState = {
   orderBy: string;
 };
 
+export interface Dog {
+  id: string;
+  img: string;
+  name: string;
+  age: number;
+  zip_code: string;
+  breed: string;
+}
+
+export interface SearchResult {
+  resultIds: string[];
+  total: number;
+  next: string;
+  prev: string;
+}
+
 function Search() {
   const [filters, setFilters] = useState<FilterState>({
     search: [],
@@ -27,6 +46,15 @@ function Search() {
     sortBy: "breed",
     orderBy: "asc",
   });
+  const [dogs, setDogs] = useState<Dog[]>([]);
+  const [searchResult, setSearchResult] = useState<SearchResult>({
+    resultIds: [],
+    total: 0,
+    next: "",
+    prev: "",
+  });
+  const [pageDirection, setPageDirection] = useState("");
+  const signalRef = useRef<AbortController>(null);
 
   const updateSortBy = (sortBy: string): void => {
     setSort((sort) => ({ ...sort, sortBy: sortBy }));
@@ -43,6 +71,56 @@ function Search() {
   const updateAgeMax = (ageMax: number[]): void => {
     setFilters((prev: FilterState) => ({ ...prev, ageMax: ageMax[0] }));
   };
+
+  function createAbortController() {
+    signalRef.current?.abort();
+    const controller = new AbortController();
+    signalRef.current = controller;
+    return controller;
+  }
+
+  async function fetchDogsData() {
+    const controller = createAbortController();
+
+    let url: string;
+
+    // pageDirection will be set based on
+    // whether the user clicked the next or prev pagination buttons.
+    // Will be "" if the user hasn't clicked on either
+    if (pageDirection === "next") {
+      url = await getSearchUrl(filters, sort, searchResult.next);
+    } else if (pageDirection === "prev") {
+      url = await getSearchUrl(filters, sort, searchResult.prev);
+    } else {
+      url = await getSearchUrl(filters, sort, "");
+    }
+
+    // Reset back to "" for next fetch
+    setPageDirection("");
+
+    try {
+      const searchRes = await getDogIds(url, controller.signal);
+      setSearchResult(searchRes);
+      const dogObjs = await getDogsData(searchRes.resultIds, controller.signal);
+      setDogs(dogObjs);
+
+      console.log("Search Results:", searchRes);
+      console.log("Dogs Results:", dogObjs);
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        console.log("Aborted");
+        return;
+      }
+    }
+  }
+
+  useEffect(() => {
+    return () => signalRef.current?.abort();
+  }, []);
+
+  useEffect(() => {
+    fetchDogsData();
+  }, [filters, sort]);
 
   return (
     <main className="w-full h-screen flex flex-col">
