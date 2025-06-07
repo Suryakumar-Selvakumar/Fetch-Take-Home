@@ -52,7 +52,7 @@ export default function Navbar(): JSX.Element {
 
   return (
     <div className="bg-amber-400">
-      <nav className="mx-auto w-full max-w-screen-xl h-min py-3">
+      <nav className="mx-auto w-full max-w-screen-2xl h-min py-3">
         <Toaster richColors position={"top-center"} />
         <div className="flex items-center gap-8">
           <Link to={"/"} className="w-50 ml-2 mr-2 block py-1">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import spotsBg from "@/assets/spots.png";
 import Filterbar from "@/components/Filterbar";
@@ -21,7 +21,7 @@ function Search() {
     search: [],
     breeds: [],
     ageMin: 0,
-    ageMax: 0,
+    ageMax: 29,
   });
   const [sort, setSort] = useState<SortState>({
     sortBy: "breed",
@@ -36,6 +36,14 @@ function Search() {
     setSort((sort) => ({ ...sort, orderBy: orderBy }));
   };
 
+  const updateAgeMin = (ageMin: number[]): void => {
+    setFilters((prev: FilterState) => ({ ...prev, ageMin: ageMin[0] }));
+  };
+
+  const updateAgeMax = (ageMax: number[]): void => {
+    setFilters((prev: FilterState) => ({ ...prev, ageMax: ageMax[0] }));
+  };
+
   return (
     <main className="w-full h-screen flex flex-col">
       <Navbar />
@@ -45,8 +53,13 @@ function Search() {
         updateOrderBy={updateOrderBy}
         sort={sort}
       />
-      <div className="bg-white mt-4 w-full max-w-screen-xl self-center">
-        <Sidebar filters={filters} setFilters={setFilters} />
+      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center">
+        <Sidebar
+          filters={filters}
+          setFilters={setFilters}
+          updateAgeMin={updateAgeMin}
+          updateAgeMax={updateAgeMax}
+        />
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">
         <img src={spotsBg} alt="spots background" className="object-cover" />

@@ -53,7 +53,7 @@ export default function Filterbar({
   const [searchInput, setSearchInput] = useState("");
 
   return (
-    <div className="bg-white w-full max-w-screen-xl h-min py-3 flex self-center justify-between px-4">
+    <div className="bg-white w-full max-w-screen-2xl h-min py-3 flex self-center justify-between px-4">
       <div className="flex items-center gap-2">
         <Input
           autoComplete="on"
