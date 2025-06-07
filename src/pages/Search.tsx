@@ -6,8 +6,9 @@ import Sidebar from "@/components/Sidebar";
 import getSearchUrl from "@/utils/getSearchUrl";
 import { getDogIds } from "@/utils/getDogIds";
 import { getDogsData } from "@/utils/getDogsData";
+import { Filters } from "@/components/Filters";
 
-export type FilterState = {
+export type FiltersState = {
   search: string[];
   breeds: string[];
   ageMin: number;
@@ -36,11 +37,11 @@ export interface SearchResult {
 }
 
 function Search() {
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState<FiltersState>({
     search: [],
     breeds: [],
     ageMin: 0,
-    ageMax: 29,
+    ageMax: 15,
   });
   const [sort, setSort] = useState<SortState>({
     sortBy: "breed",
@@ -65,11 +66,11 @@ function Search() {
   };
 
   const updateAgeMin = (ageMin: number[]): void => {
-    setFilters((prev: FilterState) => ({ ...prev, ageMin: ageMin[0] }));
+    setFilters((prev: FiltersState) => ({ ...prev, ageMin: ageMin[0] }));
   };
 
   const updateAgeMax = (ageMax: number[]): void => {
-    setFilters((prev: FilterState) => ({ ...prev, ageMax: ageMax[0] }));
+    setFilters((prev: FiltersState) => ({ ...prev, ageMax: ageMax[0] }));
   };
 
   function createAbortController() {
@@ -122,6 +123,34 @@ function Search() {
     fetchDogsData();
   }, [filters, sort]);
 
+  const updateFilters = (filter: string, value: string): void => {
+    const updatedFilters = Object.fromEntries(
+      Object.entries(filters).map(([f, v]) => {
+        if (f === filter) {
+          if (Array.isArray(v)) {
+            return [f, v.filter((val) => val !== value)];
+          } else if (f === "ageMin") {
+            return [f, 0];
+          } else {
+            return [f, 15];
+          }
+        } else {
+          return [f, v];
+        }
+      })
+    );
+    setFilters(updatedFilters);
+  };
+
+  const clearFilters = (): void => {
+    setFilters({
+      search: [],
+      breeds: [],
+      ageMin: 0,
+      ageMax: 15,
+    });
+  };
+
   return (
     <main className="w-full h-screen flex flex-col">
       <Navbar />
@@ -131,12 +160,17 @@ function Search() {
         updateOrderBy={updateOrderBy}
         sort={sort}
       />
-      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center">
+      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[max-content_1fr]">
         <Sidebar
           filters={filters}
           setFilters={setFilters}
           updateAgeMin={updateAgeMin}
           updateAgeMax={updateAgeMax}
+        />
+        <Filters
+          filters={filters}
+          clearFilters={clearFilters}
+          updateFilters={updateFilters}
         />
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">

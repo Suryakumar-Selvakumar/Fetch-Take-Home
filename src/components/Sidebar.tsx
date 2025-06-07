@@ -1,4 +1,4 @@
-import type { FilterState } from "@/pages/Search";
+import type { FiltersState } from "@/pages/Search";
 import {
   useEffect,
   useState,
@@ -23,8 +23,8 @@ import { RainbowButton } from "./rainbow-button";
 import { ShimmerButton } from "./shimmer-button";
 
 interface SidebarProps {
-  filters: FilterState;
-  setFilters: Dispatch<SetStateAction<FilterState>>;
+  filters: FiltersState;
+  setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateAgeMin: (value: number[]) => void;
   updateAgeMax: (value: number[]) => void;
 }
@@ -39,7 +39,7 @@ export default function Sidebar({
   const [allBreeds, setAllBreeds] = useState([]);
 
   const toggleSelection = (value: string): void => {
-    setFilters((prev: FilterState) =>
+    setFilters((prev: FiltersState) =>
       prev.breeds.includes(value)
         ? { ...prev, breeds: prev.breeds.filter((v: string) => v !== value) }
         : { ...prev, breeds: [...prev.breeds, value] }
@@ -106,25 +106,27 @@ export default function Sidebar({
           </Command>
         </PopoverContent>
       </Popover>
-      <div>
+      <div className="flex flex-col gap-2">
         <span className="text-sm">
-          Min Age: <span className="font-medium">{ageMin}</span>
+          Min Age:{" "}
+          <span className="font-medium">{ageMin == 0 ? "Any" : ageMin}</span>
         </span>
         <Slider
           defaultValue={[0]}
-          max={29}
+          max={15}
           step={1}
           value={[ageMin]}
           onValueChange={updateAgeMin}
         />
       </div>
-      <div>
+      <div className="flex flex-col gap-2">
         <span className="text-sm font-medium">
-          Max Age: <span className="font-medium">{ageMax}</span>
+          Max Age:{" "}
+          <span className="font-medium">{ageMax == 15 ? "Any" : ageMax}</span>
         </span>
         <Slider
-          defaultValue={[29]}
-          max={29}
+          defaultValue={[15]}
+          max={15}
           step={1}
           value={[ageMax]}
           onValueChange={updateAgeMax}

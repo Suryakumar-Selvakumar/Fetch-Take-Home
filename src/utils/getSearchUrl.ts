@@ -19,10 +19,10 @@ export default async function getSearchUrl(
       zipCodes.forEach((zip) => params.append("zipCodes", zip));
     }
 
-    breeds.forEach((breed) => params.append("breeds", breed));
+    breeds.forEach((breed: string) => params.append("breeds", breed));
 
     if (ageMin > 0) params.append("ageMin", ageMin.toString());
-    if (ageMax < 29) params.append("ageMax", ageMax.toString());
+    if (ageMax < 15) params.append("ageMax", ageMax.toString());
     params.append("sort", `${sortBy}:${orderBy}`);
 
     return `https://frontend-take-home-service.fetch.com/dogs/search?${params.toString()}`;

@@ -1,7 +1,12 @@
 import { useState, type JSX } from "react";
 import { Input } from "./input";
-import type { Dispatch, SetStateAction } from "react";
-import type { FilterState, SortState } from "@/pages/Search";
+import type {
+  Dispatch,
+  KeyboardEvent,
+  KeyboardEventHandler,
+  SetStateAction,
+} from "react";
+import type { FiltersState, SortState } from "@/pages/Search";
 import {
   Select,
   SelectContent,
@@ -12,7 +17,7 @@ import {
 import { Button } from "./button";
 
 interface FilterbarProps {
-  setFilters: Dispatch<SetStateAction<FilterState>>;
+  setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateSortBy: (value: string) => void;
   updateOrderBy: (value: string) => void;
   sort: SortState;
@@ -52,6 +57,18 @@ export default function Filterbar({
 }: FilterbarProps): JSX.Element {
   const [searchInput, setSearchInput] = useState("");
 
+  const handleInputSubmit = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === "Enter") {
+      if (searchInput != "") {
+        setFilters((filters) => ({
+          ...filters,
+          search: [...filters.search, searchInput],
+        }));
+      }
+      setSearchInput("");
+    }
+  };
+
   return (
     <div className="bg-white w-full max-w-screen-2xl h-min py-3 flex self-center justify-between px-4">
       <div className="flex items-center gap-2">
@@ -62,14 +79,18 @@ export default function Filterbar({
           className="w-[300px]"
           type="input"
           placeholder="Enter City, State, or ZIP"
+          onKeyDown={handleInputSubmit}
         />
         <Button
-          onClick={() =>
-            setFilters((filters) => ({
-              ...filters,
-              search: [...filters.search, searchInput],
-            }))
-          }
+          onClick={() => {
+            if (searchInput != "") {
+              setFilters((filters) => ({
+                ...filters,
+                search: [...filters.search, searchInput],
+              }));
+              setSearchInput("");
+            }
+          }}
           variant={"outline"}
           className="cursor-pointer"
         >
