@@ -12,14 +12,14 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  const checkAuth = async () => {
-    const res = await checkIsAuthenticated();
-    setIsLoggedIn(res);
-    console.log(`[Auth] checkAuth ran. Logged in: ${res}`);
-    if (!res) navigate("/");
-  };
-
   useEffect(() => {
+    const checkAuth = async () => {
+      const res = await checkIsAuthenticated();
+      setIsLoggedIn(res);
+      console.log(`[Auth] checkAuth ran. Logged in: ${res}`);
+      if (!res) navigate("/");
+    };
+
     checkAuth();
 
     // Check if user is logged in every 1 hour
