@@ -7,40 +7,86 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/pagination";
+import type { SearchResult } from "@/pages/Search";
 
 export default function PaginationNav({
   page,
   fetchDogsData,
+  searchResult,
 }: {
   page: number;
-  fetchDogsData: (value: number) => Promise<void | undefined>;
+  fetchDogsData: (
+    curPage: number,
+    prevPage: number
+  ) => Promise<void | undefined>;
+  searchResult: SearchResult;
 }) {
+  const params = new URLSearchParams(searchResult.next);
+  const from: string | null = params.get("from");
+  const size: string | null = params.get("size");
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem
+          className="cursor-pointer"
           onClick={() => {
-            if (page > 0) fetchDogsData(page - 1);
+            if (searchResult.prev) fetchDogsData(page - 1, page);
           }}
         >
-          <PaginationPrevious />
+          <PaginationPrevious
+            className={
+              !searchResult.prev
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                : ""
+            }
+          />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
+        {page - 1 >= 0 && (
+          <PaginationItem
+            className="cursor-pointer"
+            onClick={() => {
+              if (searchResult.prev) fetchDogsData(page - 1, page);
+            }}
+          >
+            <PaginationLink>{page - 1}</PaginationLink>
+          </PaginationItem>
+        )}
+        <PaginationItem className="cursor-pointer">
+          <PaginationLink isActive>{page}</PaginationLink>
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem onClick={() => fetchDogsData(page + 1)}>
-          <PaginationNext />
+        {Number(from) < searchResult.total && (
+          <>
+            <PaginationItem
+              className="cursor-pointer"
+              onClick={() => {
+                if (Number(from) < searchResult.total)
+                  fetchDogsData(page + 1, page);
+              }}
+            >
+              <PaginationLink>{page + 1}</PaginationLink>
+            </PaginationItem>
+            {Number(from) + Number(size) < searchResult.total && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+          </>
+        )}
+        <PaginationItem
+          className="cursor-pointer"
+          onClick={() => {
+            if (Number(from) < searchResult.total)
+              fetchDogsData(page + 1, page);
+          }}
+        >
+          <PaginationNext
+            className={
+              !(Number(from) < searchResult.total)
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                : ""
+            }
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

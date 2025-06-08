@@ -84,7 +84,10 @@ function Search() {
     return controller;
   }
 
-  const fetchDogsData = async (curPage: number): Promise<void | undefined> => {
+  const fetchDogsData = async (
+    curPage: number,
+    prevPage: number
+  ): Promise<void | undefined> => {
     setError(null);
     setIsLoading(true);
 
@@ -92,9 +95,9 @@ function Search() {
 
     let url: string;
 
-    if (curPage > page) {
+    if (curPage > prevPage) {
       url = await getSearchUrl(filters, sort, searchResult.next);
-    } else if (curPage < page) {
+    } else if (curPage < prevPage) {
       url = await getSearchUrl(filters, sort, searchResult.prev);
     } else {
       url = await getSearchUrl(filters, sort, "");
@@ -107,8 +110,7 @@ function Search() {
       setDogs(dogObjs);
 
       console.log("Search Results:", searchRes);
-      console.log("Dogs Results:", dogObjs);
-      console.log("Page:", page);
+      console.log("Page:", curPage);
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === "AbortError") {
         console.log("Aborted");
@@ -128,8 +130,8 @@ function Search() {
   }, []);
 
   useEffect(() => {
-    setPage(0);
-    fetchDogsData(page);
+    fetchDogsData(0, 0);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
@@ -179,7 +181,11 @@ function Search() {
           />
           <Error error={error} />
           {/* Cards */}
-          <PaginationNav page={page} fetchDogsData={fetchDogsData} />
+          <PaginationNav
+            page={page}
+            searchResult={searchResult}
+            fetchDogsData={fetchDogsData}
+          />
         </div>
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">
