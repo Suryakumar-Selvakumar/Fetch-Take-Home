@@ -9,6 +9,7 @@ import { getDogsData } from "@/utils/getDogsData";
 import { Filters } from "@/components/Filters";
 import Error from "@/components/Error";
 import PaginationNav from "@/components/PaginationNav";
+import Cards from "@/components/Cards";
 
 export type FiltersState = {
   search: string[];
@@ -57,6 +58,7 @@ function Search() {
     prev: "",
   });
   const [page, setPage] = useState<number>(0);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const signalRef = useRef<AbortController>(null);
@@ -84,46 +86,49 @@ function Search() {
     return controller;
   }
 
-  const fetchDogsData = async (
-    curPage: number,
-    prevPage: number
-  ): Promise<void | undefined> => {
-    setError(null);
-    setIsLoading(true);
+  const fetchDogsData = useCallback(
+    async (curPage: number, prevPage: number): Promise<void | undefined> => {
+      setError(null);
+      setIsLoading(true);
 
-    const controller = createAbortController();
+      const controller = createAbortController();
 
-    let url: string;
+      let url: string;
 
-    if (curPage > prevPage) {
-      url = await getSearchUrl(filters, sort, searchResult.next);
-    } else if (curPage < prevPage) {
-      url = await getSearchUrl(filters, sort, searchResult.prev);
-    } else {
-      url = await getSearchUrl(filters, sort, "");
-    }
-
-    try {
-      const searchRes = await getDogIds(url, controller.signal);
-      setSearchResult(searchRes);
-      const dogObjs = await getDogsData(searchRes.resultIds, controller.signal);
-      setDogs(dogObjs);
-
-      console.log("Search Results:", searchRes);
-      console.log("Page:", curPage);
-    } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === "AbortError") {
-        console.log("Aborted");
-        return;
+      if (curPage > prevPage) {
+        url = await getSearchUrl(filters, sort, searchResult.next);
+      } else if (curPage < prevPage) {
+        url = await getSearchUrl(filters, sort, searchResult.prev);
+      } else {
+        url = await getSearchUrl(filters, sort, "");
       }
-      if (err instanceof Error) {
-        setError((err as Error).message);
-      } else setError("An unknown error occured");
-    } finally {
-      setIsLoading(false);
-      setPage(curPage);
-    }
-  };
+
+      try {
+        const searchRes = await getDogIds(url, controller.signal);
+        setSearchResult(searchRes);
+        const dogObjs = await getDogsData(
+          searchRes.resultIds,
+          controller.signal
+        );
+        setDogs(dogObjs);
+
+        console.log("Search Results:", searchRes);
+        console.log("Dog Objects:", dogObjs);
+        console.log("Page:", curPage);
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === "AbortError") {
+          console.log("Aborted");
+          return;
+        } else if (err instanceof Error) {
+          setError((err as Error).message);
+        } else setError("An unknown error occured");
+      } finally {
+        setIsLoading(false);
+        setPage(curPage);
+      }
+    },
+    [filters, sort, searchResult.next, searchResult.prev]
+  );
 
   useEffect(() => {
     return () => signalRef.current?.abort();
@@ -180,7 +185,9 @@ function Search() {
             updateFilters={updateFilters}
           />
           <Error error={error} />
-          {/* Cards */}
+          {dogs.length && (
+            <Cards dogs={dogs} favorites={favorites} isLoading={isLoading} />
+          )}
           <PaginationNav
             page={page}
             searchResult={searchResult}
