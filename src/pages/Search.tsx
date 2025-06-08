@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import spotsBg from "@/assets/spots.png";
 import Filterbar from "@/components/Filterbar";
@@ -7,6 +7,8 @@ import getSearchUrl from "@/utils/getSearchUrl";
 import { getDogIds } from "@/utils/getDogIds";
 import { getDogsData } from "@/utils/getDogsData";
 import { Filters } from "@/components/Filters";
+import Error from "@/components/Error";
+import PaginationNav from "@/components/PaginationNav";
 
 export type FiltersState = {
   search: string[];
@@ -54,7 +56,9 @@ function Search() {
     next: "",
     prev: "",
   });
-  const [pageDirection, setPageDirection] = useState("");
+  const [page, setPage] = useState<number>(0);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const signalRef = useRef<AbortController>(null);
 
   const updateSortBy = (sortBy: string): void => {
@@ -80,24 +84,21 @@ function Search() {
     return controller;
   }
 
-  async function fetchDogsData() {
+  const fetchDogsData = async (curPage: number): Promise<void | undefined> => {
+    setError(null);
+    setIsLoading(true);
+
     const controller = createAbortController();
 
     let url: string;
 
-    // pageDirection will be set based on
-    // whether the user clicked the next or prev pagination buttons.
-    // Will be "" if the user hasn't clicked on either
-    if (pageDirection === "next") {
+    if (curPage > page) {
       url = await getSearchUrl(filters, sort, searchResult.next);
-    } else if (pageDirection === "prev") {
+    } else if (curPage < page) {
       url = await getSearchUrl(filters, sort, searchResult.prev);
     } else {
       url = await getSearchUrl(filters, sort, "");
     }
-
-    // Reset back to "" for next fetch
-    setPageDirection("");
 
     try {
       const searchRes = await getDogIds(url, controller.signal);
@@ -107,38 +108,41 @@ function Search() {
 
       console.log("Search Results:", searchRes);
       console.log("Dogs Results:", dogObjs);
-    } catch (err) {
+      console.log("Page:", page);
+    } catch (err: unknown) {
       if (err instanceof DOMException && err.name === "AbortError") {
         console.log("Aborted");
         return;
       }
+      if (err instanceof Error) {
+        setError((err as Error).message);
+      } else setError("An unknown error occured");
+    } finally {
+      setIsLoading(false);
+      setPage(curPage);
     }
-  }
+  };
 
   useEffect(() => {
     return () => signalRef.current?.abort();
   }, []);
 
   useEffect(() => {
-    fetchDogsData();
+    setPage(0);
+    fetchDogsData(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
-  const updateFilters = (filter: string, value: string): void => {
-    const updatedFilters = Object.fromEntries(
-      Object.entries(filters).map(([f, v]) => {
-        if (f === filter) {
-          if (Array.isArray(v)) {
-            return [f, v.filter((val) => val !== value)];
-          } else if (f === "ageMin") {
-            return [f, 0];
-          } else {
-            return [f, 15];
-          }
-        } else {
-          return [f, v];
-        }
-      })
-    );
+  const updateFilters = (filter: keyof FiltersState, value: string): void => {
+    const updatedFilters: FiltersState = {
+      ...filters,
+      [filter]: Array.isArray(filters[filter])
+        ? filters[filter].filter((val) => val !== value)
+        : filter === "ageMin"
+        ? 0
+        : 15,
+    };
+
     setFilters(updatedFilters);
   };
 
@@ -160,18 +164,23 @@ function Search() {
         updateOrderBy={updateOrderBy}
         sort={sort}
       />
-      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[max-content_1fr]">
+      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
         <Sidebar
           filters={filters}
           setFilters={setFilters}
           updateAgeMin={updateAgeMin}
           updateAgeMax={updateAgeMax}
         />
-        <Filters
-          filters={filters}
-          clearFilters={clearFilters}
-          updateFilters={updateFilters}
-        />
+        <div className="col-start-[2] flex flex-col gap-4">
+          <Filters
+            filters={filters}
+            clearFilters={clearFilters}
+            updateFilters={updateFilters}
+          />
+          <Error error={error} />
+          {/* Cards */}
+          <PaginationNav page={page} fetchDogsData={fetchDogsData} />
+        </div>
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">
         <img src={spotsBg} alt="spots background" className="object-cover" />

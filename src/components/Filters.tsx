@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 interface FiltersProps {
   filters: FiltersState;
-  updateFilters: (filter: string, value: string) => void;
+  updateFilters: (filter: keyof FiltersState, value: string) => void;
   clearFilters: () => void;
 }
 

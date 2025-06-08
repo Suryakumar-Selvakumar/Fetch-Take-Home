@@ -59,7 +59,7 @@ export default function Sidebar({
   }, []);
 
   return (
-    <div className="h-full w-sm flex flex-col gap-4 p-4">
+    <div className="h-full w-max flex flex-col gap-4 p-4 col-start-1">
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -107,7 +107,7 @@ export default function Sidebar({
         </PopoverContent>
       </Popover>
       <div className="flex flex-col gap-2">
-        <span className="text-sm">
+        <span className="text-sm pl-3">
           Min Age:{" "}
           <span className="font-medium">{ageMin == 0 ? "Any" : ageMin}</span>
         </span>
@@ -120,7 +120,7 @@ export default function Sidebar({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium">
+        <span className="text-sm pl-3">
           Max Age:{" "}
           <span className="font-medium">{ageMax == 15 ? "Any" : ageMax}</span>
         </span>
@@ -133,7 +133,7 @@ export default function Sidebar({
         />
       </div>
       <RainbowButton
-        className="w-[300px] hover:bg-valentino-hv"
+        className="w-[300px] hover:bg-valentino-hv text-base"
         variant={"outline"}
         size={"lg"}
       >
