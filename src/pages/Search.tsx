@@ -171,6 +171,7 @@ function Search() {
         updateSortBy={updateSortBy}
         updateOrderBy={updateOrderBy}
         sort={sort}
+        searchResult={searchResult}
       />
       <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
         <div className="flex flex-col gap-4 col-span-1">

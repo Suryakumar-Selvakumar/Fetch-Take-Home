@@ -1,11 +1,6 @@
 import { useState, type JSX } from "react";
 import { Input } from "./ui/input";
-import type {
-  Dispatch,
-  KeyboardEvent,
-  KeyboardEventHandler,
-  SetStateAction,
-} from "react";
+import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
 import type { FiltersState, SortState } from "@/pages/Search";
 import {
   Select,
@@ -15,12 +10,15 @@ import {
   SelectTrigger,
 } from "./ui/select";
 import { Button } from "./ui/button";
+import type { SearchResult } from "@/pages/Search";
+import { Badge } from "./ui/badge";
 
 interface FilterbarProps {
   setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateSortBy: (value: string) => void;
   updateOrderBy: (value: string) => void;
   sort: SortState;
+  searchResult: SearchResult;
 }
 
 const sortItems = [
@@ -54,6 +52,7 @@ export default function Filterbar({
   updateSortBy,
   updateOrderBy,
   sort,
+  searchResult,
 }: FilterbarProps): JSX.Element {
   const [searchInput, setSearchInput] = useState("");
 
@@ -69,9 +68,17 @@ export default function Filterbar({
     }
   };
 
+  function processTotal(total: number): number | string {
+    if (total < 1000) {
+      return total;
+    } else {
+      return `${total / 1000}K`;
+    }
+  }
+
   return (
     <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between pl-2">
-      <div className="flex items-center gap-2">
+      <div className="flex gap-2 items-center">
         <Input
           autoComplete="on"
           value={searchInput}
@@ -97,9 +104,17 @@ export default function Filterbar({
           Search
         </Button>
       </div>
+      <Badge className="text-xl text-valentino" variant={"secondary"}>
+        {searchResult.total < 1000
+          ? searchResult.total
+          : String(searchResult.total / 1000).includes(".")
+          ? `${(searchResult.total / 1000).toFixed(1)}K`
+          : `${searchResult.total / 1000}K`}{" "}
+        Dogs Found
+      </Badge>
       <div className="flex gap-4">
         <Select value={sort.sortBy} onValueChange={updateSortBy}>
-          <SelectTrigger className="w-[150px] select-none bg-white">
+          <SelectTrigger className="w-[155px] select-none bg-white">
             <span>
               Sort By:{" "}
               <span className="font-medium">
