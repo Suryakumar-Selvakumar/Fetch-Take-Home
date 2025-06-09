@@ -26,7 +26,7 @@ export default function PaginationNav({
   const size: string | null = params.get("size");
 
   return (
-    <Pagination className="my-2">
+    <Pagination className="mt-2 mb-4">
       <PaginationContent>
         <PaginationItem
           className="cursor-pointer"

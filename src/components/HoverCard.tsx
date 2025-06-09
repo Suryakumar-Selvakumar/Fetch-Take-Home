@@ -6,6 +6,7 @@ interface HoverCardProps {
   gifUrl: string;
   name: string;
   desc: string;
+  navigateToSearch: (breed: string) => void;
 }
 
 export default function HoverCard({
@@ -13,9 +14,13 @@ export default function HoverCard({
   gifUrl,
   name,
   desc,
+  navigateToSearch,
 }: HoverCardProps): JSX.Element {
   return (
-    <div className="max-w-xs h-min">
+    <div
+      className="max-w-xs h-min cursor-pointer"
+      onClick={() => navigateToSearch(name)}
+    >
       <div
         style={{
           background: `url(${imgUrl})`,

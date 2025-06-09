@@ -8,6 +8,9 @@ import bImg from "@/assets/b-1.jpg";
 import cImg from "@/assets/c-2.jpeg";
 import HoverCard from "@/components/HoverCard";
 import spotsBg from "@/assets/spots.png";
+import { useNavigate } from "react-router-dom";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 const dogsData = [
   {
@@ -55,6 +58,17 @@ const dogsData = [
 ];
 
 function Home() {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
+  const navigateToSearch = (breed: string) => {
+    if (isLoggedIn) {
+      navigate("/search", { state: [breed] });
+    } else {
+      toast.info("User must be logged in to access the catalog");
+    }
+  };
+
   return (
     <main className="w-full h-screen flex flex-col">
       <Navbar />
@@ -85,6 +99,7 @@ function Home() {
               gifUrl={gifUrl}
               name={name}
               desc={desc}
+              navigateToSearch={navigateToSearch}
             />
           ))}
         </div>

@@ -10,6 +10,7 @@ import { Filters } from "@/components/Filters";
 import Error from "@/components/Error";
 import PaginationNav from "@/components/PaginationNav";
 import Cards from "@/components/Cards";
+import { useLocation } from "react-router-dom";
 
 export type FiltersState = {
   search: string[];
@@ -40,9 +41,10 @@ export interface SearchResult {
 }
 
 function Search() {
+  const location = useLocation();
   const [filters, setFilters] = useState<FiltersState>({
     search: [],
-    breeds: [],
+    breeds: location.state || [],
     ageMin: 0,
     ageMax: 15,
   });
