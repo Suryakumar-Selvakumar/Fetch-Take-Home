@@ -1,6 +1,6 @@
 import type { FiltersState } from "@/pages/Search";
 import { X } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 
 interface FiltersProps {
@@ -62,8 +62,8 @@ export function Filters({
   return (
     <>
       {showFilterApplied && (
-        <div className="flex flex-col gap-2">
-          <p className="text-muted-foreground text-base">Filters Applied</p>
+        <div className="flex flex-col gap-2 p-4">
+          <p className="text-base font-medium">Filters Applied</p>
           <div className="flex flex-wrap gap-4">
             {filterArr.map(({ filter, value }) =>
               value != "0" && value != "15" ? (
@@ -78,7 +78,9 @@ export function Filters({
                   <X
                     size={"16"}
                     strokeWidth={"3"}
-                    onClick={() => updateFilters(filter, value)}
+                    onClick={() =>
+                      updateFilters(filter as keyof FiltersState, value)
+                    }
                     className="cursor-pointer"
                   />
                 </div>

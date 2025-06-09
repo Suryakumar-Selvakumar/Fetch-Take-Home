@@ -1,7 +1,7 @@
 import { useState } from "react";
 import spotsBg from "@/assets/spots.png";
 import Navbar from "@/components/Navbar";
-import { Input } from "@/components/input";
+import { Input } from "@/components/ui/input";
 import { Typography } from "@material-tailwind/react";
 import type { FormEvent, JSX } from "react";
 import { toast } from "sonner";

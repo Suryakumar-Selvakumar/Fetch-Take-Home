@@ -15,7 +15,7 @@ export default function Cards({ dogs, favorites, isLoading }: CardsProps) {
   const [distVals, setDistVals] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    if (dogs.length === 0) return;
+    if (dogs.length === 0 || !userZip) return;
 
     const zipCodes = dogs.map((dog) => dog.zip_code);
 
@@ -25,18 +25,25 @@ export default function Cards({ dogs, favorites, isLoading }: CardsProps) {
     }
 
     addDistanceValues();
-  }, [dogs]);
+  }, [dogs, userZip]);
+
+  function isEmpty(obj: object) {
+    return Object.keys(obj).length === 0;
+  }
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(325px,1fr))] auto-rows-max gap-8 p-8">
-      {Object.keys(distVals).length &&
-        dogs.map((dog) => (
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 p-8">
+      {dogs.map((dog) => (
           <Card
             key={dog.id}
             dog={dog}
             favorite={favorites.includes(dog.id)}
             isLoading={isLoading}
-            dist={distVals[dog.zip_code]}
+            dist={
+              Object.hasOwnProperty.call(distVals, dog.zip_code)
+                ? distVals[dog.zip_code]
+                : undefined
+            }
           />
         ))}
     </div>

@@ -1,7 +1,7 @@
 const getDistance = async (userZip: string, targetZips: string[]) => {
   const params = new URLSearchParams();
 
-  params.append("apikey", "0dabbc80-4488-11f0-9d01-81de3ad9c480");
+  params.append("apikey", "089c29c0-44bf-11f0-ac13-7d15d5a225ae");
   params.append("code", userZip);
   params.append("compare", targetZips.join(","));
   params.append("country", "us");

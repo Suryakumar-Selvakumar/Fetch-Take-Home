@@ -6,7 +6,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/pagination";
+} from "@/components/ui/pagination";
 import type { SearchResult } from "@/pages/Search";
 
 export default function PaginationNav({
@@ -26,7 +26,7 @@ export default function PaginationNav({
   const size: string | null = params.get("size");
 
   return (
-    <Pagination>
+    <Pagination className="my-2">
       <PaginationContent>
         <PaginationItem
           className="cursor-pointer"

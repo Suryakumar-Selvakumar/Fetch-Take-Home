@@ -114,7 +114,6 @@ function Search() {
 
         console.log("Search Results:", searchRes);
         console.log("Dog Objects:", dogObjs);
-        console.log("Page:", curPage);
       } catch (err: unknown) {
         if (err instanceof DOMException && err.name === "AbortError") {
           console.log("Aborted");
@@ -163,7 +162,7 @@ function Search() {
   };
 
   return (
-    <main className="w-full h-screen flex flex-col">
+    <main className=" w-full h-screen flex flex-col">
       <Navbar />
       <Filterbar
         setFilters={setFilters}
@@ -171,28 +170,32 @@ function Search() {
         updateOrderBy={updateOrderBy}
         sort={sort}
       />
-      <div className="bg-white mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
-        <Sidebar
-          filters={filters}
-          setFilters={setFilters}
-          updateAgeMin={updateAgeMin}
-          updateAgeMax={updateAgeMax}
-        />
-        <div className="col-start-[2] flex flex-col gap-4">
+      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
+        <div className="flex flex-col gap-4 col-span-1">
+          <Sidebar
+            filters={filters}
+            setFilters={setFilters}
+            updateAgeMin={updateAgeMin}
+            updateAgeMax={updateAgeMax}
+          />
           <Filters
             filters={filters}
             clearFilters={clearFilters}
             updateFilters={updateFilters}
           />
+        </div>
+        <div className="col-start-[2] row-span-full flex flex-col">
           <Error error={error} />
-          {dogs.length && (
+          {dogs.length > 0 && (
             <Cards dogs={dogs} favorites={favorites} isLoading={isLoading} />
           )}
-          <PaginationNav
-            page={page}
-            searchResult={searchResult}
-            fetchDogsData={fetchDogsData}
-          />
+          {!error && (
+            <PaginationNav
+              page={page}
+              searchResult={searchResult}
+              fetchDogsData={fetchDogsData}
+            />
+          )}
         </div>
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">

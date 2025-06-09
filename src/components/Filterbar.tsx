@@ -1,5 +1,5 @@
 import { useState, type JSX } from "react";
-import { Input } from "./input";
+import { Input } from "./ui/input";
 import type {
   Dispatch,
   KeyboardEvent,
@@ -13,8 +13,8 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-} from "./select";
-import { Button } from "./button";
+} from "./ui/select";
+import { Button } from "./ui/button";
 
 interface FilterbarProps {
   setFilters: Dispatch<SetStateAction<FiltersState>>;
@@ -70,13 +70,13 @@ export default function Filterbar({
   };
 
   return (
-    <div className="bg-white w-full max-w-screen-2xl h-min py-3 flex self-center justify-between px-4">
+    <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between px-4">
       <div className="flex items-center gap-2">
         <Input
           autoComplete="on"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          className="w-[300px]"
+          className="w-[300px] bg-white"
           type="input"
           placeholder="Enter City, State, or ZIP"
           onKeyDown={handleInputSubmit}
@@ -99,7 +99,7 @@ export default function Filterbar({
       </div>
       <div className="flex gap-4">
         <Select value={sort.sortBy} onValueChange={updateSortBy}>
-          <SelectTrigger className="w-[150px]">
+          <SelectTrigger className="w-[150px] select-none bg-white">
             <span>
               Sort By:{" "}
               <span className="font-medium">
@@ -118,7 +118,7 @@ export default function Filterbar({
           </SelectContent>
         </Select>
         <Select value={sort.orderBy} onValueChange={updateOrderBy}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-[200px] select-none bg-white">
             <span>
               Order By:{" "}
               <span className="font-medium">

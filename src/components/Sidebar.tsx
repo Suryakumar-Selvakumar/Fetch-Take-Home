@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/utils/cn";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -16,11 +16,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/popover";
-import { Slider } from "./slider";
-import { RainbowButton } from "./rainbow-button";
-import { ShimmerButton } from "./shimmer-button";
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Slider } from "./ui/slider";
+import { RainbowButton } from "./ui/rainbow-button";
 
 interface SidebarProps {
   filters: FiltersState;
@@ -59,13 +62,13 @@ export default function Sidebar({
   }, []);
 
   return (
-    <div className="h-full w-max flex flex-col gap-4 p-4 col-start-1">
+    <div className="h-max w-max flex flex-col gap-4 p-4 pt-8">
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outlineAlt"
             role="combobox"
-            className="w-[300px] justify-between hover:bg-none"
+            className="w-[300px] justify-between hover:bg-none select-none"
           >
             {breeds.length === 0 ? (
               <span className="font-normal">
@@ -80,7 +83,7 @@ export default function Sidebar({
             <ChevronDown className="opacity-50 size-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[300px] max-h-64 p-0">
+        <PopoverContent className="w-[300px] max-h-90 p-0">
           <Command>
             <CommandInput placeholder="Search..." className="h-9" />
             <CommandList>
@@ -133,20 +136,12 @@ export default function Sidebar({
         />
       </div>
       <RainbowButton
-        className="w-[300px] hover:bg-valentino-hv text-base"
+        className="w-[300px] text-base"
         variant={"outline"}
         size={"lg"}
       >
         Generate Match
       </RainbowButton>
-      {/* <ShimmerButton
-        background="#300d38"
-        borderRadius="15px"
-        shimmerSize="0.1em"
-        className="w-[300px] hover:bg-valentino-hv transition-colors duration-300 ease-in"
-      >
-        Generate Match
-      </ShimmerButton> */}
     </div>
   );
 }
