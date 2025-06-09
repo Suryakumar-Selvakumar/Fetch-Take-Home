@@ -58,7 +58,7 @@ export default function Navbar(): JSX.Element {
           <Link to={"/"} className="w-50 pl-2 block py-1">
             <img src={fetchLogo} alt="fetch logo" />
           </Link>
-          <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">
+          <div className="hidden lg:w-full lg:flex lg:justify-end">
             <NavList />
           </div>
           {isLoggedIn ? (

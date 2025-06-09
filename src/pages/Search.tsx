@@ -40,6 +40,8 @@ export interface SearchResult {
   prev: string;
 }
 
+export type FavoritesState = string[];
+
 function Search() {
   const location = useLocation();
   const [filters, setFilters] = useState<FiltersState>({
@@ -60,7 +62,15 @@ function Search() {
     prev: "",
   });
   const [page, setPage] = useState<number>(0);
-  const [favorites, setFavorites] = useState<string[]>([]);
+
+  const storedFavorites: null | string[] = (() => {
+    const data = localStorage.getItem("favorites");
+    return data ? JSON.parse(data) : null;
+  })();
+  const [favorites, setFavorites] = useState<FavoritesState>(
+    storedFavorites || []
+  );
+
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const signalRef = useRef<AbortController>(null);
@@ -80,6 +90,10 @@ function Search() {
   const updateAgeMax = (ageMax: number[]): void => {
     setFilters((prev: FiltersState) => ({ ...prev, ageMax: ageMax[0] }));
   };
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   function createAbortController() {
     signalRef.current?.abort();
@@ -190,7 +204,12 @@ function Search() {
         <div className="col-start-[2] row-span-full flex flex-col">
           <Error error={error} />
           {dogs.length > 0 && (
-            <Cards dogs={dogs} favorites={favorites} isLoading={isLoading} />
+            <Cards
+              dogs={dogs}
+              favorites={favorites}
+              setFavorites={setFavorites}
+              isLoading={isLoading}
+            />
           )}
           {!error && (
             <PaginationNav

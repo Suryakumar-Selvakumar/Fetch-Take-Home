@@ -68,14 +68,6 @@ export default function Filterbar({
     }
   };
 
-  function processTotal(total: number): number | string {
-    if (total < 1000) {
-      return total;
-    } else {
-      return `${total / 1000}K`;
-    }
-  }
-
   return (
     <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between pl-2">
       <div className="flex gap-2 items-center">
