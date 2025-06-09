@@ -70,7 +70,7 @@ export default function Filterbar({
   };
 
   return (
-    <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between px-4">
+    <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between pl-4 pr-8">
       <div className="flex items-center gap-2">
         <Input
           autoComplete="on"

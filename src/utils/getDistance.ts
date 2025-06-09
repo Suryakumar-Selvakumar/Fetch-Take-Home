@@ -12,6 +12,7 @@ const getDistance = async (userZip: string, targetZips: string[]) => {
   );
 
   const distanceVals = await response.json();
+  
   return distanceVals.results;
 };
 

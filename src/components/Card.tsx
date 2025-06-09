@@ -7,35 +7,38 @@ interface CardProps {
   dog: Dog;
   favorite: boolean;
   isLoading: boolean;
-  dist: undefined | number;
+  dist: undefined | number | string;
 }
 
 export const Card = ({ dog, favorite, isLoading, dist }: CardProps) => {
-  const [imageLoading, setImageLoading] = useState<boolean>(true);
+  const distLoading: boolean = dist === undefined;
+  const distMissing: boolean = dist === "MISSING";
 
   return (
     <div className="bg-white grid grid-rows-[200px_125px] rounded-xl shadow-md">
       <div className="w-full h-full rounded-t-xl">
-        {imageLoading && <Skeleton className="h-[200px] w-full rounded-t-xl" />}
+        {isLoading ||
+          (distLoading && (
+            <Skeleton className="h-[200px] w-full rounded-t-xl" />
+          ))}
         <img
           src={dog.img}
           alt={dog.name}
-          onLoad={() => setImageLoading(false)}
           style={{
-            opacity: imageLoading ? "0" : "1",
+            opacity: isLoading || distLoading ? "0" : "1",
           }}
           className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
         />
       </div>
       <div className="flex flex-col items-center gap-2 mt-3.5 px-4">
-        {isLoading || !dist ? (
+        {isLoading || distLoading ? (
           <Skeleton className="h-5 w-[150px] mt-1.5" />
         ) : (
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv">
             {dog.name}
           </h4>
         )}
-        {isLoading || !dist ? (
+        {isLoading || distLoading ? (
           <Skeleton className="h-4 w-full mt-1.5" />
         ) : (
           <span className="flex justify-center w-full gap-2 h-6">
@@ -46,18 +49,21 @@ export const Card = ({ dog, favorite, isLoading, dist }: CardProps) => {
             <span className="truncate">{dog.breed}</span>
           </span>
         )}
-        {isLoading || !dist ? (
+        {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
+        ) : distMissing ? (
+          <p>Zip: {dog.zip_code}</p>
         ) : (
           <span>
-            {dist && (
-              <Tooltip>
-                <TooltipTrigger>{Math.round(dist)} miles away</TooltipTrigger>
-                <TooltipContent side="bottom" sideOffset={-5}>
-                  <p>Zip: {dog.zip_code}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
+            <Tooltip>
+              <TooltipTrigger>
+                {Math.round(dist as number)} miles away
+              </TooltipTrigger>
+
+              <TooltipContent side="bottom" sideOffset={-5}>
+                <p>Zip: {dog.zip_code}</p>
+              </TooltipContent>
+            </Tooltip>
           </span>
         )}
       </div>

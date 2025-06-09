@@ -12,40 +12,43 @@ interface CardsProps {
 
 export default function Cards({ dogs, favorites, isLoading }: CardsProps) {
   const { userZip } = useAuth();
-  const [distVals, setDistVals] = useState<Record<string, number>>({});
+  const [distVals, setDistVals] = useState<Record<string, number | "MISSING">>(
+    {}
+  );
 
   useEffect(() => {
     if (dogs.length === 0 || !userZip) return;
 
-    const zipCodes = dogs.map((dog) => dog.zip_code);
+    const zipCodes: string[] = dogs.map((dog) => dog.zip_code);
 
     async function addDistanceValues() {
       const distanceValues = await getDistance(userZip, zipCodes);
-      setDistVals(distanceValues);
+      const completeDistances: Record<string, number | "MISSING"> = {};
+
+      zipCodes.forEach((zip) => {
+        completeDistances[zip] =
+          zip in distanceValues ? distanceValues[zip] : "MISSING";
+      });
+
+      console.log(zipCodes, distanceValues);
+
+      setDistVals(completeDistances);
     }
 
     addDistanceValues();
   }, [dogs, userZip]);
 
-  function isEmpty(obj: object) {
-    return Object.keys(obj).length === 0;
-  }
-
   return (
     <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 p-8">
       {dogs.map((dog) => (
-          <Card
-            key={dog.id}
-            dog={dog}
-            favorite={favorites.includes(dog.id)}
-            isLoading={isLoading}
-            dist={
-              Object.hasOwnProperty.call(distVals, dog.zip_code)
-                ? distVals[dog.zip_code]
-                : undefined
-            }
-          />
-        ))}
+        <Card
+          key={dog.id}
+          dog={dog}
+          favorite={favorites.includes(dog.id)}
+          isLoading={isLoading}
+          dist={distVals[dog.zip_code]}
+        />
+      ))}
     </div>
   );
 }
