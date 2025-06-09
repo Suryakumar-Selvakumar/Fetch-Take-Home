@@ -62,7 +62,7 @@ export default function Sidebar({
   }, []);
 
   return (
-    <div className="h-max w-max flex flex-col gap-4 p-4 pt-8">
+    <div className="h-max w-max flex flex-col gap-4 pr-4 pb-4 pt-8 pl-2">
       <Popover>
         <PopoverTrigger asChild>
           <Button

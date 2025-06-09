@@ -1,6 +1,5 @@
 import type { Dog } from "@/pages/Search";
 import { Skeleton } from "./ui/skeleton";
-import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface CardProps {

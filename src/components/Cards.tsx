@@ -30,8 +30,6 @@ export default function Cards({ dogs, favorites, isLoading }: CardsProps) {
           zip in distanceValues ? distanceValues[zip] : "MISSING";
       });
 
-      console.log(zipCodes, distanceValues);
-
       setDistVals(completeDistances);
     }
 
@@ -39,7 +37,7 @@ export default function Cards({ dogs, favorites, isLoading }: CardsProps) {
   }, [dogs, userZip]);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 p-8">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 py-8 pl-8">
       {dogs.map((dog) => (
         <Card
           key={dog.id}

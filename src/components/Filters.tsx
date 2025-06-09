@@ -62,7 +62,7 @@ export function Filters({
   return (
     <>
       {showFilterApplied && (
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-2 p-4 pl-2">
           <p className="text-base font-medium">Filters Applied</p>
           <div className="flex flex-wrap gap-4">
             {filterArr.map(({ filter, value }) =>

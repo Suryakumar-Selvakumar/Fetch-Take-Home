@@ -55,7 +55,7 @@ export default function Navbar(): JSX.Element {
       <nav className="mx-auto w-full max-w-screen-2xl h-min py-3">
         <Toaster richColors position={"top-center"} />
         <div className="flex items-center gap-8">
-          <Link to={"/"} className="w-50 ml-2 mr-2 block py-1">
+          <Link to={"/"} className="w-50 pl-2 block py-1">
             <img src={fetchLogo} alt="fetch logo" />
           </Link>
           <div className="hidden lg:block lg:w-full lg:flex lg:justify-end">

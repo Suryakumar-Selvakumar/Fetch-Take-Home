@@ -9,17 +9,6 @@
   --color-alabaster: #f9f8f9;
   --color-web-orange: #ffa900;
   --color-silver-bg: rgb(239, 238, 241);
-  --animate-pop-in: pop-in 250ms ease-in;
-
-  @keyframes pop-in {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
 }
 
 @theme inline {
