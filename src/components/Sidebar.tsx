@@ -24,12 +24,17 @@ import {
 } from "@/components/ui/popover";
 import { Slider } from "./ui/slider";
 import { RainbowButton } from "./ui/rainbow-button";
+import { fireWorks, heartEmojis } from "./ui/confetti";
 
 interface SidebarProps {
   filters: FiltersState;
   setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateAgeMin: (value: number[]) => void;
   updateAgeMax: (value: number[]) => void;
+  generateMatch: () => Promise<void>;
+  isMatchLoading: boolean;
+  matchExists: boolean;
+  showMatchModal: boolean;
 }
 
 export default function Sidebar({
@@ -37,17 +42,14 @@ export default function Sidebar({
   setFilters,
   updateAgeMin,
   updateAgeMax,
+  generateMatch,
+  isMatchLoading,
+  matchExists,
+  showMatchModal,
 }: SidebarProps): JSX.Element {
   const { breeds, ageMin, ageMax } = filters;
   const [allBreeds, setAllBreeds] = useState([]);
-
-  const toggleSelection = (value: string): void => {
-    setFilters((prev: FiltersState) =>
-      prev.breeds.includes(value)
-        ? { ...prev, breeds: prev.breeds.filter((v: string) => v !== value) }
-        : { ...prev, breeds: [...prev.breeds, value] }
-    );
-  };
+  const [confetti, setConfetti] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     async function fetchBreeds() {
@@ -61,14 +63,30 @@ export default function Sidebar({
     fetchBreeds();
   }, []);
 
+  const toggleSelection = (value: string): void => {
+    setFilters((prev: FiltersState) =>
+      prev.breeds.includes(value)
+        ? { ...prev, breeds: prev.breeds.filter((v: string) => v !== value) }
+        : { ...prev, breeds: [...prev.breeds, value] }
+    );
+  };
+
+  useEffect(() => {
+    if (showMatchModal) {
+      heartEmojis();
+      setConfetti(fireWorks());
+    }
+    if (!showMatchModal) window.clearInterval(confetti);
+  }, [showMatchModal]);
+
   return (
-    <div className="h-max w-max flex flex-col gap-4 pr-4 pb-4 pt-8 pl-2">
+    <div className="h-max w-max flex flex-col gap-8 pr-4 pb-4 pt-8 pl-2">
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outlineAlt"
             role="combobox"
-            className="w-[300px] justify-between hover:bg-none select-none"
+            className="w-[300px] justify-between hover:bg-none cursor-pointer select-none"
           >
             {breeds.length === 0 ? (
               <span className="font-normal">
@@ -120,6 +138,7 @@ export default function Sidebar({
           step={1}
           value={[ageMin]}
           onValueChange={updateAgeMin}
+          className="cursor-pointer"
         />
       </div>
       <div className="flex flex-col gap-2">
@@ -133,14 +152,20 @@ export default function Sidebar({
           step={1}
           value={[ageMax]}
           onValueChange={updateAgeMax}
+          className="cursor-pointer"
         />
       </div>
       <RainbowButton
-        className="w-[300px] text-base"
+        className={cn(
+          "w-[300px] text-base mt-1",
+          isMatchLoading && "text-muted-foreground"
+        )}
         variant={"outline"}
         size={"lg"}
+        onClick={generateMatch}
+        disabled={isMatchLoading}
       >
-        Generate Match
+        {matchExists ? "Show Match" : "Generate Match"}
       </RainbowButton>
     </div>
   );

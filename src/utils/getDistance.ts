@@ -1,7 +1,10 @@
-const getDistance = async (userZip: string, targetZips: string[]) => {
+const getDistance = async (
+  userZip: string,
+  targetZips: string[]
+): Promise<Record<string, number>> => {
   const params = new URLSearchParams();
 
-  params.append("apikey", "343b0660-4576-11f0-8f7e-7fab4b89e210");
+  params.append("apikey", "38dfe140-4646-11f0-ac0f-8f0e193c5e69");
   params.append("code", userZip);
   params.append("compare", targetZips.join(","));
   params.append("country", "us");
@@ -12,7 +15,7 @@ const getDistance = async (userZip: string, targetZips: string[]) => {
   );
 
   const distanceVals = await response.json();
-  
+
   return distanceVals.results;
 };
 

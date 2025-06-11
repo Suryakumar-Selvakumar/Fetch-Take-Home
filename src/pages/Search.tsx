@@ -11,6 +11,9 @@ import Error from "@/components/Error";
 import PaginationNav from "@/components/PaginationNav";
 import Cards from "@/components/Cards";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
+import getMatch from "@/utils/getMatch";
+import Modal from "@/components/Modal";
 
 export type FiltersState = {
   search: string[];
@@ -73,27 +76,11 @@ function Search() {
 
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [match, setMatch] = useState<Dog | null>(null);
+  const [isMatchLoading, setIsMatchLoading] = useState<boolean>(false);
+  const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
+
   const signalRef = useRef<AbortController>(null);
-
-  const updateSortBy = (sortBy: string): void => {
-    setSort((sort) => ({ ...sort, sortBy: sortBy }));
-  };
-
-  const updateOrderBy = (orderBy: string): void => {
-    setSort((sort) => ({ ...sort, orderBy: orderBy }));
-  };
-
-  const updateAgeMin = (ageMin: number[]): void => {
-    setFilters((prev: FiltersState) => ({ ...prev, ageMin: ageMin[0] }));
-  };
-
-  const updateAgeMax = (ageMax: number[]): void => {
-    setFilters((prev: FiltersState) => ({ ...prev, ageMax: ageMax[0] }));
-  };
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   function createAbortController() {
     signalRef.current?.abort();
@@ -155,6 +142,31 @@ function Search() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setMatch(null);
+  }, [favorites]);
+
+  useEffect(() => {
+    console.log(match);
+  }, [match]);
+
+  const updateSortBy = (sortBy: string): void => {
+    setSort((sort) => ({ ...sort, sortBy: sortBy }));
+  };
+
+  const updateOrderBy = (orderBy: string): void => {
+    setSort((sort) => ({ ...sort, orderBy: orderBy }));
+  };
+
+  const updateAgeMin = (ageMin: number[]): void => {
+    setFilters((prev: FiltersState) => ({ ...prev, ageMin: ageMin[0] }));
+  };
+
+  const updateAgeMax = (ageMax: number[]): void => {
+    setFilters((prev: FiltersState) => ({ ...prev, ageMax: ageMax[0] }));
+  };
+
   const updateFilters = (filter: keyof FiltersState, value: string): void => {
     const updatedFilters: FiltersState = {
       ...filters,
@@ -177,8 +189,40 @@ function Search() {
     });
   };
 
+  async function generateMatch(): Promise<void> {
+    if (favorites.length === 0) {
+      toast.info("Please choose favorites to generate match");
+    } else if (match !== null) {
+      setShowMatchModal(true);
+    } else {
+      setIsMatchLoading(true);
+      try {
+        const fetchedMatchId: string = await getMatch(favorites);
+        if (searchResult.resultIds.includes(fetchedMatchId)) {
+          const matchedDog: Dog = dogs.find(
+            (dog) => dog.id === fetchedMatchId
+          )!;
+          setMatch(matchedDog);
+        } else {
+          const matchedDog = await getDogsData([fetchedMatchId], null);
+          setMatch(matchedDog[0]);
+        }
+      } catch (err: unknown) {
+        if (err instanceof Error) console.log((err as Error).message);
+      } finally {
+        setIsMatchLoading(false);
+        setShowMatchModal(true);
+      }
+    }
+  }
+
   return (
     <main className=" w-full h-screen flex flex-col">
+      <Modal
+        match={match}
+        showMatchModal={showMatchModal}
+        setShowMatchModal={setShowMatchModal}
+      />
       <Navbar />
       <Filterbar
         setFilters={setFilters}
@@ -194,6 +238,10 @@ function Search() {
             setFilters={setFilters}
             updateAgeMin={updateAgeMin}
             updateAgeMax={updateAgeMax}
+            isMatchLoading={isMatchLoading}
+            generateMatch={generateMatch}
+            matchExists={match !== null}
+            showMatchModal={showMatchModal}
           />
           <Filters
             filters={filters}
@@ -211,7 +259,7 @@ function Search() {
               isLoading={isLoading}
             />
           )}
-          {!error && (
+          {!error && dogs.length > 0 && (
             <PaginationNav
               page={page}
               searchResult={searchResult}

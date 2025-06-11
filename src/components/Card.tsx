@@ -76,14 +76,14 @@ export const Card = ({
         {isLoading || distLoading ? (
           <Skeleton className="h-5 w-[150px] mt-1.5" />
         ) : (
-          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv">
+          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in">
             {dog.name}
           </h4>
         )}
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-full mt-1.5" />
         ) : (
-          <span className="flex justify-center w-full gap-2 h-6">
+          <span className="flex justify-center w-full gap-2 h-6 animate-pop-in">
             <span className="truncate">
               {dog.age} {dog.age == 1 ? "year" : "years"} old
             </span>{" "}
@@ -94,9 +94,9 @@ export const Card = ({
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
         ) : distMissing ? (
-          <p>Zip: {dog.zip_code}</p>
+          <p className="animate-pop-in">Zip: {dog.zip_code}</p>
         ) : (
-          <span>
+          <span className="animate-pop-in">
             <Tooltip>
               <TooltipTrigger>
                 {Math.round(dist as number)} miles away

@@ -14,7 +14,7 @@ function NavList(): JSX.Element {
 
   const handleSearch = (): void => {
     if (isLoggedIn) navigate("/search");
-    else toast.info("User must be logged in to access the catalog");
+    else toast.info("Please login to access the catalog");
   };
 
   return (

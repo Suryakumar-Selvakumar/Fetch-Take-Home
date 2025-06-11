@@ -65,7 +65,7 @@ function Home() {
     if (isLoggedIn) {
       navigate("/search", { state: [breed] });
     } else {
-      toast.info("User must be logged in to access the catalog");
+      toast.info("Please login to access the catalog");
     }
   };
 
