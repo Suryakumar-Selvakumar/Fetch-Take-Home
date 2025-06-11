@@ -4,7 +4,6 @@ import getDistance from "@/utils/getDistance";
 import { Dialog } from "@material-tailwind/react";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import ColourfulText from "./ui/colourful-text";
-import { ShineBorder } from "./ui/shine-border";
 import { NumberTicker } from "./ui/number-ticker";
 import { AuroraText } from "./ui/aurora-text";
 
@@ -47,9 +46,9 @@ export default function Modal({
       return `Meet ${match?.name}, a ${match?.age} year old ${
         match?.breed
       } located in
-        zip code ${
-          match?.zip_code
-        }. Currently ${dist} miles away from you, this ${
+        ${match?.city}, ${match?.state}, ${
+        match?.zip_code
+      }. Currently ${dist} miles away from you, this ${
         (match?.age as number) <= 1 ? "pup" : "dog"
       } could be the perfect match to bring joy and companionship into your life.`;
     } else {
@@ -60,7 +59,7 @@ export default function Modal({
 
   return (
     <Dialog
-      className="w-[750px] self-center justify-self-center p-8 flex flex-col gap-8"
+      className="w-[700px] self-center justify-self-center p-8 flex flex-col gap-8"
       open={showMatchModal}
       handler={handleClose}
       animate={{
@@ -77,41 +76,41 @@ export default function Modal({
       <img
         src={match?.img}
         alt={match?.name}
-        className="object-fill h-[375px] w-full rounded-lg shadow-xl"
+        className="object-fill h-[350px] w-full rounded-lg"
       />
-      {/* <p className="text-xl text-center">{generatePara()}</p> */}
-
       <div className="text-2xl flex justify-between gap-4">
         <div className="flex flex-col gap-4">
           <span>
-            <b>Age:</b>{" "}
-            <AuroraText>
-              <NumberTicker value={match?.age as number} />
-            </AuroraText>
+            <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
           </span>
           <span>
-            <b>City:</b> <AuroraText>{match?.city}</AuroraText>
+            <b>City:</b> <AuroraText variant="text">{match?.city}</AuroraText>
           </span>
           <span>
             <b>Zip:</b>{" "}
             <AuroraText>
-              <NumberTicker value={Number(match?.zip_code)} decimalPlaces={0} />
+              <NumberTicker value={Number(match?.zip_code)} />
+              {/* {match?.zip_code} */}
             </AuroraText>
           </span>
         </div>
         <div className="flex flex-col gap-4">
           <span>
-            <b>Breed:</b> <AuroraText>{match?.breed}</AuroraText>
+            <b>Age (yrs):</b>{" "}
+            <AuroraText>
+              <NumberTicker value={match?.age as number} />
+              {/* {match?.age} */}
+            </AuroraText>
           </span>
           <span>
-            <b>State:</b> <AuroraText>{match?.state}</AuroraText>
+            <b>State:</b> <AuroraText variant="text">{match?.state}</AuroraText>
           </span>
-
           <span>
             <b>Distance (mi):</b>{" "}
             {dist && (
               <AuroraText>
-                <NumberTicker value={dist as number} decimalPlaces={2} />
+                <NumberTicker value={dist as number} />
+                {/* {dist} */}
               </AuroraText>
             )}
           </span>

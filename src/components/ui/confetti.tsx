@@ -38,7 +38,7 @@ export const fireWorks = () => {
 
 export const heartEmojis = () => {
   const scalar = 2;
-  const heart = confetti.shapeFromText({ text: "❤️", scalar });
+  const heart = confetti.shapeFromText({ text: "💜", scalar });
 
   const defaults = {
     spread: 360,
