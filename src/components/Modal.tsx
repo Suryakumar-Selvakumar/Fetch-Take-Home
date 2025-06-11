@@ -68,19 +68,6 @@ export default function Modal({
         unmount: { scale: 0, opacity: 0 },
       }}
     >
-      {/* <ShineBorder
-        shineColor={[
-          "red",
-          "orange",
-          "yellow",
-          "green",
-          "blue",
-          "indigo",
-          "violet",
-        ]}
-        // borderWidth={2}
-      /> */}
-
       <h1 className="scroll-m-20 text-center text-valentino-hv text-4xl font-extrabold tracking-tight text-balance">
         You matched with
         <p className="text-white">
@@ -94,8 +81,8 @@ export default function Modal({
       />
       {/* <p className="text-xl text-center">{generatePara()}</p> */}
 
-      <div className="text-2xl flex flex-col gap-4">
-        <span className="flex justify-between">
+      <div className="text-2xl flex justify-between gap-4">
+        <div className="flex flex-col gap-4">
           <span>
             <b>Age:</b>{" "}
             <AuroraText>
@@ -103,16 +90,23 @@ export default function Modal({
             </AuroraText>
           </span>
           <span>
-            <b>Breed:</b> <AuroraText>{match?.breed}</AuroraText>
+            <b>City:</b> <AuroraText>{match?.city}</AuroraText>
           </span>
-        </span>
-        <span className="flex justify-between">
           <span>
             <b>Zip:</b>{" "}
             <AuroraText>
               <NumberTicker value={Number(match?.zip_code)} decimalPlaces={0} />
             </AuroraText>
           </span>
+        </div>
+        <div className="flex flex-col gap-4">
+          <span>
+            <b>Breed:</b> <AuroraText>{match?.breed}</AuroraText>
+          </span>
+          <span>
+            <b>State:</b> <AuroraText>{match?.state}</AuroraText>
+          </span>
+
           <span>
             <b>Distance (mi):</b>{" "}
             {dist && (
@@ -121,7 +115,7 @@ export default function Modal({
               </AuroraText>
             )}
           </span>
-        </span>
+        </div>
       </div>
       <p className="text-xl text-center">{generatePara()}</p>
     </Dialog>

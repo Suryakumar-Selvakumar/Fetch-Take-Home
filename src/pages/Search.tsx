@@ -34,8 +34,18 @@ export interface Dog {
   age: number;
   zip_code: string;
   breed: string;
+  city: string;
+  state: string;
 }
 
+export interface Location {
+  zip_code: string;
+  latitude: number;
+  longitude: number;
+  city: string;
+  state: string;
+  county: string;
+}
 export interface SearchResult {
   resultIds: string[];
   total: number;
