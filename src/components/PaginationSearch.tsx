@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/pagination";
 import type { SearchResult } from "@/pages/Search";
 
-export default function PaginationNav({
+export default function PaginationSearch({
   page,
   fetchDogsData,
   searchResult,

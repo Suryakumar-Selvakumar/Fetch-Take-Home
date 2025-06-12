@@ -78,7 +78,7 @@ export default function Modal({
         alt={match?.name}
         className="object-fill h-[350px] w-full rounded-lg"
       />
-      <div className="text-2xl flex justify-between gap-4">
+      <div className="text-2xl grid grid-cols-[400px_1fr] gap-4">
         <div className="flex flex-col gap-4">
           <span>
             <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
@@ -90,7 +90,6 @@ export default function Modal({
             <b>Zip:</b>{" "}
             <AuroraText>
               <NumberTicker value={Number(match?.zip_code)} />
-              {/* {match?.zip_code} */}
             </AuroraText>
           </span>
         </div>
@@ -99,7 +98,6 @@ export default function Modal({
             <b>Age (yrs):</b>{" "}
             <AuroraText>
               <NumberTicker value={match?.age as number} />
-              {/* {match?.age} */}
             </AuroraText>
           </span>
           <span>

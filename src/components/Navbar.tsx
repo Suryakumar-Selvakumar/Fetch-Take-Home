@@ -12,8 +12,8 @@ function NavList(): JSX.Element {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
 
-  const handleSearch = (): void => {
-    if (isLoggedIn) navigate("/search");
+  const handleNavigation = (endpoint: string): void => {
+    if (isLoggedIn) navigate(endpoint);
     else toast.info("Please login to access the catalog");
   };
 
@@ -25,10 +25,16 @@ function NavList(): JSX.Element {
         </Link>
       </li>
       <li
-        onClick={handleSearch}
+        onClick={() => handleNavigation("/search")}
         className="hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer"
       >
         <div className="flex items-center gap-x-2 p-1">Search</div>
+      </li>
+      <li
+        onClick={() => handleNavigation("/favorites")}
+        className="hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer"
+      >
+        <div className="flex items-center gap-x-2 p-1">Favorites</div>
       </li>
     </ul>
   );

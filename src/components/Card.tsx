@@ -94,16 +94,17 @@ export const Card = ({
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
         ) : distMissing ? (
-          <p className="animate-pop-in">Zip: {dog.zip_code}</p>
+          <p className="animate-pop-in">
+            {dog.city}, {dog.state}, {dog.zip_code}
+          </p>
         ) : (
           <span className="animate-pop-in">
             <Tooltip>
               <TooltipTrigger>
-                {Math.round(dist as number)} miles away
+                {dog.city}, {dog.state}, {dog.zip_code}
               </TooltipTrigger>
-
               <TooltipContent side="bottom" sideOffset={-5}>
-                <p>Zip: {dog.zip_code}</p>
+                <p>{Math.round(dist as number)} miles away</p>
               </TooltipContent>
             </Tooltip>
           </span>

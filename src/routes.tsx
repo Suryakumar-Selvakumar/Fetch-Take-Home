@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Layout from "@/pages/Layout";
 import Login from "@/pages/Login";
 import Search from "@/pages/Search";
+import Favorties from "./pages/Favorites";
 import AuthProvider from "@/AuthProvider";
 
 export const routes = [
@@ -33,6 +34,16 @@ export const routes = [
       <AuthProvider>
         <Layout>
           <Search />
+        </Layout>
+      </AuthProvider>
+    ),
+  },
+  {
+    path: "/favorites",
+    element: (
+      <AuthProvider>
+        <Layout>
+          <Favorties />
         </Layout>
       </AuthProvider>
     ),

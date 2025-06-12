@@ -23,18 +23,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Slider } from "./ui/slider";
-import { RainbowButton } from "./ui/rainbow-button";
-import { fireWorks, heartEmojis } from "./ui/confetti";
 
 interface SidebarProps {
   filters: FiltersState;
   setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateAgeMin: (value: number[]) => void;
   updateAgeMax: (value: number[]) => void;
-  generateMatch: () => Promise<void>;
-  isMatchLoading: boolean;
-  matchExists: boolean;
-  showMatchModal: boolean;
 }
 
 export default function Sidebar({
@@ -42,14 +36,9 @@ export default function Sidebar({
   setFilters,
   updateAgeMin,
   updateAgeMax,
-  generateMatch,
-  isMatchLoading,
-  matchExists,
-  showMatchModal,
 }: SidebarProps): JSX.Element {
   const { breeds, ageMin, ageMax } = filters;
   const [allBreeds, setAllBreeds] = useState([]);
-  const [confetti, setConfetti] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     async function fetchBreeds() {
@@ -70,14 +59,6 @@ export default function Sidebar({
         : { ...prev, breeds: [...prev.breeds, value] }
     );
   };
-
-  useEffect(() => {
-    if (showMatchModal) {
-      heartEmojis();
-      setConfetti(fireWorks());
-    }
-    if (!showMatchModal) window.clearInterval(confetti);
-  }, [showMatchModal]);
 
   return (
     <div className="h-max w-max flex flex-col gap-8 pr-4 pb-4 pt-8 pl-2">
@@ -155,18 +136,6 @@ export default function Sidebar({
           className="cursor-pointer"
         />
       </div>
-      <RainbowButton
-        className={cn(
-          "w-[300px] text-base mt-1",
-          isMatchLoading && "text-muted-foreground"
-        )}
-        variant={"outline"}
-        size={"lg"}
-        onClick={generateMatch}
-        disabled={isMatchLoading}
-      >
-        {matchExists ? "Show Match" : "Generate Match"}
-      </RainbowButton>
     </div>
   );
 }

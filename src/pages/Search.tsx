@@ -8,12 +8,9 @@ import { getDogIds } from "@/utils/getDogIds";
 import { getDogsData } from "@/utils/getDogsData";
 import { Filters } from "@/components/Filters";
 import Error from "@/components/Error";
-import PaginationNav from "@/components/PaginationNav";
+import PaginationSearch from "@/components/PaginationSearch";
 import Cards from "@/components/Cards";
 import { useLocation } from "react-router-dom";
-import { toast } from "sonner";
-import getMatch from "@/utils/getMatch";
-import Modal from "@/components/Modal";
 
 export type FiltersState = {
   search: string[];
@@ -86,9 +83,6 @@ function Search() {
 
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [match, setMatch] = useState<Dog | null>(null);
-  const [isMatchLoading, setIsMatchLoading] = useState<boolean>(false);
-  const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
 
   const signalRef = useRef<AbortController>(null);
 
@@ -124,9 +118,6 @@ function Search() {
           controller.signal
         );
         setDogs(dogObjs);
-
-        console.log("Search Results:", searchRes);
-        console.log("Dog Objects:", dogObjs);
       } catch (err: unknown) {
         if (err instanceof DOMException && err.name === "AbortError") {
           console.log("Aborted");
@@ -151,15 +142,6 @@ function Search() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, sort]);
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setMatch(null);
-  }, [favorites]);
-
-  useEffect(() => {
-    console.log(match);
-  }, [match]);
 
   const updateSortBy = (sortBy: string): void => {
     setSort((sort) => ({ ...sort, sortBy: sortBy }));
@@ -199,40 +181,8 @@ function Search() {
     });
   };
 
-  async function generateMatch(): Promise<void> {
-    if (favorites.length === 0) {
-      toast.info("Please choose favorites to generate match");
-    } else if (match !== null) {
-      setShowMatchModal(true);
-    } else {
-      setIsMatchLoading(true);
-      try {
-        const fetchedMatchId: string = await getMatch(favorites);
-        if (searchResult.resultIds.includes(fetchedMatchId)) {
-          const matchedDog: Dog = dogs.find(
-            (dog) => dog.id === fetchedMatchId
-          )!;
-          setMatch(matchedDog);
-        } else {
-          const matchedDog = await getDogsData([fetchedMatchId], null);
-          setMatch(matchedDog[0]);
-        }
-      } catch (err: unknown) {
-        if (err instanceof Error) console.log((err as Error).message);
-      } finally {
-        setIsMatchLoading(false);
-        setShowMatchModal(true);
-      }
-    }
-  }
-
   return (
     <main className=" w-full h-screen flex flex-col">
-      <Modal
-        match={match}
-        showMatchModal={showMatchModal}
-        setShowMatchModal={setShowMatchModal}
-      />
       <Navbar />
       <Filterbar
         setFilters={setFilters}
@@ -248,10 +198,6 @@ function Search() {
             setFilters={setFilters}
             updateAgeMin={updateAgeMin}
             updateAgeMax={updateAgeMax}
-            isMatchLoading={isMatchLoading}
-            generateMatch={generateMatch}
-            matchExists={match !== null}
-            showMatchModal={showMatchModal}
           />
           <Filters
             filters={filters}
@@ -270,7 +216,7 @@ function Search() {
             />
           )}
           {!error && dogs.length > 0 && (
-            <PaginationNav
+            <PaginationSearch
               page={page}
               searchResult={searchResult}
               fetchDogsData={fetchDogsData}
