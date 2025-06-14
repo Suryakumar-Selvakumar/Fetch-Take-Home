@@ -61,8 +61,8 @@ const dogsData = [
 function Home() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
-  const [isMobileView, setIsMobileView] = useState(
-    window.matchMedia("(max-width: 640px)").matches
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
   );
 
   const navigateToSearch = (breed: string) => {
@@ -73,22 +73,37 @@ function Home() {
     }
   };
 
-  const mediaQuery = window.matchMedia("(max-width: 640px)");
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
 
   return (
-    <main className="w-full lg:h-screen h-full flex flex-col">
+    <main
+      className="w-full lg:h-screen min-h-screen h-full flex flex-col overflow-x-hidden"
+      style={{
+        background: isMobileView ? `url(${spotsBg})` : "none",
+        backgroundRepeat: isMobileView ? "repeat" : "none",
+        backgroundSize: isMobileView ? "contain" : "none",
+      }}
+    >
       <Navbar />
       <div
         style={{
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: mediaQuery.matches ? "42% 100%" : "100% 55%",
+          backgroundPosition: isMobileView ? "42% 100%" : "100% 55%",
         }}
         className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
       />
-      <div className="relative z-10 flex flex-col lg:w-screen items-center justify-center">
-        <div className="absolute -top-40 lg:-top-50 flex flex-col items-center justify-center">
+      <div className="lg:relative flex flex-col items-center justify-center">
+        <div className="lg:absolute relative -top-40 lg:-top-50 flex flex-col items-center justify-center">
           <h1 className="lg:text-5xl text-3xl text-white font-medium text-shadow-md">
             Find your new best friend
           </h1>
@@ -97,7 +112,7 @@ function Home() {
             rescues.
           </p>
         </div>
-        <div className="absolute flex flex-wrap justify-center items-center -top-15 lg:-top-20 lg:gap-8 gap-4">
+        <div className="relative mx-4 -mb-25 lg:-mb-0 lg:absolute flex flex-wrap lg:flex-nowrap justify-center items-center -top-35 lg:-top-20 2xl:gap-8 xl:gap-6 gap-4">
           {dogsData.map(({ imgUrl, gifUrl, name, desc }) => (
             <HoverCard
               key={name}
@@ -111,13 +126,13 @@ function Home() {
         </div>
       </div>
       <div
-        className="lg:h-full h-592.5 lg:overflow-hidden"
+        className="hidden lg:block lg:h-full lg:overflow-hidden"
         style={{
           background: `url(${spotsBg})`,
           backgroundRepeat: "repeat",
           backgroundSize: "contain",
         }}
-      ></div>
+      />
     </main>
   );
 }

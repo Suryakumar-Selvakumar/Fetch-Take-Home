@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import spotsBg from "@/assets/spots.png";
 import Navbar from "@/components/Navbar";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,9 @@ function Login(): JSX.Element {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
   const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -48,31 +51,50 @@ function Login(): JSX.Element {
     }
   }
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
+
+  const mediaQuery = window.matchMedia("(max-width: 640px)");
+
   return (
-    <main className="w-full h-screen flex flex-col">
+    <main
+      className="w-full lg:h-screen min-h-screen h-full flex flex-col overflow-x-hidden"
+      style={{
+        background: isMobileView ? `url(${spotsBg})` : "none",
+        backgroundRepeat: isMobileView ? "repeat" : "none",
+        backgroundSize: isMobileView ? "contain" : "none",
+      }}
+    >
       <Navbar />
       <div
         style={{
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: "100% 55%",
+          backgroundPosition: mediaQuery.matches ? "42% 100%" : "100% 55%",
         }}
-        className={`h-325 border-b-10 border-b-amber-400`}
+        className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
       />
-      <div className="relative z-10 flex flex-col w-screen items-center justify-center">
-        <div className="absolute -top-50 flex flex-col items-center justify-center">
-          <h1 className="text-5xl text-white font-medium text-shadow-md">
+      <div className="lg:relative flex flex-col items-center justify-center">
+        <div className="lg:absolute relative -top-40 lg:-top-50 flex flex-col items-center justify-center">
+          <h1 className="lg:text-5xl text-[1.8rem] text-white font-medium text-shadow-md">
             Login to access our catalog
           </h1>
-          <p className="text-white text-2xl text-shadow-md">
+          <p className="text-white text-shadow-md text-center lg:text-justify">
             Browse 10,000+ dogs from our network of over 14,500 shelters and
             rescues.
           </p>
         </div>
-        <div className="absolute flex justify-center items-center -top-20 gap-8">
+        <div className="relative mx-4 -mb-25 lg:-mb-0 lg:absolute flex flex-wrap lg:flex-nowrap justify-center items-center -top-35 lg:-top-20 2xl:gap-8 xl:gap-6 gap-4">
           {isLoggedIn ? (
-            <div className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-input mx-auto w-full w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+            <div className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-input mx-auto lg:w-full w-[calc(100vw-4rem)] bg-white p-6 rounded-2xl md:p-8 dark:bg-black">
               <img
                 src={fetchLogo}
                 alt="fetch logo"
@@ -99,7 +121,7 @@ function Login(): JSX.Element {
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-input mx-auto w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black"
+              className="self-center flex flex-col gap-6 inset-ring inset-ring-valentino shadow-input mx-auto w-[calc(100vw-4rem)] lg:w-md bg-white p-6 rounded-2xl md:p-8 dark:bg-black"
             >
               <img
                 src={fetchLogo}
@@ -153,25 +175,21 @@ function Login(): JSX.Element {
                 className="cursor-pointer flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
               >
-                <span>Login</span>{" "}
+                <span>Login</span>
                 <span className="text-2xl relative -top-1">&rarr;</span>
               </button>
             </form>
           )}
         </div>
       </div>
-      <div className="flex h-full max-h-175 bg-white overflow-hidden">
-        <img
-          src={spotsBg}
-          alt="spots background"
-          className="h-full w-full object-cover"
-        />
-        <img
-          src={spotsBg}
-          alt="spots background"
-          className="h-full w-full object-cover"
-        />
-      </div>
+      <div
+        className="hidden lg:block lg:h-full lg:overflow-hidden"
+        style={{
+          background: `url(${spotsBg})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "contain",
+        }}
+      />
     </main>
   );
 }
