@@ -27,9 +27,9 @@ export default function HoverCard({
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
-        className={cn(
+        className={
           "group relative w-full h-96 overflow-hidden rounded-2xl shadow-xl mx-auto flex flex-col justify-end p-4 border border-transparent dark:border-neutral-800 transition-all duration-500"
-        )}
+        }
       >
         <div
           className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"

@@ -11,6 +11,7 @@ import spotsBg from "@/assets/spots.png";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 const dogsData = [
   {
@@ -60,6 +61,9 @@ const dogsData = [
 function Home() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
+  const [isMobileView, setIsMobileView] = useState(
+    window.matchMedia("(max-width: 640px)").matches
+  );
 
   const navigateToSearch = (breed: string) => {
     if (isLoggedIn) {
@@ -69,29 +73,31 @@ function Home() {
     }
   };
 
+  const mediaQuery = window.matchMedia("(max-width: 640px)");
+
   return (
-    <main className="w-full h-screen flex flex-col">
+    <main className="w-full lg:h-screen h-full flex flex-col">
       <Navbar />
       <div
         style={{
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: "100% 55%",
+          backgroundPosition: mediaQuery.matches ? "42% 100%" : "100% 55%",
         }}
-        className={`h-325 border-b-10 border-b-amber-400`}
+        className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
       />
-      <div className="relative z-10 flex flex-col w-screen items-center justify-center">
-        <div className="absolute -top-50 flex flex-col items-center justify-center">
-          <h1 className="text-5xl text-white font-medium text-shadow-md">
+      <div className="relative z-10 flex flex-col lg:w-screen items-center justify-center">
+        <div className="absolute -top-40 lg:-top-50 flex flex-col items-center justify-center">
+          <h1 className="lg:text-5xl text-3xl text-white font-medium text-shadow-md">
             Find your new best friend
           </h1>
-          <p className="text-white text-2xl text-shadow-md">
+          <p className="text-white text-shadow-md text-center lg:text-justify">
             Browse 10,000+ dogs from our network of over 14,500 shelters and
             rescues.
           </p>
         </div>
-        <div className="absolute flex justify-center items-center -top-20 gap-8">
+        <div className="absolute flex flex-wrap justify-center items-center -top-15 lg:-top-20 lg:gap-8 gap-4">
           {dogsData.map(({ imgUrl, gifUrl, name, desc }) => (
             <HoverCard
               key={name}
@@ -104,18 +110,14 @@ function Home() {
           ))}
         </div>
       </div>
-      <div className="flex h-full max-h-175 bg-white overflow-hidden">
-        <img
-          src={spotsBg}
-          alt="spots background"
-          className="h-full w-full object-cover"
-        />
-        <img
-          src={spotsBg}
-          alt="spots background"
-          className="h-full w-full object-cover"
-        />
-      </div>
+      <div
+        className="lg:h-full h-592.5 lg:overflow-hidden"
+        style={{
+          background: `url(${spotsBg})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "contain",
+        }}
+      ></div>
     </main>
   );
 }
