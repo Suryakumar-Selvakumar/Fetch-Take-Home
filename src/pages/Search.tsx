@@ -181,8 +181,12 @@ function Search() {
     });
   };
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   return (
-    <main className=" w-full h-screen flex flex-col">
+    <main className="w-full h-screen flex flex-col">
       <Navbar />
       <Filterbar
         setFilters={setFilters}

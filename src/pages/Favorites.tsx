@@ -11,6 +11,10 @@ import Navbar from "@/components/Navbar";
 import { fireWorks, heartEmojis } from "@/components/ui/confetti";
 import Error from "@/components/Error";
 import Cards from "@/components/Cards";
+import PaginationFavorites from "@/components/PaginationFavorites";
+import { Badge } from "@/components/ui/badge";
+
+const PAGE_SIZE: number = 9;
 
 export default function Favorties(): JSX.Element {
   const [match, setMatch] = useState<Dog | null>(null);
@@ -20,6 +24,7 @@ export default function Favorties(): JSX.Element {
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [page, setPage] = useState(0);
 
   const storedFavorites: null | string[] = (() => {
     const data = localStorage.getItem("favorites");
@@ -29,12 +34,24 @@ export default function Favorties(): JSX.Element {
     storedFavorites || []
   );
 
-  const fetchFavoriteDogs = useCallback(async (): Promise<void | undefined> => {
+  function fetchDogIds(currPage: number) {
+    setPage(currPage);
+    const start = currPage * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    const favsCopy = favorites;
+    return favsCopy.slice(start, end);
+  }
+
+  const fetchFavoriteDogs = async (
+    currPage: number
+  ): Promise<void | undefined> => {
     setError(null);
     setIsLoading(true);
 
+    const curDogIds = fetchDogIds(currPage);
+
     try {
-      const dogObjs = await getDogsData(favorites, null);
+      const dogObjs = await getDogsData(curDogIds, null);
       setDogs(dogObjs);
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -43,13 +60,7 @@ export default function Favorties(): JSX.Element {
     } finally {
       setIsLoading(false);
     }
-  }, [favorites]);
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    fetchFavoriteDogs();
-    setMatch(null);
-  }, [favorites]);
+  };
 
   async function generateMatch(): Promise<void> {
     if (favorites.length === 0) {
@@ -61,7 +72,12 @@ export default function Favorties(): JSX.Element {
       try {
         const fetchedMatchId: string = await getMatch(favorites);
         const matchedDog = dogs.find((dog) => dog.id === fetchedMatchId);
-        setMatch(matchedDog as Dog);
+        if (matchedDog != undefined) {
+          setMatch(matchedDog as Dog);
+        } else {
+          const matchedDog = await getDogsData([fetchedMatchId], null);
+          setMatch(matchedDog[0] as Dog);
+        }
       } catch (err: unknown) {
         if (err instanceof Error) console.log((err as Error).message);
       } finally {
@@ -70,6 +86,12 @@ export default function Favorties(): JSX.Element {
       }
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    fetchFavoriteDogs(0);
+    setMatch(null);
+  }, [favorites]);
 
   useEffect(() => {
     if (showMatchModal) {
@@ -87,7 +109,12 @@ export default function Favorties(): JSX.Element {
         setShowMatchModal={setShowMatchModal}
       />
       <Navbar />
-      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
+      <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-center pl-2">
+        <Badge className="text-xl text-valentino" variant={"secondary"}>
+          {favorites.length} Dogs Favorited
+        </Badge>
+      </div>
+      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr] h-full">
         <div className="flex flex-col gap-4 col-span-1">
           <div className="h-max w-max flex flex-col gap-8 pr-4 pb-4 pt-8 pl-2">
             <RainbowButton
@@ -104,7 +131,7 @@ export default function Favorties(): JSX.Element {
             </RainbowButton>
           </div>
         </div>
-        <div className="col-start-[2] row-span-full flex flex-col">
+        <div className="col-start-[2] row-span-full grid grid-rows-[1fr_max-content]">
           <Error error={error} />
           {dogs.length > 0 && (
             <Cards
@@ -114,13 +141,13 @@ export default function Favorties(): JSX.Element {
               isLoading={isLoading}
             />
           )}
-          {/* {!error && dogs.length > 0 && (
-            <PaginationNav
+          {!error && dogs.length > 0 && (
+            <PaginationFavorites
               page={page}
-              searchResult={searchResult}
-              fetchDogsData={fetchDogsData}
+              fetchFavoriteDogs={fetchFavoriteDogs}
+              favoritesPages={Math.ceil(favorites.length / PAGE_SIZE)}
             />
-          )} */}
+          )}
         </div>
       </div>
       <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">

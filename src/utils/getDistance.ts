@@ -4,7 +4,7 @@ const getDistance = async (
 ): Promise<Record<string, number>> => {
   const params = new URLSearchParams();
 
-  params.append("apikey", "38dfe140-4646-11f0-ac0f-8f0e193c5e69");
+  params.append("apikey", "5d30b5d0-4935-11f0-8795-6759d4f02b7a");
   params.append("code", userZip);
   params.append("compare", targetZips.join(","));
   params.append("country", "us");

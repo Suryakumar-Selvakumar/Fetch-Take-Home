@@ -88,7 +88,7 @@ export default function Modal({
           </span>
           <span>
             <b>Zip:</b>{" "}
-            <AuroraText>
+            <AuroraText variant={""}>
               <NumberTicker value={Number(match?.zip_code)} />
             </AuroraText>
           </span>
@@ -96,7 +96,7 @@ export default function Modal({
         <div className="flex flex-col gap-4">
           <span>
             <b>Age (yrs):</b>{" "}
-            <AuroraText>
+            <AuroraText variant={""}>
               <NumberTicker value={match?.age as number} />
             </AuroraText>
           </span>
@@ -106,9 +106,8 @@ export default function Modal({
           <span>
             <b>Distance (mi):</b>{" "}
             {dist && (
-              <AuroraText>
+              <AuroraText variant={""}>
                 <NumberTicker value={dist as number} />
-                {/* {dist} */}
               </AuroraText>
             )}
           </span>
