@@ -6,6 +6,8 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import ColourfulText from "./ui/colourful-text";
 import { NumberTicker } from "./ui/number-ticker";
 import { AuroraText } from "./ui/aurora-text";
+import { CircleX, X } from "lucide-react";
+import { XmarkCircleSolid } from "iconoir-react";
 
 interface ModalProps {
   match: Dog | null;
@@ -21,6 +23,19 @@ export default function Modal({
   const handleClose = () => setShowMatchModal(false);
   const [dist, setDist] = useState<number | null>(null);
   const { userZip } = useAuth();
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
 
   async function getMatchDistance() {
     try {
@@ -71,6 +86,12 @@ export default function Modal({
         unmount: { scale: 0, opacity: 0 },
       }}
     >
+      <span
+        onClick={handleClose}
+        className="absolute cursor-pointer -right-3 -top-3 p-1 rounded-full bg-[rgb(239,238,241)]"
+      >
+        <X />
+      </span>
       <h1 className="scroll-m-20 text-center text-valentino-hv text-3xl lg:text-4xl font-extrabold tracking-tight text-balance">
         You matched with
         <p className="text-white">
@@ -80,40 +101,44 @@ export default function Modal({
       <img
         src={match?.img}
         alt={match?.name}
-        className="object-fill h-[150px] lg:h-[350px] w-full rounded-lg"
+        className="object-fill h-[175px] lg:h-[350px] w-full rounded-lg"
       />
       <div className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4">
         <span>
           <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
         </span>
-        <span>
-          <b>Age (yrs):</b>{" "}
-          <AuroraText variant={""}>
-            <NumberTicker value={match?.age as number} />
-          </AuroraText>
-        </span>
-        <span>
-          <b>City:</b> <AuroraText variant="text">{match?.city}</AuroraText>
-        </span>
-        <span>
-          <b>State:</b> <AuroraText variant="text">{match?.state}</AuroraText>
-        </span>
         {dist && (
           <span>
-            <b>Distance (mi):</b>{" "}
+            <b className="block lg:inline">Distance (mi):</b>{" "}
             <AuroraText variant={""}>
               <NumberTicker value={dist as number} />
             </AuroraText>
           </span>
         )}
         <span>
-          <b>Zip:</b>{" "}
+          <b className="block lg:inline">ZIP Code: </b>{" "}
           <AuroraText variant={""}>
             <NumberTicker value={Number(match?.zip_code)} />
           </AuroraText>
         </span>
+        <span>
+          <b className="block lg:inline">City:</b>{" "}
+          <AuroraText variant="text">{match?.city}</AuroraText>
+        </span>
+        <span>
+          <b className="block lg:inline">State:</b>{" "}
+          <AuroraText variant="text">{match?.state}</AuroraText>
+        </span>
+        <span>
+          <b className="block lg:inline">Age (yrs):</b>{" "}
+          <AuroraText variant={""}>
+            <NumberTicker value={match?.age as number} />
+          </AuroraText>
+        </span>
       </div>
-      <p className="lg:text-xl text-center">{generatePara()}</p>
+      {!isMobileView && (
+        <p className="lg:text-xl text-center">{generatePara()}</p>
+      )}
     </Dialog>
   );
 }
