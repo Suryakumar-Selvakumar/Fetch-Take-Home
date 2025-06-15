@@ -94,7 +94,7 @@ function Login(): JSX.Element {
         </div>
         <div className="relative mx-4 -mb-25 lg:-mb-0 lg:absolute flex flex-wrap lg:flex-nowrap justify-center items-center -top-35 lg:-top-20 2xl:gap-8 xl:gap-6 gap-4">
           {isLoggedIn ? (
-            <div className="self-center flex flex-col gap-8 inset-ring inset-ring-valentino shadow-input mx-auto lg:w-full w-[calc(100vw-4rem)] bg-white p-6 rounded-2xl md:p-8 dark:bg-black">
+            <div className="self-center flex flex-col gap-6 inset-ring inset-ring-valentino shadow-input mx-auto w-[calc(100vw-4rem)] lg:w-md bg-white p-6 rounded-2xl md:p-8 dark:bg-black">
               <img
                 src={fetchLogo}
                 alt="fetch logo"

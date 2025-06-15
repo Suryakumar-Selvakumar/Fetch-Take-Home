@@ -62,16 +62,16 @@ export function Filters({
   return (
     <>
       {showFilterApplied && (
-        <div className="flex flex-col gap-2 p-4 pl-2 select-none">
+        <div className="flex flex-col gap-2 p-4 lg:pl-2 select-none col-span-full lg:col-span-1 row-start-1 row-end-1 lg:row-start-2 lg:row-end-2">
           <p className="text-base font-medium">Filters Applied</p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex lg:flex-wrap gap-4 overflow-x-scroll lg:overflow-auto">
             {filterArr.map(({ filter, value }) =>
               value != "0" && value != "15" ? (
                 <div
                   key={`${filter}-${value}`}
-                  className="col-span-3 bg-valentino-hv h-max py-1 px-2 rounded-sm text-white flex text-sm items-center justify-between gap-4"
+                  className="bg-valentino-hv h-max py-1 px-2 rounded-sm text-white flex text-sm items-center justify-between gap-4"
                 >
-                  <span>
+                  <span className="w-max">
                     {processFilter(filter)}
                     {value}
                   </span>

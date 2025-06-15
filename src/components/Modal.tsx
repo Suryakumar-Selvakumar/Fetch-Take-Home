@@ -23,10 +23,14 @@ export default function Modal({
   const { userZip } = useAuth();
 
   async function getMatchDistance() {
-    const distance = await getDistance(userZip, [match?.zip_code as string]);
-    const targetZip: string = String(match?.zip_code as string);
+    try {
+      const distance = await getDistance(userZip, [match?.zip_code as string]);
+      const targetZip: string = String(match?.zip_code as string);
 
-    setDist(Number(distance[targetZip]) || null);
+      setDist(Number(distance[targetZip]));
+    } catch {
+      setDist(null);
+    }
   }
 
   useEffect(() => {
@@ -53,13 +57,13 @@ export default function Modal({
       } could be the perfect match to bring joy and companionship into your life.`;
     } else {
       return `Meet ${match?.name}, a ${match?.age} year old ${match?.breed} located in
-        zip code ${match?.zip_code}. ${match?.name} could be the perfect match to bring joy and companionship into your life.`;
+        ${match?.city}, ${match?.state}, ${match?.zip_code}. ${match?.name} could be the perfect match to bring joy and companionship into your life.`;
     }
   }
 
   return (
     <Dialog
-      className="w-[700px] self-center justify-self-center p-8 flex flex-col gap-8"
+      className="w-[calc(100vw-4rem)] lg:w-[700px] self-center justify-self-center p-8 flex flex-col gap-4 lg:gap-8"
       open={showMatchModal}
       handler={handleClose}
       animate={{
@@ -67,7 +71,7 @@ export default function Modal({
         unmount: { scale: 0, opacity: 0 },
       }}
     >
-      <h1 className="scroll-m-20 text-center text-valentino-hv text-4xl font-extrabold tracking-tight text-balance">
+      <h1 className="scroll-m-20 text-center text-valentino-hv text-3xl lg:text-4xl font-extrabold tracking-tight text-balance">
         You matched with
         <p className="text-white">
           <ColourfulText text={match?.name as string}></ColourfulText>
@@ -76,44 +80,40 @@ export default function Modal({
       <img
         src={match?.img}
         alt={match?.name}
-        className="object-fill h-[350px] w-full rounded-lg"
+        className="object-fill h-[150px] lg:h-[350px] w-full rounded-lg"
       />
-      <div className="text-2xl grid grid-cols-[400px_1fr] gap-4">
-        <div className="flex flex-col gap-4">
-          <span>
-            <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
-          </span>
-          <span>
-            <b>City:</b> <AuroraText variant="text">{match?.city}</AuroraText>
-          </span>
-          <span>
-            <b>Zip:</b>{" "}
-            <AuroraText variant={""}>
-              <NumberTicker value={Number(match?.zip_code)} />
-            </AuroraText>
-          </span>
-        </div>
-        <div className="flex flex-col gap-4">
-          <span>
-            <b>Age (yrs):</b>{" "}
-            <AuroraText variant={""}>
-              <NumberTicker value={match?.age as number} />
-            </AuroraText>
-          </span>
-          <span>
-            <b>State:</b> <AuroraText variant="text">{match?.state}</AuroraText>
-          </span>
+      <div className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4">
+        <span>
+          <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
+        </span>
+        <span>
+          <b>Age (yrs):</b>{" "}
+          <AuroraText variant={""}>
+            <NumberTicker value={match?.age as number} />
+          </AuroraText>
+        </span>
+        <span>
+          <b>City:</b> <AuroraText variant="text">{match?.city}</AuroraText>
+        </span>
+        <span>
+          <b>State:</b> <AuroraText variant="text">{match?.state}</AuroraText>
+        </span>
+        {dist && (
           <span>
             <b>Distance (mi):</b>{" "}
-            {dist && (
-              <AuroraText variant={""}>
-                <NumberTicker value={dist as number} />
-              </AuroraText>
-            )}
+            <AuroraText variant={""}>
+              <NumberTicker value={dist as number} />
+            </AuroraText>
           </span>
-        </div>
+        )}
+        <span>
+          <b>Zip:</b>{" "}
+          <AuroraText variant={""}>
+            <NumberTicker value={Number(match?.zip_code)} />
+          </AuroraText>
+        </span>
       </div>
-      <p className="text-xl text-center">{generatePara()}</p>
+      <p className="lg:text-xl text-center">{generatePara()}</p>
     </Dialog>
   );
 }

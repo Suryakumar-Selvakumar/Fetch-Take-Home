@@ -23,12 +23,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Slider } from "./ui/slider";
+import { Xmark } from "iconoir-react";
+import spotsBg from "@/assets/spots.png";
 
 interface SidebarProps {
   filters: FiltersState;
   setFilters: Dispatch<SetStateAction<FiltersState>>;
   updateAgeMin: (value: number[]) => void;
   updateAgeMax: (value: number[]) => void;
+  isSidebarPageVisible: boolean;
+  setIsSidebarPageVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Sidebar({
@@ -36,11 +40,22 @@ export default function Sidebar({
   setFilters,
   updateAgeMin,
   updateAgeMax,
+  isSidebarPageVisible,
+  setIsSidebarPageVisible,
 }: SidebarProps): JSX.Element {
   const { breeds, ageMin, ageMax } = filters;
   const [allBreeds, setAllBreeds] = useState([]);
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
     async function fetchBreeds() {
       await fetch("https://frontend-take-home-service.fetch.com/dogs/breeds", {
         credentials: "include",
@@ -50,6 +65,8 @@ export default function Sidebar({
     }
 
     fetchBreeds();
+
+    return () => window.removeEventListener("change", handleMediaChange);
   }, []);
 
   const toggleSelection = (value: string): void => {
@@ -61,13 +78,37 @@ export default function Sidebar({
   };
 
   return (
-    <div className="h-max w-max flex flex-col gap-8 pr-4 pb-4 pt-8 pl-2">
+    <div
+      className={cn(
+        "lg:h-max lg:w-max flex flex-col gap-8 lg:pr-4 lg:pb-4 lg:pt-8 lg:pl-2",
+        isMobileView
+          ? `flex-col items-center p-4 transition-opacity duration-300 ease-in-out fixed inset-0 overflow-hidden
+        ${
+          isSidebarPageVisible
+            ? "opacity-100 z-50 pointer-events-auto"
+            : "opacity-0 z-0 pointer-events-none"
+        }`
+          : ""
+      )}
+      style={{
+        background: isMobileView ? `url(${spotsBg})` : "none",
+        backgroundRepeat: isMobileView ? "repeat" : "none",
+        backgroundSize: isMobileView ? "contain" : "none",
+      }}
+    >
+      {isMobileView && isSidebarPageVisible && (
+        <Xmark
+          fontSize={"1.5rem"}
+          onClick={() => setIsSidebarPageVisible(false)}
+          className="self-end"
+        />
+      )}
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outlineAlt"
             role="combobox"
-            className="w-[300px] justify-between hover:bg-none cursor-pointer select-none"
+            className="w-full lg:w-[300px] justify-between hover:bg-none cursor-pointer select-none"
           >
             {breeds.length === 0 ? (
               <span className="font-normal">
@@ -82,7 +123,7 @@ export default function Sidebar({
             <ChevronDown className="opacity-50 size-4" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[300px] max-h-90 p-0">
+        <PopoverContent className="w-[calc(100vw-2rem)] lg:w-[300px] max-h-90 p-0">
           <Command>
             <CommandInput placeholder="Search..." className="h-9" />
             <CommandList>
@@ -108,7 +149,7 @@ export default function Sidebar({
           </Command>
         </PopoverContent>
       </Popover>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <span className="text-sm pl-3">
           Min Age:{" "}
           <span className="font-medium">{ageMin == 0 ? "Any" : ageMin}</span>
@@ -119,10 +160,10 @@ export default function Sidebar({
           step={1}
           value={[ageMin]}
           onValueChange={updateAgeMin}
-          className="cursor-pointer"
+          className="cursor-pointer w-full"
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         <span className="text-sm pl-3">
           Max Age:{" "}
           <span className="font-medium">{ageMax == 15 ? "Any" : ageMax}</span>
@@ -133,7 +174,7 @@ export default function Sidebar({
           step={1}
           value={[ageMax]}
           onValueChange={updateAgeMax}
-          className="cursor-pointer"
+          className="cursor-pointer w-full"
         />
       </div>
     </div>

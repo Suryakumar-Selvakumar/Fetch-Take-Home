@@ -61,7 +61,7 @@ export default function Cards({
   };
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 py-8 pl-8">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(275px,1fr))] auto-rows-max gap-8 p-4 lg:py-8 lg:pl-8">
       {dogs.map((dog) => (
         <Card
           key={dog.id}

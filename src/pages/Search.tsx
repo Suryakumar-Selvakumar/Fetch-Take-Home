@@ -11,6 +11,8 @@ import Error from "@/components/Error";
 import PaginationSearch from "@/components/PaginationSearch";
 import Cards from "@/components/Cards";
 import { useLocation } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
+import { Funnel, SlidersHorizontal } from "lucide-react";
 
 export type FiltersState = {
   search: string[];
@@ -84,6 +86,15 @@ function Search() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
+
+  const [isFilterPageVisible, setIsFilterPageVisible] =
+    useState<boolean>(false);
+  const [isSidebarPageVisible, setIsSidebarPageVisible] =
+    useState<boolean>(false);
+
   const signalRef = useRef<AbortController>(null);
 
   function createAbortController() {
@@ -122,9 +133,9 @@ function Search() {
         if (err instanceof DOMException && err.name === "AbortError") {
           console.log("Aborted");
           return;
-        } else if (err instanceof Error) {
+        } else if (err instanceof Error || err instanceof TypeError) {
           setError((err as Error).message);
-        } else setError("An unknown error occured");
+        } else setError("An Unknown error has occured");
       } finally {
         setIsLoading(false);
         setPage(curPage);
@@ -134,7 +145,16 @@ function Search() {
   );
 
   useEffect(() => {
-    return () => signalRef.current?.abort();
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => {
+      window.removeEventListener("change", handleMediaChange);
+      signalRef.current?.abort();
+    };
   }, []);
 
   useEffect(() => {
@@ -185,33 +205,72 @@ function Search() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  useEffect(() => {
+    setIsFilterPageVisible(false);
+  }, [filters, sort]);
+
   return (
-    <main className="w-full h-screen flex flex-col">
+    <main
+      className="w-full min-h-screen h-full flex flex-col"
+      style={{
+        background: `url(${spotsBg})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "contain",
+      }}
+    >
       <Navbar />
+      {isMobileView && (
+        <div className="flex items-center justify-between p-4">
+          <Badge
+            className="w-max h-max"
+            variant={"outline"}
+            onClick={() => setIsSidebarPageVisible(true)}
+          >
+            <SlidersHorizontal size={24} />
+          </Badge>
+          <Badge className="text-xl text-valentino" variant={"secondary"}>
+            {searchResult.total < 1000
+              ? searchResult.total
+              : String(searchResult.total / 1000).includes(".")
+              ? `${(searchResult.total / 1000).toFixed(1)}K`
+              : `${searchResult.total / 1000}K`}{" "}
+            Dogs Found
+          </Badge>
+          <Badge
+            className="w-max h-max"
+            variant={"outline"}
+            onClick={() => setIsFilterPageVisible(true)}
+          >
+            <Funnel size={24} />
+          </Badge>
+        </div>
+      )}
       <Filterbar
         setFilters={setFilters}
         updateSortBy={updateSortBy}
         updateOrderBy={updateOrderBy}
         sort={sort}
         searchResult={searchResult}
+        isFilterPageVisible={isFilterPageVisible}
+        setIsFilterPageVisible={setIsFilterPageVisible}
       />
-      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr]">
-        <div className="flex flex-col gap-4 col-span-1">
-          <Sidebar
-            filters={filters}
-            setFilters={setFilters}
-            updateAgeMin={updateAgeMin}
-            updateAgeMax={updateAgeMax}
-          />
-          <Filters
-            filters={filters}
-            clearFilters={clearFilters}
-            updateFilters={updateFilters}
-          />
-        </div>
-        <div className="col-start-[2] row-span-full flex flex-col">
+      <div className="lg:mt-4 w-full lg:max-w-screen-2xl lg:self-center grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]">
+        <Sidebar
+          filters={filters}
+          setFilters={setFilters}
+          updateAgeMin={updateAgeMin}
+          updateAgeMax={updateAgeMax}
+          isSidebarPageVisible={isSidebarPageVisible}
+          setIsSidebarPageVisible={setIsSidebarPageVisible}
+        />
+        <Filters
+          filters={filters}
+          clearFilters={clearFilters}
+          updateFilters={updateFilters}
+        />
+        <div className="col-span-full lg:col-span-1 lg:col-start-[2] lg:row-span-full flex flex-col px-6 lg:px-0">
           <Error error={error} />
-          {dogs.length > 0 && (
+          {dogs.length > 0 && !error && (
             <Cards
               dogs={dogs}
               favorites={favorites}
@@ -227,10 +286,6 @@ function Search() {
             />
           )}
         </div>
-      </div>
-      <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">
-        <img src={spotsBg} alt="spots background" className="object-cover" />
-        <img src={spotsBg} alt="spots background" className="object-cover" />
       </div>
     </main>
   );

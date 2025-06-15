@@ -7,6 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
 
 export default function PaginationFavorites({
   page,
@@ -17,13 +18,30 @@ export default function PaginationFavorites({
   fetchFavoriteDogs: (curPage: number) => Promise<void | undefined>;
   favoritesPages: number;
 }) {
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
+
   return (
     <Pagination className="mb-8">
       <PaginationContent>
         <PaginationItem
           className="cursor-pointer"
           onClick={() => {
-            if (page - 1 >= 0) fetchFavoriteDogs(page - 1);
+            if (page - 1 >= 0) {
+              fetchFavoriteDogs(page - 1);
+              if (isMobileView) window.scrollTo(0, 0);
+            }
           }}
         >
           <PaginationPrevious
@@ -37,7 +55,10 @@ export default function PaginationFavorites({
         {page - 1 >= 0 && (
           <PaginationItem
             className="cursor-pointer"
-            onClick={() => fetchFavoriteDogs(page - 1)}
+            onClick={() => {
+              fetchFavoriteDogs(page - 1);
+              if (isMobileView) window.scrollTo(0, 0);
+            }}
           >
             <PaginationLink>{page - 1}</PaginationLink>
           </PaginationItem>
@@ -50,7 +71,8 @@ export default function PaginationFavorites({
             <PaginationItem
               className="cursor-pointer"
               onClick={() => {
-                if (page + 1 < favoritesPages) fetchFavoriteDogs(page + 1);
+                fetchFavoriteDogs(page + 1);
+                if (isMobileView) window.scrollTo(0, 0);
               }}
             >
               <PaginationLink>{page + 1}</PaginationLink>
@@ -65,7 +87,10 @@ export default function PaginationFavorites({
         <PaginationItem
           className="cursor-pointer"
           onClick={() => {
-            if (page + 1 < favoritesPages) fetchFavoriteDogs(page + 1);
+            if (page + 1 < favoritesPages) {
+              fetchFavoriteDogs(page + 1);
+              if (isMobileView) window.scrollTo(0, 0);
+            }
           }}
         >
           <PaginationNext

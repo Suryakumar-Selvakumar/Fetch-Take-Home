@@ -1,4 +1,4 @@
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { Input } from "./ui/input";
 import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
 import type { FiltersState, SortState } from "@/pages/Search";
@@ -12,6 +12,9 @@ import {
 import { Button } from "./ui/button";
 import type { SearchResult } from "@/pages/Search";
 import { Badge } from "./ui/badge";
+import { cn } from "@/utils/cn";
+import { Xmark } from "iconoir-react";
+import spotsBg from "@/assets/spots.png";
 
 interface FilterbarProps {
   setFilters: Dispatch<SetStateAction<FiltersState>>;
@@ -19,6 +22,8 @@ interface FilterbarProps {
   updateOrderBy: (value: string) => void;
   sort: SortState;
   searchResult: SearchResult;
+  isFilterPageVisible: boolean;
+  setIsFilterPageVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 const sortItems = [
@@ -53,8 +58,13 @@ export default function Filterbar({
   updateOrderBy,
   sort,
   searchResult,
+  isFilterPageVisible,
+  setIsFilterPageVisible,
 }: FilterbarProps): JSX.Element {
   const [searchInput, setSearchInput] = useState("");
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
 
   const handleInputSubmit = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
@@ -68,14 +78,48 @@ export default function Filterbar({
     }
   };
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
+
   return (
-    <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-between pl-2">
-      <div className="flex gap-2 items-center">
+    <div
+      className={cn(
+        "flex w-full lg:max-w-screen-2xl lg:h-min lg:py-3 lg:self-center lg:justify-between lg:pl-2",
+        isMobileView
+          ? `flex-col items-center p-4 gap-8 transition-opacity duration-300 ease-in-out fixed inset-0 overflow-hidden
+        ${
+          isFilterPageVisible
+            ? "opacity-100 z-50 pointer-events-auto"
+            : "opacity-0 z-0 pointer-events-none"
+        }`
+          : ""
+      )}
+      style={{
+        background: isMobileView ? `url(${spotsBg})` : "none",
+        backgroundRepeat: isMobileView ? "repeat" : "none",
+        backgroundSize: isMobileView ? "contain" : "none",
+      }}
+    >
+      {isMobileView && isFilterPageVisible && (
+        <Xmark
+          fontSize={"1.5rem"}
+          onClick={() => setIsFilterPageVisible(false)}
+          className="self-end"
+        />
+      )}
+      <div className="flex w-full lg:w-max gap-2 items-center">
         <Input
           autoComplete="on"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          className="w-[300px] bg-white"
+          className="w-full lg:w-[300px] bg-white"
           type="input"
           placeholder="Enter City, State, or ZIP"
           onKeyDown={handleInputSubmit}
@@ -96,7 +140,10 @@ export default function Filterbar({
           Search
         </Button>
       </div>
-      <Badge className="text-xl text-valentino" variant={"secondary"}>
+      <Badge
+        className="hidden lg:block text-xl text-valentino"
+        variant={"secondary"}
+      >
         {searchResult.total < 1000
           ? searchResult.total
           : String(searchResult.total / 1000).includes(".")
@@ -104,9 +151,9 @@ export default function Filterbar({
           : `${searchResult.total / 1000}K`}{" "}
         Dogs Found
       </Badge>
-      <div className="flex gap-4">
+      <div className="flex w-full lg:w-max flex-col lg:flex-row gap-8 lg:gap-4">
         <Select value={sort.sortBy} onValueChange={updateSortBy}>
-          <SelectTrigger className="w-[155px] select-none bg-white cursor-pointer">
+          <SelectTrigger className="w-full lg:w-[155px] select-none bg-white cursor-pointer">
             <span>
               Sort By:{" "}
               <span className="font-medium">
@@ -114,7 +161,7 @@ export default function Filterbar({
               </span>
             </span>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="w-[calc(100%-2px)]">
             <SelectGroup>
               {sortItems.map(({ title, value }) => (
                 <SelectItem key={value} value={value}>
@@ -125,7 +172,7 @@ export default function Filterbar({
           </SelectContent>
         </Select>
         <Select value={sort.orderBy} onValueChange={updateOrderBy}>
-          <SelectTrigger className="w-[200px] select-none bg-white cursor-pointer">
+          <SelectTrigger className="w-full lg:w-[200px] select-none bg-white cursor-pointer">
             <span>
               Order By:{" "}
               <span className="font-medium">
@@ -133,7 +180,7 @@ export default function Filterbar({
               </span>
             </span>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="w-[calc(100%-2px)]">
             <SelectGroup>
               {orderItems.map(({ title, value }) => (
                 <SelectItem key={value} value={value}>

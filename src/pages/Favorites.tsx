@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import spotsBg from "@/assets/spots.png";
 import Modal from "@/components/Modal";
 import getMatch from "@/utils/getMatch";
@@ -102,7 +102,14 @@ export default function Favorties(): JSX.Element {
   }, [showMatchModal]);
 
   return (
-    <main className=" w-full h-screen flex flex-col">
+    <main
+      className="w-full min-h-screen h-full flex flex-col"
+      style={{
+        background: `url(${spotsBg})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "contain",
+      }}
+    >
       <Modal
         match={match}
         showMatchModal={showMatchModal}
@@ -114,24 +121,22 @@ export default function Favorties(): JSX.Element {
           {favorites.length} Dogs Favorited
         </Badge>
       </div>
-      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-[min-content_1fr] h-full">
-        <div className="flex flex-col gap-4 col-span-1">
-          <div className="h-max w-max flex flex-col gap-8 pr-4 pb-4 pt-8 pl-2">
-            <RainbowButton
-              className={cn(
-                "w-[300px] text-base mt-1",
-                isMatchLoading && "text-muted-foreground"
-              )}
-              variant={"outline"}
-              size={"lg"}
-              onClick={generateMatch}
-              disabled={isMatchLoading}
-            >
-              {match !== null ? "Show Match" : "Generate Match"}
-            </RainbowButton>
-          </div>
+      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]">
+        <div className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-0 lg:pr-4 lg:pb-4 lg:pt-8 lg:pl-2">
+          <RainbowButton
+            className={cn(
+              "w-full lg:w-[300px] text-base mt-1",
+              isMatchLoading && "text-muted-foreground"
+            )}
+            variant={"outline"}
+            size={"lg"}
+            onClick={generateMatch}
+            disabled={isMatchLoading}
+          >
+            {match !== null ? "Show Match" : "Generate Match"}
+          </RainbowButton>
         </div>
-        <div className="col-start-[2] row-span-full grid grid-rows-[1fr_max-content]">
+        <div className="lg:col-start-[2] lg:row-span-full grid grid-rows-[1fr_max-content] px-6 lg:px-0">
           <Error error={error} />
           {dogs.length > 0 && (
             <Cards
@@ -149,10 +154,6 @@ export default function Favorties(): JSX.Element {
             />
           )}
         </div>
-      </div>
-      <div className="h-full w-full absolute flex -z-1 overflow-x-hidden">
-        <img src={spotsBg} alt="spots background" className="object-cover" />
-        <img src={spotsBg} alt="spots background" className="object-cover" />
       </div>
     </main>
   );

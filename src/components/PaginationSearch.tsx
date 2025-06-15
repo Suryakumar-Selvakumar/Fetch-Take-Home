@@ -8,6 +8,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import type { SearchResult } from "@/pages/Search";
+import { useEffect, useState } from "react";
 
 export default function PaginationSearch({
   page,
@@ -25,13 +26,30 @@ export default function PaginationSearch({
   const from: string | null = params.get("from");
   const size: string | null = params.get("size");
 
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.matchMedia("(max-width: 1024px)").matches || false
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+
+    window.addEventListener("change", handleMediaChange);
+
+    return () => window.removeEventListener("change", handleMediaChange);
+  }, []);
+
   return (
     <Pagination className="mt-2 mb-4">
       <PaginationContent>
         <PaginationItem
           className="cursor-pointer"
           onClick={() => {
-            if (searchResult.prev) fetchDogsData(page - 1, page);
+            if (searchResult.prev) {
+              fetchDogsData(page - 1, page);
+              if (isMobileView) window.scrollTo(0, 0);
+            }
           }}
         >
           <PaginationPrevious
@@ -46,7 +64,10 @@ export default function PaginationSearch({
           <PaginationItem
             className="cursor-pointer"
             onClick={() => {
-              if (searchResult.prev) fetchDogsData(page - 1, page);
+              if (searchResult.prev) {
+                fetchDogsData(page - 1, page);
+                if (isMobileView) window.scrollTo(0, 0);
+              }
             }}
           >
             <PaginationLink>{page - 1}</PaginationLink>
@@ -60,8 +81,8 @@ export default function PaginationSearch({
             <PaginationItem
               className="cursor-pointer"
               onClick={() => {
-                if (Number(from) < searchResult.total)
-                  fetchDogsData(page + 1, page);
+                fetchDogsData(page + 1, page);
+                if (isMobileView) window.scrollTo(0, 0);
               }}
             >
               <PaginationLink>{page + 1}</PaginationLink>
@@ -76,8 +97,10 @@ export default function PaginationSearch({
         <PaginationItem
           className="cursor-pointer"
           onClick={() => {
-            if (Number(from) < searchResult.total)
+            if (Number(from) < searchResult.total) {
               fetchDogsData(page + 1, page);
+              if (isMobileView) window.scrollTo(0, 0);
+            }
           }}
         >
           <PaginationNext
