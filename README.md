@@ -1,5 +1,9 @@
 <h1 align='center'>FetchMatch</h1>
 
+<div align="center">
+   <img width=auto height=auto src="./public/output-mobile.png" alt="output collage">
+</div>
+
 <div align='center'>Find your new best friend! A dog adoption platform with a catalog of over 10000 dogs!</div>
 
 ## Domain
