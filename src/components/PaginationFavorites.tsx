@@ -48,7 +48,7 @@ export default function PaginationFavorites({
           <PaginationPrevious
             className={
               page - 1 < 0
-                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-transparent cursor-default select-none"
                 : ""
             }
           />
@@ -97,7 +97,7 @@ export default function PaginationFavorites({
           <PaginationNext
             className={
               !(page + 1 < favoritesPages)
-                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-transparent cursor-default select-none"
                 : ""
             }
           />

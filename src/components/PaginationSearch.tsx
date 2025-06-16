@@ -56,7 +56,7 @@ export default function PaginationSearch({
           <PaginationPrevious
             className={
               !searchResult.prev
-                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-transparent cursor-default select-none"
                 : ""
             }
           />
@@ -107,7 +107,7 @@ export default function PaginationSearch({
           <PaginationNext
             className={
               !(Number(from) < searchResult.total)
-                ? "text-muted-foreground hover:text-muted-foreground hover:bg-white"
+                ? "text-muted-foreground hover:text-muted-foreground hover:bg-transparent cursor-default select-none"
                 : ""
             }
           />
