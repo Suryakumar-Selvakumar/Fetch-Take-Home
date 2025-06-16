@@ -101,7 +101,9 @@ export const Card = ({
           <span className="animate-pop-in">
             <Tooltip>
               <TooltipTrigger>
-                {dog.city}, {dog.state}, {dog.zip_code}
+                {dog.city ? `${dog.city}, ` : ""}
+                {dog.state ? `${dog.state}, ` : ""}
+                {dog.zip_code}
               </TooltipTrigger>
               <TooltipContent side="bottom" sideOffset={-5}>
                 <p>{Math.round(dist as number)} miles away</p>

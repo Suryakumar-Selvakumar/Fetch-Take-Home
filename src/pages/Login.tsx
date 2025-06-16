@@ -86,7 +86,7 @@ function Login(): JSX.Element {
           <h1 className="lg:text-5xl text-[1.8rem] text-white font-medium text-shadow-md">
             Login to access our catalog
           </h1>
-          <p className="text-white text-shadow-md text-center lg:text-justify">
+          <p className="text-white lg:text-3xl text-shadow-md text-center lg:text-justify">
             Browse 10,000+ dogs from our network of over 14,500 shelters and
             rescues.
           </p>

@@ -28,6 +28,14 @@ https://fetch-match-theta.vercel.app/
 
 [![My Skills](https://skillicons.dev/icons?i=ts,react,tailwindcss,vite,vercel)](https://skillicons.dev)
 
+## Screenshots
+
+<div align="center">
+   <img width=auto height=auto src="./public/output-pc-1.png" alt="Home">
+   <img width=auto height=auto src="./public/output-pc-2.png" alt="Shop">
+   <img width=auto height=auto src="./public/output-pc-3.png" alt="GamePage">
+</div>
+
 ## Instructions to run the project locally
 
 1. Clone the repository
