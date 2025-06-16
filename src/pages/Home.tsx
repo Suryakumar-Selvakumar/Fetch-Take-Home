@@ -52,7 +52,7 @@ const dogsData: {
     gifUrl:
       "https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3M2JmZWQxNnBkeWxnaGlmeGUwazNrYTFlOG9xd3I4bXB0N3ZoM201diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/WAkTocsutMLrG/giphy.gif",
     name: "Cardigan",
-    desc: "A livestock-herding breed characterized by a long, low stature, upright ears, extreme loyalty and trainability.",
+    desc: "A herding breed characterized by a long, low stature, upright ears, extreme loyalty and trainability.",
   },
   {
     imgUrl: bImg,
