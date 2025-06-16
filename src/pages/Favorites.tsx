@@ -119,7 +119,7 @@ export default function Favorties(): JSX.Element {
       />
       <Navbar />
       <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-center pl-2">
-        <Badge className="text-xl text-valentino" variant={"secondary"}>
+        <Badge className="text-xl text-valentino shadow-sm" variant={"secondary"}>
           {favorites.length} Dogs Favorited
         </Badge>
       </div>

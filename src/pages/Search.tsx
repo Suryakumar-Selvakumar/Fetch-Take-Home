@@ -222,13 +222,16 @@ function Search(): JSX.Element {
       {isMobileView && (
         <div className="flex items-center justify-between p-4">
           <Badge
-            className="w-max h-max cursor-pointer"
+            className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
             variant={"outline"}
             onClick={() => setIsSidebarPageVisible(true)}
           >
             <SlidersHorizontal size={24} />
           </Badge>
-          <Badge className="text-xl text-valentino" variant={"secondary"}>
+          <Badge
+            className="text-xl text-valentino shadow-sm"
+            variant={"secondary"}
+          >
             {searchResult.total < 1000
               ? searchResult.total
               : String(searchResult.total / 1000).includes(".")
@@ -237,7 +240,7 @@ function Search(): JSX.Element {
             Dogs Found
           </Badge>
           <Badge
-            className="w-max h-max cursor-pointer"
+            className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
             variant={"outline"}
             onClick={() => setIsFilterPageVisible(true)}
           >

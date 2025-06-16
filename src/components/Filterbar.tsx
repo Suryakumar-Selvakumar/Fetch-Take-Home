@@ -142,7 +142,7 @@ export default function Filterbar({
         </Button>
       </div>
       <Badge
-        className="hidden lg:block text-xl text-valentino"
+        className="hidden lg:block text-xl text-valentino shadow-sm"
         variant={"secondary"}
       >
         {searchResult.total < 1000

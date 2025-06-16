@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import dogFamImg from "@/assets/dog-family.jpg";
 import fetchLogo from "@/assets/Fetch.svg";
 import handleLogout from "@/utils/handleLogout";
+import { MoveLeft, MoveRight } from "lucide-react";
 
 function Login(): JSX.Element {
   const [name, setName] = useState("");
@@ -110,10 +111,9 @@ function Login(): JSX.Element {
               </Link>
               <button
                 onClick={() => handleLogout(setIsLoggedIn, navigate)}
-                className="cursor-pointer flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                className="cursor-pointer flex gap-1 justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
               >
-                <span>Logout</span>{" "}
-                <span className="text-2xl relative -top-1">&larr;</span>
+                <span>Logout</span> <MoveLeft size={20} />
               </button>
             </div>
           ) : (
@@ -160,11 +160,10 @@ function Login(): JSX.Element {
                 />
               </div>
               <button
-                className="cursor-pointer flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                className="cursor-pointer gap-1 flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
               >
-                <span>Login</span>
-                <span className="text-2xl relative -top-1">&rarr;</span>
+                <span>Login</span> <MoveRight size={20} />
               </button>
             </form>
           )}
