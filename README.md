@@ -32,8 +32,10 @@ https://fetch-match-theta.vercel.app/
 
 <div align="center">
    <img width=auto height=auto src="./public/output-pc-1.png" alt="Home">
-   <img width=auto height=auto src="./public/output-pc-2.png" alt="Shop">
-   <img width=auto height=auto src="./public/output-pc-3.png" alt="GamePage">
+   <img width=auto height=auto src="./public/output-pc-2.png" alt="Login">
+   <img width=auto height=auto src="./public/output-pc-3.png" alt="Search">
+   <img width=auto height=auto src="./public/output-pc-4.png" alt="Favorites">
+   <img width=auto height=auto src="./public/output-pc-5.png" alt="Match">
 </div>
 
 ## Instructions to run the project locally
@@ -41,7 +43,7 @@ https://fetch-match-theta.vercel.app/
 1. Clone the repository
 
 ```bash
-  git clone https://github.com/suryakumar-selvakumar/FetchMatch.git
+  git clone https://github.com/Suryakumar-Selvakumar/FetchMatch.git
   cd FetchMatch
 ```
 
@@ -55,8 +57,8 @@ https://fetch-match-theta.vercel.app/
 
 3. Run the development server
 
+   This command will start the Vite development server. Open your browser and go to: http://localhost:5173
+
 ```bash
   npm run dev
 ```
-
-This will start the Vite development server. Open your browser and go to: http://localhost:5173
