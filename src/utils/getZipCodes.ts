@@ -1,15 +1,13 @@
-interface Location {
-  zip_code: string;
-  latitude: number;
-  longitude: number;
-  city: string;
-  state: string;
-  county: string;
+import { type Location } from "@/pages/Search";
+
+interface LocationsSearch {
+  results: Location[];
+  total: number;
 }
 
-export default async function getZipCodes(search: string[]): Promise<string[]> {
-  const zipRegex = /^\d{5}$/;
-  const stateRegex = /^[A-Z]{2}$/;
+async function getZipCodes(search: string[]): Promise<string[]> {
+  const zipRegex: RegExp = /^\d{5}$/;
+  const stateRegex: RegExp = /^[A-Z]{2}$/;
 
   const cities: string[] = [];
   const states: string[] = [];
@@ -25,7 +23,7 @@ export default async function getZipCodes(search: string[]): Promise<string[]> {
     }
   });
 
-  const cityZipPromises = cities.map((city) =>
+  const cityZipPromises: Promise<LocationsSearch>[] = cities.map((city) =>
     fetch("https://frontend-take-home-service.fetch.com/locations/search", {
       method: "POST",
       credentials: "include",
@@ -34,7 +32,7 @@ export default async function getZipCodes(search: string[]): Promise<string[]> {
     }).then((res) => res.json())
   );
 
-  const stateZipPromise = fetch(
+  const stateZipPromise: Promise<LocationsSearch> = fetch(
     "https://frontend-take-home-service.fetch.com/locations/search",
     {
       method: "POST",
@@ -51,16 +49,20 @@ export default async function getZipCodes(search: string[]): Promise<string[]> {
     stateZipPromise,
   ]);
 
-  const cityZips = cityResults.flatMap((result) =>
+  const cityZips: string[] = cityResults.flatMap((result) =>
     result.status === "fulfilled"
       ? result.value.results.map((loc: Location) => loc.zip_code)
       : []
   );
 
-  const stateZips = stateResult.results.map((loc: Location) => loc.zip_code);
+  const stateZips: string[] = stateResult.results.map(
+    (loc: Location) => loc.zip_code
+  );
 
-  const allZips = [...zips, ...cityZips, ...stateZips];
-  const dedupedZips = Array.from(new Set(allZips));
+  const allZips: string[] = [...zips, ...cityZips, ...stateZips];
+  const dedupedZips: string[] = Array.from(new Set(allZips));
 
   return dedupedZips;
 }
+
+export default getZipCodes;

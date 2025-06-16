@@ -17,7 +17,7 @@ export default function Cards({
   setFavorites,
   isLoading,
 }: CardsProps) {
-  const { userZip } = useAuth();
+  const { userZip }: { userZip: string } = useAuth();
   const [distVals, setDistVals] = useState<Record<string, number | "MISSING">>(
     {}
   );
@@ -29,7 +29,10 @@ export default function Cards({
 
     async function addDistanceValues() {
       try {
-        const distanceValues = await getDistance(userZip, zipCodes);
+        const distanceValues: Record<string, number> = await getDistance(
+          userZip,
+          zipCodes
+        );
         const completeDistances: Record<string, number | "MISSING"> = {};
 
         zipCodes.forEach((zip) => {

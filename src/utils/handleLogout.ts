@@ -5,7 +5,7 @@ const handleLogout = async (
   navigate: (value: string) => void
 ): Promise<void> => {
   try {
-    const res = await fetch(
+    const res: Response = await fetch(
       "https://frontend-take-home-service.fetch.com/auth/logout",
       {
         method: "POST",

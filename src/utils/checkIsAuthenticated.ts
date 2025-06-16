@@ -1,6 +1,6 @@
 async function checkIsAuthenticated(): Promise<boolean> {
   try {
-    const res = await fetch(
+    const res: Response = await fetch(
       "https://frontend-take-home-service.fetch.com/dogs/breeds",
       {
         credentials: "include",

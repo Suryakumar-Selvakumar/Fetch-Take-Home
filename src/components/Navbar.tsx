@@ -1,8 +1,14 @@
 import type { JSX } from "react";
 import fetchLogo from "@/assets/Fetch.svg";
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Navbar, IconButton, Collapse } from "@material-tailwind/react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  type Location,
+  type NavigateFunction,
+} from "react-router-dom";
+import { Navbar, Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
 import { toast, Toaster } from "sonner";
 import useAuth from "@/hooks/useAuth";
@@ -10,10 +16,14 @@ import handleLogout from "@/utils/handleLogout";
 import { cn } from "@/utils/cn";
 
 function NavList(): JSX.Element {
-  const navigate = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const location = useLocation();
-  const currentPath = location.pathname;
+  const navigate: NavigateFunction = useNavigate();
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+  }: { isLoggedIn: boolean; setIsLoggedIn: (value: boolean) => void } =
+    useAuth();
+  const location: Location = useLocation();
+  const currentPath: string = location.pathname;
 
   const handleNavigation = (endpoint: string): void => {
     if (isLoggedIn) navigate(endpoint);

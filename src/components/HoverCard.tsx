@@ -1,4 +1,3 @@
-import { cn } from "@/utils/cn";
 import type { JSX } from "react";
 
 interface HoverCardProps {

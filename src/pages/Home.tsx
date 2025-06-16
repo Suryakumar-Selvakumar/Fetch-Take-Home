@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import dogFamImg from "@/assets/dog-family.jpg";
-import gdImg from "@/assets/gd-3.jpg";
+import gdImg from "@/assets/gr-3.jpg";
 import fbImg from "@/assets/fb-1.jpg";
 import pImg from "@/assets/p-1.jpg";
 import gsImg from "@/assets/gs-3.jpg";
@@ -8,12 +8,17 @@ import bImg from "@/assets/b-1.jpg";
 import cImg from "@/assets/c-2.jpeg";
 import HoverCard from "@/components/HoverCard";
 import spotsBg from "@/assets/spots.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, type NavigateFunction } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 
-const dogsData = [
+const dogsData: {
+  imgUrl: string;
+  gifUrl: string;
+  name: string;
+  desc: string;
+}[] = [
   {
     imgUrl: pImg,
     gifUrl:
@@ -59,10 +64,10 @@ const dogsData = [
 ];
 
 function Home() {
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const navigate: NavigateFunction = useNavigate();
+  const { isLoggedIn }: { isLoggedIn: boolean } = useAuth();
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
   const navigateToSearch = (breed: string) => {
@@ -74,13 +79,14 @@ function Home() {
   };
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
-    return () => window.removeEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type JSX } from "react";
 import Navbar from "@/components/Navbar";
 import spotsBg from "@/assets/spots.png";
 import Filterbar from "@/components/Filterbar";
@@ -10,7 +10,7 @@ import { Filters } from "@/components/Filters";
 import Error from "@/components/Error";
 import PaginationSearch from "@/components/PaginationSearch";
 import Cards from "@/components/Cards";
-import { useLocation } from "react-router-dom";
+import { useLocation, type Location as RouterLocation } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Funnel, SlidersHorizontal } from "lucide-react";
 
@@ -54,8 +54,8 @@ export interface SearchResult {
 
 export type FavoritesState = string[];
 
-function Search() {
-  const location = useLocation();
+function Search(): JSX.Element {
+  const location: RouterLocation = useLocation();
   const [filters, setFilters] = useState<FiltersState>({
     search: [],
     breeds: location.state || [],
@@ -76,7 +76,7 @@ function Search() {
   const [page, setPage] = useState<number>(0);
 
   const storedFavorites: null | string[] = (() => {
-    const data = localStorage.getItem("favorites");
+    const data: string | null = localStorage.getItem("favorites");
     return data ? JSON.parse(data) : null;
   })();
   const [favorites, setFavorites] = useState<FavoritesState>(
@@ -87,7 +87,7 @@ function Search() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
   const [isFilterPageVisible, setIsFilterPageVisible] =
@@ -122,16 +122,15 @@ function Search() {
       }
 
       try {
-        const searchRes = await getDogIds(url, controller.signal);
+        const searchRes: SearchResult = await getDogIds(url, controller.signal);
         setSearchResult(searchRes);
-        const dogObjs = await getDogsData(
+        const dogObjs: Dog[] = await getDogsData(
           searchRes.resultIds,
           controller.signal
         );
         setDogs(dogObjs);
       } catch (err: unknown) {
         if (err instanceof DOMException && err.name === "AbortError") {
-          console.log("Aborted");
           return;
         } else if (err instanceof Error || err instanceof TypeError) {
           setError((err as Error).message);
@@ -145,14 +144,15 @@ function Search() {
   );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
     return () => {
-      window.removeEventListener("change", handleMediaChange);
+      mediaQuery.removeEventListener("change", handleMediaChange);
       signalRef.current?.abort();
     };
   }, []);

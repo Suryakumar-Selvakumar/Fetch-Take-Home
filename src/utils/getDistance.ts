@@ -10,7 +10,7 @@ const getDistance = async (
   params.append("country", "us");
   params.append("unit", "miles");
 
-  const response = await fetch(
+  const response: Response = await fetch(
     `https://app.zipcodebase.com/api/v1/distance?${params.toString()}`
   );
 

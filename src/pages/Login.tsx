@@ -16,7 +16,7 @@ function Login(): JSX.Element {
   const [email, setEmail] = useState("");
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ function Login(): JSX.Element {
     const email = formData.get("email") as string;
 
     try {
-      const res = await fetch(
+      const res: Response = await fetch(
         "https://frontend-take-home-service.fetch.com/auth/login",
         {
           method: "POST",
@@ -52,16 +52,15 @@ function Login(): JSX.Element {
   }
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
-    return () => window.removeEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
-
-  const mediaQuery = window.matchMedia("(max-width: 640px)");
 
   return (
     <main

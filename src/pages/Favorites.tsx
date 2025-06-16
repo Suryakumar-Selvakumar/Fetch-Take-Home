@@ -24,17 +24,17 @@ export default function Favorties(): JSX.Element {
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<number>(0);
 
   const storedFavorites: null | string[] = (() => {
-    const data = localStorage.getItem("favorites");
+    const data: string | null = localStorage.getItem("favorites");
     return data ? JSON.parse(data) : null;
   })();
   const [favorites, setFavorites] = useState<FavoritesState>(
     storedFavorites || []
   );
 
-  function fetchDogIds(currPage: number) {
+  function fetchDogIds(currPage: number): string[] {
     setPage(currPage);
     const start = currPage * PAGE_SIZE;
     const end = start + PAGE_SIZE;
@@ -48,13 +48,13 @@ export default function Favorties(): JSX.Element {
     setError(null);
     setIsLoading(true);
 
-    const curDogIds = fetchDogIds(currPage);
+    const curDogIds: string[] = fetchDogIds(currPage);
 
     try {
-      const dogObjs = await getDogsData(curDogIds, null);
+      const dogObjs: Dog[] = await getDogsData(curDogIds, null);
       setDogs(dogObjs);
     } catch (err: unknown) {
-      if (err instanceof Error) {
+      if (err instanceof Error || err instanceof TypeError) {
         setError((err as Error).message);
       } else setError("An unknown error occured");
     } finally {
@@ -71,11 +71,13 @@ export default function Favorties(): JSX.Element {
       setIsMatchLoading(true);
       try {
         const fetchedMatchId: string = await getMatch(favorites);
-        const matchedDog = dogs.find((dog) => dog.id === fetchedMatchId);
+        const matchedDog: Dog | undefined = dogs.find(
+          (dog) => dog.id === fetchedMatchId
+        );
         if (matchedDog != undefined) {
-          setMatch(matchedDog as Dog);
+          setMatch(matchedDog);
         } else {
-          const matchedDog = await getDogsData([fetchedMatchId], null);
+          const matchedDog: Dog[] = await getDogsData([fetchedMatchId], null);
           setMatch(matchedDog[0] as Dog);
         }
       } catch (err: unknown) {

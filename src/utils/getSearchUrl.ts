@@ -9,10 +9,10 @@ export default async function getSearchUrl(
   if (query != "") {
     return `https://frontend-take-home-service.fetch.com${query}`;
   } else {
-    const { search, breeds, ageMin, ageMax } = filters;
-    const { sortBy, orderBy } = sort;
+    const { search, breeds, ageMin, ageMax }: FiltersState = filters;
+    const { sortBy, orderBy }: SortState = sort;
 
-    const params = new URLSearchParams();
+    const params: URLSearchParams = new URLSearchParams();
 
     if (search.length > 0) {
       const zipCodes: string[] = await getZipCodes(search);

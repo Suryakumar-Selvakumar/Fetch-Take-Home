@@ -6,8 +6,7 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import ColourfulText from "./ui/colourful-text";
 import { NumberTicker } from "./ui/number-ticker";
 import { AuroraText } from "./ui/aurora-text";
-import { CircleX, X } from "lucide-react";
-import { XmarkCircleSolid } from "iconoir-react";
+import { X } from "lucide-react";
 
 interface ModalProps {
   match: Dog | null;
@@ -22,24 +21,27 @@ export default function Modal({
 }: ModalProps) {
   const handleClose = () => setShowMatchModal(false);
   const [dist, setDist] = useState<number | null>(null);
-  const { userZip } = useAuth();
+  const { userZip }: { userZip: string } = useAuth();
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
-    return () => window.removeEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
   async function getMatchDistance() {
     try {
-      const distance = await getDistance(userZip, [match?.zip_code as string]);
+      const distance: Record<string, number> = await getDistance(userZip, [
+        match?.zip_code as string,
+      ]);
       const targetZip: string = String(match?.zip_code as string);
 
       setDist(Number(distance[targetZip]));
@@ -47,12 +49,6 @@ export default function Modal({
       setDist(null);
     }
   }
-
-  useEffect(() => {
-    if (match) {
-      getMatchDistance();
-    }
-  }, []);
 
   useEffect(() => {
     if (match) {

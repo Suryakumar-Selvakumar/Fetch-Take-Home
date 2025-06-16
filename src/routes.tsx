@@ -5,8 +5,9 @@ import Login from "@/pages/Login";
 import Search from "@/pages/Search";
 import Favorties from "./pages/Favorites";
 import AuthProvider from "@/AuthProvider";
+import type { RouteObject } from "react-router-dom";
 
-export const routes = [
+export const routes: RouteObject[] = [
   {
     path: "/",
     element: (

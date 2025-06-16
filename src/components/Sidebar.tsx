@@ -44,29 +44,30 @@ export default function Sidebar({
   setIsSidebarPageVisible,
 }: SidebarProps): JSX.Element {
   const { breeds, ageMin, ageMax } = filters;
-  const [allBreeds, setAllBreeds] = useState([]);
+  const [allBreeds, setAllBreeds] = useState<string[]>([]);
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
     async function fetchBreeds() {
       await fetch("https://frontend-take-home-service.fetch.com/dogs/breeds", {
         credentials: "include",
       })
-        .then((res) => res.json())
-        .then((vals) => setAllBreeds(vals));
+        .then((res: Response) => res.json())
+        .then((vals: string[]) => setAllBreeds(vals));
     }
 
     fetchBreeds();
 
-    return () => window.removeEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
   const toggleSelection = (value: string): void => {

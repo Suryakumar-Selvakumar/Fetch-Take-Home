@@ -27,14 +27,16 @@ export function Filters({
   useEffect(() => {
     if (filterArr.length === 2) {
       const booleanArr: boolean[] = [];
-      filterArr.forEach(({ filter, value }) => {
-        if (
-          (filter === "ageMin" && value === "0") ||
-          (filter === "ageMax" && value === "15")
-        ) {
-          booleanArr.push(false);
-        } else booleanArr.push(true);
-      });
+      filterArr.forEach(
+        ({ filter, value }: { filter: string; value: string }) => {
+          if (
+            (filter === "ageMin" && value === "0") ||
+            (filter === "ageMax" && value === "15")
+          ) {
+            booleanArr.push(false);
+          } else booleanArr.push(true);
+        }
+      );
       if (booleanArr.includes(true)) setShowFiltersApplied(true);
       else setShowFiltersApplied(false);
     } else setShowFiltersApplied(true);

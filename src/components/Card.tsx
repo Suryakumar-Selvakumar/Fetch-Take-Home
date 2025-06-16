@@ -25,7 +25,7 @@ export const Card = ({
   const distMissing: boolean = dist === "MISSING";
 
   return (
-    <div className="bg-white select-none grid grid-rows-[200px_125px] rounded-xl shadow-md relative">
+    <div className="bg-white select-none grid grid-rows-[200px_125px] rounded-xl shadow-lg relative">
       <div
         style={{
           zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",

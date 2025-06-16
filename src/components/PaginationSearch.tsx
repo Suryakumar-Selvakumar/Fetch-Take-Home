@@ -22,22 +22,23 @@ export default function PaginationSearch({
   ) => Promise<void | undefined>;
   searchResult: SearchResult;
 }) {
-  const params = new URLSearchParams(searchResult.next);
+  const params: URLSearchParams = new URLSearchParams(searchResult.next);
   const from: string | null = params.get("from");
   const size: string | null = params.get("size");
 
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
 
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
 
-    window.addEventListener("change", handleMediaChange);
+    mediaQuery.addEventListener("change", handleMediaChange);
 
-    return () => window.removeEventListener("change", handleMediaChange);
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
   return (

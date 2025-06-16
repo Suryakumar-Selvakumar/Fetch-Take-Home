@@ -1,7 +1,11 @@
 import type { FavoritesState } from "@/pages/Search";
 
+interface Match {
+  match: string;
+}
+
 const getMatch = async (favorties: FavoritesState): Promise<string> => {
-  const response = await fetch(
+  const response: Response = await fetch(
     "https://frontend-take-home-service.fetch.com/dogs/match",
     {
       method: "POST",
@@ -17,7 +21,7 @@ const getMatch = async (favorties: FavoritesState): Promise<string> => {
     throw new Error(`HTTP error: Status ${response.status}`);
   }
 
-  const fetchedMatch: { match: string } = await response.json();
+  const fetchedMatch: Match = await response.json();
   return fetchedMatch.match;
 };
 

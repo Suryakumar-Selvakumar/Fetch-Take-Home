@@ -61,15 +61,26 @@ export default function Filterbar({
   isFilterPageVisible,
   setIsFilterPageVisible,
 }: FilterbarProps): JSX.Element {
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState<string>("");
   const [isMobileView, setIsMobileView] = useState<boolean>(
-    window.matchMedia("(max-width: 1024px)").matches || false
+    window.matchMedia("(max-width: 1024px)").matches
   );
 
+  useEffect(() => {
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 1024px)");
+
+    const handleMediaChange = (event: MediaQueryListEvent): false | void =>
+      setIsMobileView(event.matches);
+
+    mediaQuery.addEventListener("change", handleMediaChange);
+
+    return () => mediaQuery.removeEventListener("change", handleMediaChange);
+  }, []);
+  
   const handleInputSubmit = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       if (searchInput != "") {
-        setFilters((filters) => ({
+        setFilters((filters: FiltersState) => ({
           ...filters,
           search: [...filters.search, searchInput],
         }));
@@ -77,16 +88,6 @@ export default function Filterbar({
       setSearchInput("");
     }
   };
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1024px)");
-
-    const handleMediaChange = () => mediaQuery.matches && setIsMobileView(true);
-
-    window.addEventListener("change", handleMediaChange);
-
-    return () => window.removeEventListener("change", handleMediaChange);
-  }, []);
 
   return (
     <div

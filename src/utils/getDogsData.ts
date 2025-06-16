@@ -4,7 +4,7 @@ export const getDogsData = async (
   dogIds: string[],
   signal: AbortSignal | null
 ): Promise<Dog[]> => {
-  const response = await fetch(
+  const response: Response = await fetch(
     "https://frontend-take-home-service.fetch.com/dogs",
     {
       method: "POST",
@@ -23,7 +23,7 @@ export const getDogsData = async (
 
   const dogObjs = await response.json();
 
-  const zipCodes = dogObjs.map(
+  const zipCodes: string[] = dogObjs.map(
     (dog: {
       id: string;
       img: string;
@@ -34,7 +34,7 @@ export const getDogsData = async (
     }) => dog.zip_code
   );
 
-  const locationsResponse = await fetch(
+  const locationsResponse: Response = await fetch(
     "https://frontend-take-home-service.fetch.com/locations",
     {
       method: "POST",
@@ -59,7 +59,7 @@ export const getDogsData = async (
     ])
   );
 
-  const updatedDogs = dogObjs.map((dog: Dog) => {
+  const updatedDogs: Dog[] = dogObjs.map((dog: Dog) => {
     const location: { city: string; state: string } = locationMap.get(
       dog.zip_code
     ) as { city: string; state: string };
