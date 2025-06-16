@@ -74,13 +74,16 @@ export default function Modal({
 
   return (
     <Dialog
-      className="w-[calc(100vw-4rem)] lg:w-[700px] self-center justify-self-center p-8 flex flex-col gap-4 lg:gap-8"
-      open={showMatchModal}
-      handler={handleClose}
-      animate={{
-        mount: { scale: 1, opacity: 1 },
-        unmount: { scale: 0, opacity: 0 },
-      }}
+      {...({
+        className:
+          "w-[calc(100vw-4rem)] lg:w-[700px] self-center justify-self-center p-8 flex flex-col gap-4 lg:gap-8",
+        open: showMatchModal,
+        handler: handleClose,
+        animate: {
+          mount: { scale: 1, opacity: 1 },
+          unmount: { scale: 0, opacity: 0 },
+        },
+      } as unknown as React.ComponentProps<typeof Dialog>)}
     >
       <span
         onClick={handleClose}
@@ -104,21 +107,12 @@ export default function Modal({
           <b className="block lg:inline">Breed:</b>{" "}
           <AuroraText variant="text">{match?.breed}</AuroraText>
         </span>
-        {dist && (
-          <span>
-            <b className="block lg:inline">Distance (mi):</b>{" "}
-            <AuroraText variant={""}>
-              <NumberTicker value={dist as number} />
-            </AuroraText>
-          </span>
-        )}
         <span>
           <b className="block lg:inline">Age (yrs):</b>{" "}
           <AuroraText variant={""}>
             <NumberTicker value={match?.age as number} />
           </AuroraText>
         </span>
-
         <span>
           <b className="block lg:inline">City:</b>{" "}
           <AuroraText variant="text">{match?.city}</AuroraText>
@@ -133,6 +127,14 @@ export default function Modal({
             <NumberTicker value={Number(match?.zip_code)} />
           </AuroraText>
         </span>
+        {dist && (
+          <span>
+            <b className="block lg:inline">Distance (mi):</b>{" "}
+            <AuroraText variant={""}>
+              <NumberTicker value={dist as number} />
+            </AuroraText>
+          </span>
+        )}
       </div>
       {!isMobileView && (
         <p className="lg:text-xl text-center">{generatePara()}</p>

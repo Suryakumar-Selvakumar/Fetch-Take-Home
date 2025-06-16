@@ -39,7 +39,7 @@ export const AuroraText = memo(
               style={gradientStyle}
               aria-hidden="true"
             >
-              {children}
+              {String(children)}
             </TypingAnimation>
           </span>
         ) : (

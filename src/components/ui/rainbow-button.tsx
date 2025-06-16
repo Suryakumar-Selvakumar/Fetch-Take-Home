@@ -4,9 +4,6 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import React from "react";
 
-interface RainbowButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
-
 const rainbowButtonVariants = cva(
   cn(
     "relative cursor-pointer group transition-all animate-rainbow",

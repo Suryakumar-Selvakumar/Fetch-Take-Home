@@ -11,7 +11,7 @@ import Error from "@/components/Error";
 import PaginationSearch from "@/components/PaginationSearch";
 import Cards from "@/components/Cards";
 import { useLocation, type Location as RouterLocation } from "react-router-dom";
-import { Badge } from "@/components/ui/badge";
+import Badge from "@/components/ui/badge";
 import { Funnel, SlidersHorizontal } from "lucide-react";
 
 export type FiltersState = {

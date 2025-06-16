@@ -12,7 +12,7 @@ import { fireWorks, heartEmojis } from "@/components/ui/confetti";
 import Error from "@/components/Error";
 import Cards from "@/components/Cards";
 import PaginationFavorites from "@/components/PaginationFavorites";
-import { Badge } from "@/components/ui/badge";
+import Badge from "@/components/ui/badge";
 
 const PAGE_SIZE: number = 9;
 
@@ -124,7 +124,7 @@ export default function Favorties(): JSX.Element {
         </Badge>
       </div>
       <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]">
-        <div className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-0 lg:pr-4 lg:pb-4 lg:pt-8 lg:pl-2">
+        <div className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-0 lg:pr-4 pb-4 lg:pt-8 lg:pl-2">
           <RainbowButton
             className={cn(
               "w-full lg:w-[300px] text-base mt-1",

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import spotsBg from "@/assets/spots.png";
 import Navbar from "@/components/Navbar";
 import { Input } from "@/components/ui/input";
-import { Typography } from "@material-tailwind/react";
 import type { FormEvent, JSX } from "react";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
@@ -129,14 +128,9 @@ function Login(): JSX.Element {
               />
               <hr />
               <div className="flex flex-col gap-1">
-                <Typography
-                  as={"label"}
-                  type="small"
-                  className="font-medium"
-                  htmlFor="name"
-                >
+                <label className="font-medium" htmlFor="email">
                   Name
-                </Typography>
+                </label>
                 <Input
                   autoComplete="on"
                   required
@@ -151,14 +145,9 @@ function Login(): JSX.Element {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <Typography
-                  as={"label"}
-                  type="small"
-                  className="font-medium"
-                  htmlFor="email"
-                >
+                <label className="font-medium" htmlFor="email">
                   Email
-                </Typography>
+                </label>
                 <Input
                   autoComplete="on"
                   required

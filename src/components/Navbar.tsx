@@ -8,7 +8,7 @@ import {
   type Location,
   type NavigateFunction,
 } from "react-router-dom";
-import { Navbar, Collapse } from "@material-tailwind/react";
+import { Collapse } from "@material-tailwind/react";
 import { Menu, Xmark } from "iconoir-react";
 import { toast, Toaster } from "sonner";
 import useAuth from "@/hooks/useAuth";
@@ -97,7 +97,7 @@ export default function NavbarComp(): JSX.Element {
   return (
     <div className="bg-amber-400">
       <Toaster richColors position={"top-center"} />
-      <Navbar className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino">
+      <nav className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino">
         <div className="flex items-center gap-8 justify-between">
           <Link to={"/"} className="lg:w-50 w-30 pl-2 block lg:py-1">
             <img src={fetchLogo} alt="fetch logo" />
@@ -120,7 +120,7 @@ export default function NavbarComp(): JSX.Element {
         <Collapse open={openNav} className="lg:hidden">
           <NavList />
         </Collapse>
-      </Navbar>
+      </nav>
     </div>
   );
 }

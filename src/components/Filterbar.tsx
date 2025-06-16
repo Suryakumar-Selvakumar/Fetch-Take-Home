@@ -11,7 +11,7 @@ import {
 } from "./ui/select";
 import { Button } from "./ui/button";
 import type { SearchResult } from "@/pages/Search";
-import { Badge } from "./ui/badge";
+import Badge from "./ui/badge";
 import { cn } from "@/utils/cn";
 import { Xmark } from "iconoir-react";
 import spotsBg from "@/assets/spots.png";
@@ -76,7 +76,7 @@ export default function Filterbar({
 
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
-  
+
   const handleInputSubmit = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       if (searchInput != "") {
