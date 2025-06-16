@@ -62,7 +62,7 @@ function NavList(): JSX.Element {
       </li>
       {isLoggedIn ? (
         <li
-          className="pt-2"
+          className="pt-2 lg:pt-0"
           onClick={() => handleLogout(setIsLoggedIn, navigate)}
         >
           <div className="lg:hover:shadow-xs lg:ml-auto lg:inline-block text-center lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">

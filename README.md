@@ -1,54 +1,27 @@
-# React + TypeScript + Vite
+<h1 align='center'>FetchMatch</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align='center'>Find your new best friend! A dog adoption platform with a catalog of over 10000 dogs!</div>
 
-Currently, two official plugins are available:
+## Domain
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Extensive Catalog - 10000+ shelter dogs across 120 breeds to choose from
+- Plenteous Customization - Filter through dogs using,
+  - Location - City, State, ZIP Code
+  - breed
+  - min age
+  - max age
+- Preferential Ordering - Sort through dogs in both directions across,
+  - breed
+  - name
+  - age
+- Dedicated Dogs data - Get information & images for all dogs
+- User Matching - Select favorite dogs and generate a Match
+- Responsive Design - Mobile-Friendly with Unique Layouts
+- Natural Animations/Transitions - Made possible with [Motion](https://motion.dev/)
+- Client-side routing with Exclusive pages - Facilitated by [React Router](https://reactrouter.com/)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technologies
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+[![My Skills](https://skillicons.dev/icons?i=ts,react,tailwindcss,vite,vercel)](https://skillicons.dev)

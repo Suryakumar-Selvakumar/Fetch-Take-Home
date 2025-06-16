@@ -222,7 +222,7 @@ function Search(): JSX.Element {
       {isMobileView && (
         <div className="flex items-center justify-between p-4">
           <Badge
-            className="w-max h-max"
+            className="w-max h-max cursor-pointer"
             variant={"outline"}
             onClick={() => setIsSidebarPageVisible(true)}
           >
@@ -237,7 +237,7 @@ function Search(): JSX.Element {
             Dogs Found
           </Badge>
           <Badge
-            className="w-max h-max"
+            className="w-max h-max cursor-pointer"
             variant={"outline"}
             onClick={() => setIsFilterPageVisible(true)}
           >

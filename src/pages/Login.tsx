@@ -77,7 +77,7 @@ function Login(): JSX.Element {
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: mediaQuery.matches ? "42% 100%" : "100% 55%",
+          backgroundPosition: isMobileView ? "42% 100%" : "100% 55%",
         }}
         className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
       />

@@ -101,7 +101,8 @@ export default function Modal({
       />
       <div className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4">
         <span>
-          <b>Breed:</b> <AuroraText variant="text">{match?.breed}</AuroraText>
+          <b className="block lg:inline">Breed:</b>{" "}
+          <AuroraText variant="text">{match?.breed}</AuroraText>
         </span>
         {dist && (
           <span>
@@ -112,11 +113,12 @@ export default function Modal({
           </span>
         )}
         <span>
-          <b className="block lg:inline">ZIP Code: </b>{" "}
+          <b className="block lg:inline">Age (yrs):</b>{" "}
           <AuroraText variant={""}>
-            <NumberTicker value={Number(match?.zip_code)} />
+            <NumberTicker value={match?.age as number} />
           </AuroraText>
         </span>
+
         <span>
           <b className="block lg:inline">City:</b>{" "}
           <AuroraText variant="text">{match?.city}</AuroraText>
@@ -126,9 +128,9 @@ export default function Modal({
           <AuroraText variant="text">{match?.state}</AuroraText>
         </span>
         <span>
-          <b className="block lg:inline">Age (yrs):</b>{" "}
+          <b className="block lg:inline">ZIP Code: </b>{" "}
           <AuroraText variant={""}>
-            <NumberTicker value={match?.age as number} />
+            <NumberTicker value={Number(match?.zip_code)} />
           </AuroraText>
         </span>
       </div>
