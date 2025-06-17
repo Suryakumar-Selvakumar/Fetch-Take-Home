@@ -19,6 +19,7 @@ export default function HoverCard({
     <div
       className="max-w-xs h-min cursor-pointer"
       onClick={() => navigateToSearch(name)}
+      data-testid="hover-card"
     >
       <div
         style={{

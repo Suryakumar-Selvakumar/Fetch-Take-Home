@@ -37,6 +37,7 @@ function NavList(): JSX.Element {
           "hover:text-valentino-hv transition-all duration-150 ease-in",
           currentPath === "/" && "text-valentino-hv"
         )}
+        data-testid="home-nav"
       >
         <Link to="/" className="flex items-center gap-x-2 p-1">
           Home
@@ -44,6 +45,7 @@ function NavList(): JSX.Element {
       </li>
       <li
         onClick={() => handleNavigation("/search")}
+        data-testid="search-nav"
         className={cn(
           "hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer",
           currentPath === "/search" && "text-valentino-hv"
@@ -53,6 +55,7 @@ function NavList(): JSX.Element {
       </li>
       <li
         onClick={() => handleNavigation("/favorites")}
+        data-testid="favorites-nav"
         className={cn(
           "hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer",
           currentPath === "/favorites" && "text-valentino-hv"
@@ -70,7 +73,11 @@ function NavList(): JSX.Element {
           </div>
         </li>
       ) : (
-        <li className="pt-2 lg:pt-0" onClick={() => navigate("/login")}>
+        <li
+          data-testid="login-nav"
+          className="pt-2 lg:pt-0"
+          onClick={() => navigate("/login")}
+        >
           <div className="lg:ml-auto lg:hover:shadow-xs lg:inline-block text-center lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
             Login
           </div>
@@ -99,7 +106,11 @@ export default function NavbarComp(): JSX.Element {
       <Toaster richColors position={"top-center"} />
       <nav className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino">
         <div className="flex items-center gap-8 justify-between">
-          <Link to={"/"} className="lg:w-50 w-30 pl-2 block lg:py-1">
+          <Link
+            to={"/"}
+            className="lg:w-50 w-30 pl-2 block lg:py-1"
+            data-testid="logo-nav"
+          >
             <img src={fetchLogo} alt="fetch logo" />
           </Link>
           <div className="hidden lg:w-full lg:flex lg:justify-end">

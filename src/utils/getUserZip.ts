@@ -4,7 +4,7 @@ const getUserZip = async (lat: number, lon: number) => {
   );
 
   const userLocation = await response.json();
-  const userZip: string = await userLocation.features[0].properties.postcode;
+  const userZip: string = userLocation?.features[0]?.properties?.postcode;
 
   return userZip;
 };
