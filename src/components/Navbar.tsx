@@ -65,6 +65,7 @@ function NavList(): JSX.Element {
       </li>
       {isLoggedIn ? (
         <li
+          data-testid="logout-nav"
           className="pt-2 lg:pt-0"
           onClick={() => handleLogout(setIsLoggedIn, navigate)}
         >

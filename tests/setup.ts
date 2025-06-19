@@ -33,6 +33,12 @@ Object.defineProperty(global.navigator, "geolocation", {
   },
 });
 
+global.ResizeObserver = class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
+
 afterEach(() => {
   cleanup();
 });
