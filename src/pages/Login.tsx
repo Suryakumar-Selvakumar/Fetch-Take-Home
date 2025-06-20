@@ -110,6 +110,7 @@ function Login(): JSX.Element {
                 Browse our catalog of dogs
               </Link>
               <button
+                data-testid="logout-button"
                 onClick={() => handleLogout(setIsLoggedIn, navigate)}
                 className="cursor-pointer flex gap-1 justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
               >
@@ -134,6 +135,7 @@ function Login(): JSX.Element {
                 <Input
                   autoComplete="on"
                   required
+                  data-testid="name-input"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -151,6 +153,7 @@ function Login(): JSX.Element {
                 <Input
                   autoComplete="on"
                   required
+                  data-testid="email-input"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
@@ -160,6 +163,7 @@ function Login(): JSX.Element {
                 />
               </div>
               <button
+                data-testid="login-form"
                 className="cursor-pointer gap-1 flex justify-center items-center relative h-10 w-full rounded-md bg-valentino hover:bg-valentino-hv transition-all duration-150 ease-in font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
                 type="submit"
               >

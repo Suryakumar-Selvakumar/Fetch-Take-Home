@@ -92,7 +92,7 @@ export default function Filterbar({
   return (
     <div
       className={cn(
-        "flex w-full lg:max-w-screen-2xl lg:h-min lg:py-3 lg:self-center lg:justify-between lg:pl-2",
+        "flex w-full lg:max-w-screen-2xl lg:h-min lg:py-3 lg:self-center lg:justify-between lg:pl-2 lg:pr-4",
         isMobileView
           ? `flex-col items-center p-4 gap-8 transition-opacity duration-300 ease-in-out fixed inset-0 overflow-hidden
         ${
