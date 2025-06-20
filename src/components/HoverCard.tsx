@@ -42,7 +42,7 @@ export default function HoverCard({
         />
         <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500 z-10" />
         <div className="relative z-50">
-          <h1 className="font-bold text-xl md:text-3xl text-gray-50 relative">
+          <h1 className="font-bold text-xl lg:text-3xl text-gray-50 relative">
             {name}
           </h1>
           <p className="font-normal text-base text-gray-50 relative my-4">

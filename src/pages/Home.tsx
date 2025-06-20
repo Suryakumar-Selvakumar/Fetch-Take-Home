@@ -104,7 +104,7 @@ function Home() {
           background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          backgroundPosition: isMobileView ? "42% 100%" : "100% 55%",
+          backgroundPosition: isMobileView ? "42% 100%" : "40% 55%",
         }}
         className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
       />
@@ -113,7 +113,7 @@ function Home() {
           <h1 className="lg:text-5xl text-3xl text-white font-medium text-shadow-md">
             Find your new best friend
           </h1>
-          <p className="lg:text-3xl text-white text-shadow-md text-center lg:text-justify">
+          <p className="lg:text-3xl text-white text-shadow-md text-center">
             Browse 10,000+ dogs from our network of over 14,500 shelters and
             rescues.
           </p>

@@ -81,7 +81,7 @@ export default function Sidebar({
   return (
     <div
       className={cn(
-        "lg:h-max lg:w-max flex flex-col gap-8 lg:pr-4 lg:pb-4 lg:pt-8 lg:pl-2",
+        "lg:h-max lg:w-max flex flex-col gap-8 lg:px-4 lg:pb-4 lg:pt-8",
         isMobileView
           ? `flex-col items-center p-4 transition-opacity duration-300 ease-in-out fixed inset-0 overflow-hidden
         ${

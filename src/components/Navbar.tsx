@@ -27,7 +27,11 @@ function NavList(): JSX.Element {
 
   const handleNavigation = (endpoint: string): void => {
     if (isLoggedIn) navigate(endpoint);
-    else toast.info("Please login to access the catalog");
+    else {
+      if (endpoint == "/search")
+        toast.info("Please login to access the catalog");
+      else toast.info("Please login to access your favorites");
+    }
   };
 
   return (
