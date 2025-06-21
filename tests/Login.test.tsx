@@ -55,20 +55,21 @@ describe("Login", () => {
           </Routes>
         </MemoryRouter>
       );
-      const loginNavButton = screen.getAllByTestId("login-nav");
+      const loginNavButton: HTMLLIElement[] =
+        screen.getAllByTestId("login-nav");
 
       // Act
       await user.click(loginNavButton[0]);
       await screen.findByText("Name");
-      const loginFormButton = screen.getByTestId("login-form");
-      const nameInput = screen.getByTestId("name-input") as HTMLInputElement;
-      const emailInput = screen.getByTestId("email-input") as HTMLInputElement;
+      const loginFormButton: HTMLButtonElement =
+        screen.getByTestId("login-form");
+      const nameInput: HTMLInputElement = screen.getByTestId("name-input");
+      const emailInput: HTMLInputElement = screen.getByTestId("email-input");
 
       await user.type(nameInput, "abc");
       await user.type(emailInput, "abc@example.com");
       await expect(nameInput).toHaveValue("abc");
       await expect(emailInput).toHaveValue("abc@example.com");
-
       await user.click(loginFormButton);
 
       // Assert
@@ -95,12 +96,12 @@ describe("Login", () => {
           </Routes>
         </MemoryRouter>
       );
-      const browseButton = await screen.findByText(
+      const browseLink: HTMLAnchorElement = await screen.findByText(
         "Browse our catalog of dogs"
       );
 
       // Act
-      await user.click(browseButton);
+      await user.click(browseLink);
 
       // Assert
       await screen.findByText("2 Dogs Found");
@@ -116,7 +117,9 @@ describe("Login", () => {
           </Routes>
         </MemoryRouter>
       );
-      const logoutButton = await screen.findByTestId("logout-button");
+      const logoutButton: HTMLButtonElement = await screen.findByTestId(
+        "logout-button"
+      );
 
       // Act
       await user.click(logoutButton);

@@ -124,6 +124,7 @@ export default function Filterbar({
           type="input"
           placeholder="Enter City, State, or ZIP"
           onKeyDown={handleInputSubmit}
+          data-testid="search-input"
         />
         <Button
           onClick={() => {
@@ -135,6 +136,7 @@ export default function Filterbar({
               setSearchInput("");
             }
           }}
+          data-testid="search-button"
           variant={"outline"}
           className="cursor-pointer"
         >

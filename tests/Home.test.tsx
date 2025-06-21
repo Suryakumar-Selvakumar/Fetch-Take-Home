@@ -58,7 +58,8 @@ describe("Home", () => {
             <Routes>{HomeRoute}</Routes>
           </MemoryRouter>
         );
-        const searchItems: HTMLElement[] = screen.getAllByTestId("search-nav");
+        const searchItems: HTMLLIElement[] =
+          screen.getAllByTestId("search-nav");
 
         // Act
         user.click(searchItems[0]);
@@ -76,7 +77,7 @@ describe("Home", () => {
         );
 
         // Act
-        const favoritesItems: HTMLElement[] =
+        const favoritesItems: HTMLLIElement[] =
           screen.getAllByTestId("favorites-nav");
         user.click(favoritesItems[0]);
 
@@ -94,7 +95,7 @@ describe("Home", () => {
             </Routes>
           </MemoryRouter>
         );
-        const loginItems: HTMLElement[] = screen.getAllByTestId("login-nav");
+        const loginItems: HTMLLIElement[] = screen.getAllByTestId("login-nav");
 
         // Act
         user.click(loginItems[0]);
@@ -113,7 +114,7 @@ describe("Home", () => {
             </Routes>
           </MemoryRouter>
         );
-        const logo: HTMLElement = screen.getByTestId("logo-nav");
+        const logo: HTMLAnchorElement = screen.getByTestId("logo-nav");
 
         // Act
         user.click(logo);
@@ -132,7 +133,7 @@ describe("Home", () => {
             </Routes>
           </MemoryRouter>
         );
-        const homeItems: HTMLElement[] = screen.getAllByTestId("home-nav");
+        const homeItems: HTMLLIElement[] = screen.getAllByTestId("home-nav");
 
         // Act
         user.click(homeItems[0]);
@@ -150,7 +151,8 @@ describe("Home", () => {
             <Routes>{HomeRoute}</Routes>
           </MemoryRouter>
         );
-        const hoverCards: HTMLElement[] = screen.getAllByTestId("hover-card");
+        const hoverCards: HTMLDivElement[] =
+          screen.getAllByTestId("hover-card");
 
         // Act
         user.click(hoverCards[0]);
@@ -181,7 +183,8 @@ describe("Home", () => {
             </Routes>
           </MemoryRouter>
         );
-        const searchItems: HTMLElement[] = screen.getAllByTestId("search-nav");
+        const searchItems: HTMLLIElement[] =
+          screen.getAllByTestId("search-nav");
 
         // Act
         user.click(searchItems[0]);
@@ -202,7 +205,7 @@ describe("Home", () => {
             </Routes>
           </MemoryRouter>
         );
-        const favoritesItems: HTMLElement[] =
+        const favoritesItems: HTMLLIElement[] =
           screen.getAllByTestId("favorites-nav");
 
         // Act
@@ -220,7 +223,9 @@ describe("Home", () => {
             <Routes>{HomeRoute}</Routes>
           </MemoryRouter>
         );
-        const [logoutItem] = await screen.findAllByTestId("logout-nav");
+        const [logoutItem]: HTMLLIElement[] = await screen.findAllByTestId(
+          "logout-nav"
+        );
 
         // Act
         await user.click(logoutItem);
@@ -248,7 +253,8 @@ describe("Home", () => {
         );
 
         // Act
-        const hoverCards: HTMLElement[] = screen.getAllByTestId("hover-card");
+        const hoverCards: HTMLDivElement[] =
+          screen.getAllByTestId("hover-card");
 
         // Act
         user.click(hoverCards[0]);

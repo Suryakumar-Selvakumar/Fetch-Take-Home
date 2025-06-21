@@ -67,7 +67,7 @@ export const Card = ({
           src={dog.img}
           alt={dog.name}
           style={{
-            opacity: isLoading || distLoading ? "0" : "1",
+            opacity: isLoading || imageLoading || distLoading ? "0" : "1",
           }}
           className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
         />
