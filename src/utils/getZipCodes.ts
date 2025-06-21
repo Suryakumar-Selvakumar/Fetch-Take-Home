@@ -55,9 +55,8 @@ async function getZipCodes(search: string[]): Promise<string[]> {
       : []
   );
 
-  const stateZips: string[] = stateResult.results.map(
-    (loc: Location) => loc.zip_code
-  );
+  const stateZips: string[] =
+    stateResult.results?.map((loc: Location) => loc.zip_code) ?? [];
 
   const allZips: string[] = [...zips, ...cityZips, ...stateZips];
   const dedupedZips: string[] = Array.from(new Set(allZips));

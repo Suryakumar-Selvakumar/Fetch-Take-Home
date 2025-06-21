@@ -1,24 +1,20 @@
 // libs
 import { render, screen, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, it, vi, Mock, expect } from "vitest";
+import { afterEach, beforeEach, describe, it, vi, expect } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 // components
 import { HomeRoute, LoginRoute, SearchRoute } from "../src/utils/Pages";
-import setFakeUserZip from "./utils/setFakeUserZip";
-import setFakeBreeds from "./utils/setFakeBreeds";
-import handleFakeLogin from "./utils/handleFakeLogin";
-import setFakeDogIds from "./utils/setFakeDogIds";
-import { setFakeDogs, setFakeLocations } from "./utils/setFakeDogsData";
+import fakeFetchLoggedOut from "./utils/fakeFetchLoggedOut";
+import fakeFetchLoggedIn from "./utils/fakeFetchLoggedIn";
 
 describe("Login", () => {
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
     user = userEvent.setup();
-    global.fetch = vi.fn();
     Object.defineProperty(window, "matchMedia", {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -40,13 +36,11 @@ describe("Login", () => {
 
   describe("Logged Out", () => {
     beforeEach(() => {
-      (fetch as Mock).mockResolvedValueOnce(setFakeUserZip(false));
-      (fetch as Mock).mockResolvedValueOnce(setFakeBreeds(false));
+      global.fetch = vi.fn(fakeFetchLoggedOut);
     });
 
     it("Form login button logs in the user", async () => {
       // Arrange
-      (fetch as Mock).mockResolvedValueOnce(handleFakeLogin());
       render(
         <MemoryRouter initialEntries={["/"]}>
           <Routes>
@@ -79,15 +73,11 @@ describe("Login", () => {
 
   describe("Logged In", () => {
     beforeEach(() => {
-      (fetch as Mock).mockResolvedValueOnce(setFakeUserZip(true));
-      (fetch as Mock).mockResolvedValueOnce(setFakeBreeds(true));
+      global.fetch = vi.fn(fakeFetchLoggedIn);
     });
 
     it("'Browse our catalog of dogs' takes user to Search page", async () => {
       // Arrange
-      (fetch as Mock).mockResolvedValueOnce(setFakeDogIds());
-      (fetch as Mock).mockResolvedValueOnce(setFakeDogs());
-      (fetch as Mock).mockResolvedValueOnce(setFakeLocations());
       render(
         <MemoryRouter initialEntries={["/login"]}>
           <Routes>

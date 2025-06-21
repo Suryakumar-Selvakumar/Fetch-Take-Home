@@ -1,17 +1,19 @@
 import createFetchResponse from "./createFetchResponse";
 
 const setFakeUserZip = (okInput: boolean) =>
-  createFetchResponse(
-    {
-      features: [
-        {
-          properties: {
-            postcode: "0",
+  Promise.resolve(
+    createFetchResponse(
+      {
+        features: [
+          {
+            properties: {
+              postcode: "00000",
+            },
           },
-        },
-      ],
-    },
-    okInput
+        ],
+      },
+      okInput
+    )
   );
 
 export default setFakeUserZip;

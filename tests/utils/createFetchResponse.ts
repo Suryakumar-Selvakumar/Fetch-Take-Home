@@ -1,11 +1,8 @@
-function createFetchResponse(
-  data,
-  okInput: boolean = true
-): {
-  ok: boolean;
-  json: () => Promise<unknown>;
-} {
-  return { ok: okInput, json: () => new Promise((resolve) => resolve(data)) };
+function createFetchResponse(data, okInput: boolean = true): Response {
+  return new Response(JSON.stringify(data), {
+    status: okInput ? 200 : 500,
+    headers: { "Content-Type": "application/json" },
+  });
 }
 
 export default createFetchResponse;

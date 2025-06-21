@@ -1,5 +1,5 @@
 // libs
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, it, vi, Mock } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
@@ -13,18 +13,15 @@ import {
 } from "../src/utils/Pages";
 
 // utils
-import setFakeUserZip from "./utils/setFakeUserZip";
-import setFakeBreeds from "./utils/setFakeBreeds";
-import setFakeDogIds from "./utils/setFakeDogIds";
-import { setFakeDogs, setFakeLocations } from "./utils/setFakeDogsData";
-import handleFakeLogout from "./utils/handleFakeLogout";
+import fakeFetchLoggedIn from "./utils/fakeFetchLoggedIn";
+import fakeFetchLoggedOut from "./utils/fakeFetchLoggedOut";
 
 describe("Home", () => {
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
     user = userEvent.setup();
-    global.fetch = vi.fn();
+
     Object.defineProperty(window, "matchMedia", {
       writable: true,
       value: vi.fn().mockImplementation((query) => ({
@@ -46,8 +43,7 @@ describe("Home", () => {
 
   describe("Logged Out", () => {
     beforeEach(() => {
-      (fetch as Mock).mockResolvedValueOnce(setFakeUserZip(false));
-      (fetch as Mock).mockResolvedValueOnce(setFakeBreeds(false));
+      global.fetch = vi.fn(fakeFetchLoggedOut);
     });
 
     describe("Navbar", () => {
@@ -62,7 +58,9 @@ describe("Home", () => {
           screen.getAllByTestId("search-nav");
 
         // Act
-        user.click(searchItems[0]);
+        await act(async () => {
+          await user.click(searchItems[0]);
+        });
 
         // Assert
         await screen.findByText("Please login to access the catalog");
@@ -79,10 +77,13 @@ describe("Home", () => {
         // Act
         const favoritesItems: HTMLLIElement[] =
           screen.getAllByTestId("favorites-nav");
-        user.click(favoritesItems[0]);
+
+        await act(async () => {
+          await user.click(favoritesItems[0]);
+        });
 
         // Assert
-        await screen.findByText("Please login to access the catalog");
+        await screen.findByText("Please login to access your favorites");
       });
 
       it("Login takes user to Login page", async () => {
@@ -165,16 +166,12 @@ describe("Home", () => {
 
   describe("Logged In", () => {
     beforeEach(() => {
-      (fetch as Mock).mockResolvedValueOnce(setFakeUserZip(true));
-      (fetch as Mock).mockResolvedValueOnce(setFakeBreeds(true));
+      global.fetch = vi.fn(fakeFetchLoggedIn);
     });
 
     describe("Navbar", () => {
       it("Search takes user to Search page", async () => {
         // Arrange
-        (fetch as Mock).mockResolvedValueOnce(setFakeDogIds());
-        (fetch as Mock).mockResolvedValueOnce(setFakeDogs());
-        (fetch as Mock).mockResolvedValueOnce(setFakeLocations());
         render(
           <MemoryRouter initialEntries={["/"]}>
             <Routes>
@@ -187,7 +184,9 @@ describe("Home", () => {
           screen.getAllByTestId("search-nav");
 
         // Act
-        user.click(searchItems[0]);
+        await waitFor(async () => {
+          user.click(searchItems[0]);
+        });
 
         // Assert
         await screen.findByText("2 Dogs Found");
@@ -195,8 +194,6 @@ describe("Home", () => {
 
       it("Favorites takes user to Favorites page", async () => {
         // Arrange
-        (fetch as Mock).mockResolvedValueOnce(setFakeDogs());
-        (fetch as Mock).mockResolvedValueOnce(setFakeLocations());
         render(
           <MemoryRouter initialEntries={["/"]}>
             <Routes>
@@ -209,7 +206,9 @@ describe("Home", () => {
           screen.getAllByTestId("favorites-nav");
 
         // Act
-        user.click(favoritesItems[0]);
+        await waitFor(async () => {
+          user.click(favoritesItems[0]);
+        });
 
         // Assert
         await screen.findByText("0 Dogs Favorited");
@@ -217,7 +216,6 @@ describe("Home", () => {
 
       it("Logout logs out the user", async () => {
         // Arrange
-        (fetch as Mock).mockResolvedValueOnce(handleFakeLogout());
         render(
           <MemoryRouter initialEntries={["/"]}>
             <Routes>{HomeRoute}</Routes>
@@ -228,7 +226,9 @@ describe("Home", () => {
         );
 
         // Act
-        await user.click(logoutItem);
+        await waitFor(async () => {
+          await user.click(logoutItem);
+        });
 
         // Assert
         await waitFor(() => screen.findByText("Logout Successful"), {
@@ -240,9 +240,6 @@ describe("Home", () => {
     describe("HoverCard", () => {
       it("Dog card adds its breed as a filter in search page", async () => {
         // Arrange
-        (fetch as Mock).mockResolvedValueOnce(setFakeDogIds());
-        (fetch as Mock).mockResolvedValueOnce(setFakeDogs());
-        (fetch as Mock).mockResolvedValueOnce(setFakeLocations());
         render(
           <MemoryRouter>
             <Routes>
@@ -257,7 +254,9 @@ describe("Home", () => {
           screen.getAllByTestId("hover-card");
 
         // Act
-        user.click(hoverCards[0]);
+        await waitFor(async () => {
+          await user.click(hoverCards[0]);
+        });
 
         // Assert
         await screen.findByText("Toy Poodle");
