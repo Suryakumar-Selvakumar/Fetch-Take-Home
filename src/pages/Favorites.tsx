@@ -126,6 +126,7 @@ export default function Favorties(): JSX.Element {
               "w-full lg:w-[300px] text-base mt-1",
               isMatchLoading && "text-muted-foreground"
             )}
+            data-testid="generate-match-button"
             variant={"outline"}
             size={"lg"}
             onClick={generateMatch}

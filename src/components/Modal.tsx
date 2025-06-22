@@ -86,6 +86,7 @@ export default function Modal({
       } as unknown as React.ComponentProps<typeof Dialog>)}
     >
       <span
+        data-testid="modal-close-button"
         onClick={handleClose}
         className="absolute cursor-pointer -right-3 -top-3 p-1 rounded-full bg-[rgb(239,238,241)]"
       >
@@ -137,7 +138,9 @@ export default function Modal({
         )}
       </div>
       {!isMobileView && (
-        <p className="lg:text-xl text-center">{generatePara()}</p>
+        <p data-testid="dog-paragraph" className="lg:text-xl text-center">
+          {generatePara()}
+        </p>
       )}
     </Dialog>
   );

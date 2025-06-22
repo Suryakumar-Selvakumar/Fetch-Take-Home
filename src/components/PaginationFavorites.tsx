@@ -37,6 +37,7 @@ export default function PaginationFavorites({
     <Pagination className="mb-8">
       <PaginationContent>
         <PaginationItem
+          data-testid="pagination-favorites-prev-button"
           className="cursor-pointer"
           onClick={() => {
             if (page - 1 >= 0) {
@@ -55,6 +56,7 @@ export default function PaginationFavorites({
         </PaginationItem>
         {page - 1 >= 0 && (
           <PaginationItem
+            data-testid="pagination-favorites-prev-page"
             className="cursor-pointer"
             onClick={() => {
               fetchFavoriteDogs(page - 1);
@@ -70,6 +72,7 @@ export default function PaginationFavorites({
         {page + 1 < favoritesPages && (
           <>
             <PaginationItem
+              data-testid="pagination-favorites-next-page"
               className="cursor-pointer"
               onClick={() => {
                 fetchFavoriteDogs(page + 1);
@@ -86,6 +89,7 @@ export default function PaginationFavorites({
           </>
         )}
         <PaginationItem
+          data-testid="pagination-favorites-next-button"
           className="cursor-pointer"
           onClick={() => {
             if (page + 1 < favoritesPages) {

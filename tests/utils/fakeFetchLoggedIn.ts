@@ -3,6 +3,7 @@ import setFakeBreeds from "./setFakeBreeds";
 import setFakeDistance from "./setFakeDistance";
 import setFakeDogIds from "./setFakeDogIds";
 import { setFakeDogs, setFakeLocations } from "./setFakeDogsData";
+import setFakeMatch from "./setFakeMatch";
 import setFakeUserZip from "./setFakeUserZip";
 
 const fakeFetchLoggedIn = (
@@ -22,6 +23,10 @@ const fakeFetchLoggedIn = (
 
   if (url.includes("/dogs/search")) {
     return setFakeDogIds(url);
+  }
+
+  if (url.includes("/dogs/match")) {
+    return setFakeMatch();
   }
 
   if (url.includes("/dogs")) {

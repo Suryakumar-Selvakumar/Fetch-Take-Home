@@ -1,4 +1,4 @@
-import type { FavoritesState } from "@/pages/Search";
+import type { FavoritesState } from "@/AuthProvider";
 
 interface Match {
   match: string;
