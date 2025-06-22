@@ -156,7 +156,10 @@ export default function Filterbar({
       </Badge>
       <div className="flex w-full lg:w-max flex-col lg:flex-row gap-8 lg:gap-4">
         <Select value={sort.sortBy} onValueChange={updateSortBy}>
-          <SelectTrigger className="w-full lg:w-[155px] select-none bg-white cursor-pointer">
+          <SelectTrigger
+            data-testid="sort-by-button"
+            className="w-full lg:w-[155px] select-none bg-white cursor-pointer"
+          >
             <span>
               Sort By:{" "}
               <span className="font-medium">
@@ -167,7 +170,11 @@ export default function Filterbar({
           <SelectContent className="w-[calc(100%-2px)]">
             <SelectGroup>
               {sortItems.map(({ title, value }) => (
-                <SelectItem key={value} value={value}>
+                <SelectItem
+                  key={value}
+                  value={value}
+                  data-testid={`${value}-option`}
+                >
                   {title}
                 </SelectItem>
               ))}
@@ -175,7 +182,10 @@ export default function Filterbar({
           </SelectContent>
         </Select>
         <Select value={sort.orderBy} onValueChange={updateOrderBy}>
-          <SelectTrigger className="w-full lg:w-[200px] select-none bg-white cursor-pointer">
+          <SelectTrigger
+            data-testid="order-by-button"
+            className="w-full lg:w-[200px] select-none bg-white cursor-pointer"
+          >
             <span>
               Order By:{" "}
               <span className="font-medium">
@@ -186,7 +196,11 @@ export default function Filterbar({
           <SelectContent className="w-[calc(100%-2px)]">
             <SelectGroup>
               {orderItems.map(({ title, value }) => (
-                <SelectItem key={value} value={value}>
+                <SelectItem
+                  key={value}
+                  value={value}
+                  data-testid={`${value}-option`}
+                >
                   {title}
                 </SelectItem>
               ))}

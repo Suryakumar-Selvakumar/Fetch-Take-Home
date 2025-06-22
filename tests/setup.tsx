@@ -39,6 +39,9 @@ global.ResizeObserver = class {
   disconnect() {}
 };
 
+window.HTMLElement.prototype.hasPointerCapture = vi.fn();
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
+
 afterEach(() => {
   cleanup();
 });

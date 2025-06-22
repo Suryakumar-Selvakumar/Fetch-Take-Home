@@ -32,17 +32,17 @@ async function getZipCodes(search: string[]): Promise<string[]> {
     }).then((res) => res.json())
   );
 
-  const stateZipPromise: Promise<LocationsSearch> = fetch(
-    "https://frontend-take-home-service.fetch.com/locations/search",
-    {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ states }),
-    }
-  ).then((res) => res.json());
+  const stateZipPromise: Promise<LocationsSearch> | [] =
+    states.length > 0
+      ? fetch("https://frontend-take-home-service.fetch.com/locations/search", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ states }),
+        }).then((res) => res.json())
+      : [];
 
   const [cityResults, stateResult] = await Promise.all([
     Promise.allSettled(cityZipPromises),

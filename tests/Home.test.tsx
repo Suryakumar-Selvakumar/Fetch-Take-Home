@@ -58,7 +58,7 @@ describe("Home", () => {
           screen.getAllByTestId("search-nav");
 
         // Act
-        await act(async () => {
+        await waitFor(async () => {
           await user.click(searchItems[0]);
         });
 
@@ -78,7 +78,7 @@ describe("Home", () => {
         const favoritesItems: HTMLLIElement[] =
           screen.getAllByTestId("favorites-nav");
 
-        await act(async () => {
+        await waitFor(async () => {
           await user.click(favoritesItems[0]);
         });
 
@@ -99,7 +99,9 @@ describe("Home", () => {
         const loginItems: HTMLLIElement[] = screen.getAllByTestId("login-nav");
 
         // Act
-        user.click(loginItems[0]);
+        await waitFor(async () => {
+          user.click(loginItems[0]);
+        });
 
         // Assert
         await screen.findByText("Login to access our catalog");

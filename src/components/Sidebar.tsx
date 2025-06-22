@@ -108,6 +108,7 @@ export default function Sidebar({
         <PopoverTrigger asChild>
           <Button
             variant="outlineAlt"
+            data-testid="breed-button"
             role="combobox"
             className="w-full lg:w-[300px] justify-between hover:bg-none cursor-pointer select-none"
           >

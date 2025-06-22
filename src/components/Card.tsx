@@ -59,24 +59,29 @@ export const Card = ({
       </div>
 
       <div className="w-full h-full rounded-t-xl">
-        {(distLoading || imageLoading) && (
+        {(isLoading || distLoading || imageLoading) && (
           <Skeleton className="h-[200px] w-full rounded-t-xl" />
         )}
-        <img
-          onLoad={() => setImageLoading(false)}
-          src={dog.img}
-          alt={dog.name}
-          style={{
-            opacity: isLoading || imageLoading || distLoading ? "0" : "1",
-          }}
-          className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
-        />
+        {!isLoading && (
+          <img
+            onLoad={() => setImageLoading(false)}
+            src={dog.img}
+            alt={dog.name}
+            style={{
+              opacity: imageLoading || distLoading ? "0" : "1",
+            }}
+            className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
+          />
+        )}
       </div>
       <div className="flex flex-col items-center gap-2 mt-3.5 px-4">
         {isLoading || distLoading ? (
           <Skeleton className="h-5 w-[150px] mt-1.5" />
         ) : (
-          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in">
+          <h4
+            data-testid="dog-card-name"
+            className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in"
+          >
             {dog.name}
           </h4>
         )}
@@ -88,19 +93,21 @@ export const Card = ({
               {dog.age} {dog.age == 1 ? "year" : "years"} old
             </span>{" "}
             <span>&bull;</span>
-            <span className="truncate">{dog.breed}</span>
+            <span className="truncate" data-testid="dog-card-breed">
+              {dog.breed}
+            </span>
           </span>
         )}
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
         ) : distMissing ? (
-          <p className="animate-pop-in">
+          <p className="animate-pop-in" data-testid="dog-card-address">
             {dog.city}, {dog.state}, {dog.zip_code}
           </p>
         ) : (
           <span className="animate-pop-in">
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger data-testid="dog-card-address">
                 {dog.city ? `${dog.city}, ` : ""}
                 {dog.state ? `${dog.state}, ` : ""}
                 {dog.zip_code}

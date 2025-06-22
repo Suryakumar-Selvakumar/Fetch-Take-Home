@@ -15,17 +15,14 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
-    const retrieveZip = async (): Promise<void> => {
-      navigator.geolocation.getCurrentPosition(
-        async (position): Promise<void> => {
-          const latitude: number = position.coords.latitude;
-          const longitude: number = position.coords.longitude;
+    const retrieveZip = (): void => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
 
-          const zip = await getUserZip(latitude, longitude);
-
+        getUserZip(latitude, longitude).then((zip) => {
           setUserZip(zip);
-        }
-      );
+        });
+      });
     };
 
     retrieveZip();

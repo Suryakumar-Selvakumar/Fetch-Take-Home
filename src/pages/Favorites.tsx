@@ -97,7 +97,6 @@ export default function Favorties(): JSX.Element {
 
   useEffect(() => {
     if (showMatchModal) {
-      heartEmojis();
       setConfetti(fireWorks());
     }
     if (!showMatchModal) window.clearInterval(confetti);
