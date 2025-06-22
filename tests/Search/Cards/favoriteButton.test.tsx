@@ -6,12 +6,12 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 // components
-import { SearchRoute } from "../../../src/utils/Pages";
+import { FavoritesRoute, SearchRoute } from "../../../src/utils/Pages";
 
 // utils
 import fakeFetchLoggedIn from "../../utils/fakeFetchLoggedIn";
 
-describe("Filterbar", () => {
+describe("Cards", () => {
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
@@ -19,32 +19,33 @@ describe("Filterbar", () => {
     global.fetch = vi.fn(fakeFetchLoggedIn);
   });
 
-  it("Order By dropdown changes the sorting order", async () => {
+  it("Favorites button adds the dog to favorites", async () => {
     // Arrange
     render(
       <MemoryRouter initialEntries={["/search"]}>
-        <Routes>{SearchRoute}</Routes>
+        <Routes>
+          {SearchRoute}
+          {FavoritesRoute}
+        </Routes>
       </MemoryRouter>
     );
-
-    const orderBySelect: HTMLButtonElement = await screen.findByTestId(
-      "order-by-button"
+    const [favoriteButton]: HTMLDivElement[] = await screen.findAllByTestId(
+      "favorite-button"
     );
 
     // Act
+    await user.click(favoriteButton);
+    const favoritesItems: HTMLLIElement[] =
+      screen.getAllByTestId("favorites-nav");
     await waitFor(async () => {
-      await user.click(orderBySelect);
+      user.click(favoritesItems[0]);
     });
-    const descOption = await screen.findByText("Descending");
-    await user.click(descOption);
 
     // Assert
-    await screen.findByText("Descending");
-    await screen.findByText("2 Dogs Found");
-    const dogCardBreeds: HTMLSpanElement[] = await screen.findAllByTestId(
+    await screen.findByText("1 Dogs Favorited");
+    const dogCardBreed: HTMLHeadingElement = await screen.findByTestId(
       "dog-card-breed"
     );
-    expect(dogCardBreeds[0].textContent?.includes("Basenji")).toBe(true);
-    expect(dogCardBreeds[1].textContent?.includes("Airedale")).toBe(true);
+    expect(dogCardBreed.textContent?.includes("Breed 1")).toBe(true);
   });
 });

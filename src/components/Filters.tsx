@@ -73,13 +73,14 @@ export function Filters({
                   key={`${filter}-${value}`}
                   className="bg-valentino-hv h-max py-1 px-2 rounded-sm text-white flex text-sm items-center justify-between gap-4"
                 >
-                  <span className="w-max">
+                  <span className="w-max" data-testid="filter-text">
                     {processFilter(filter)}
                     {value}
                   </span>
                   <X
                     size={"16"}
                     strokeWidth={"3"}
+                    data-testid="filter-close"
                     onClick={() =>
                       updateFilters(filter as keyof FiltersState, value)
                     }
@@ -91,6 +92,7 @@ export function Filters({
               )
             )}
             <Button
+              data-testid="clear-all-button"
               variant={"link"}
               className="cursor-pointer p-0 text-valentino-hv"
               onClick={clearFilters}

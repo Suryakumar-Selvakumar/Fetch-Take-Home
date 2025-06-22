@@ -36,6 +36,7 @@ export const Card = ({
           "transition-colors ease-in duration-100",
           "transition-opacity duration-500 ease-in"
         )}
+        data-testid="favorite-button"
         onClick={() => toggleFavorite(dog.id)}
       >
         <svg
@@ -89,7 +90,7 @@ export const Card = ({
           <Skeleton className="h-4 w-full mt-1.5" />
         ) : (
           <span className="flex justify-center w-full gap-2 h-6 animate-pop-in">
-            <span className="truncate">
+            <span className="text-ellipsis overflow-hidden">
               {dog.age} {dog.age == 1 ? "year" : "years"} old
             </span>{" "}
             <span>&bull;</span>
@@ -113,7 +114,7 @@ export const Card = ({
                 {dog.zip_code}
               </TooltipTrigger>
               <TooltipContent side="bottom" sideOffset={-5}>
-                <p>{Math.round(dist as number)} miles away</p>
+                <p data-testid="distance-tooltip">{Math.round(dist as number)} miles away</p>
               </TooltipContent>
             </Tooltip>
           </span>

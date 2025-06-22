@@ -154,7 +154,9 @@ export default function Sidebar({
       <div className="flex flex-col gap-2 w-full">
         <span className="text-sm pl-3">
           Min Age:{" "}
-          <span className="font-medium">{ageMin == 0 ? "Any" : ageMin}</span>
+          <span className="font-medium" data-testid="age-min">
+            {ageMin == 0 ? "Any" : ageMin}
+          </span>
         </span>
         <Slider
           defaultValue={[0]}
@@ -168,7 +170,9 @@ export default function Sidebar({
       <div className="flex flex-col gap-2 w-full">
         <span className="text-sm pl-3">
           Max Age:{" "}
-          <span className="font-medium">{ageMax == 15 ? "Any" : ageMax}</span>
+          <span className="font-medium" data-testid="age-max">
+            {ageMax == 15 ? "Any" : ageMax}
+          </span>
         </span>
         <Slider
           defaultValue={[15]}

@@ -1,6 +1,7 @@
 import createFetchResponse from "./createFetchResponse";
 
 export const setFakeDogs = (body?: string[]) => {
+  // Search case
   if (body?.includes("z1")) {
     return Promise.resolve(
       createFetchResponse([
@@ -16,6 +17,7 @@ export const setFakeDogs = (body?: string[]) => {
     );
   }
 
+  // Sort By case
   if (body?.includes("n1")) {
     return Promise.resolve(
       createFetchResponse([
@@ -39,6 +41,7 @@ export const setFakeDogs = (body?: string[]) => {
     );
   }
 
+  // Order By case
   if (body?.includes("d1")) {
     return Promise.resolve(
       createFetchResponse([
@@ -48,7 +51,7 @@ export const setFakeDogs = (body?: string[]) => {
           name: "Name 5",
           age: 10,
           zip_code: "5",
-          breed: "Airedale",
+          breed: "Basenji",
         },
         {
           id: "d2",
@@ -56,12 +59,101 @@ export const setFakeDogs = (body?: string[]) => {
           name: "Name 6",
           age: 11,
           zip_code: "6",
-          breed: "Basenji",
+          breed: "Airedale",
         },
       ])
     );
   }
 
+  // Age Min case
+  if (body?.includes("am1")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          id: "am1",
+          img: "img-7",
+          name: "Name 7",
+          age: 10,
+          zip_code: "7",
+          breed: "Breed 7",
+        },
+        {
+          id: "am2",
+          img: "img-8",
+          name: "Name 8",
+          age: 11,
+          zip_code: "8",
+          breed: "Breed 8",
+        },
+      ])
+    );
+  }
+
+  // Age Max case
+  if (body?.includes("am3")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          id: "am3",
+          img: "img-9",
+          name: "Name 9",
+          age: 10,
+          zip_code: "9",
+          breed: "Breed 9",
+        },
+        {
+          id: "am4",
+          img: "img-10",
+          name: "Name 10",
+          age: 11,
+          zip_code: "10",
+          breed: "Breed 10",
+        },
+      ])
+    );
+  }
+
+  // Pagination next case
+  if (body?.includes("11")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          id: "11",
+          img: "img-11",
+          name: "Name 11",
+          age: 10,
+          zip_code: "11",
+          breed: "Breed 11",
+        },
+        {
+          id: "12",
+          img: "img-12",
+          name: "Name 12",
+          age: 11,
+          zip_code: "12",
+          breed: "Breed 12",
+        },
+      ])
+    );
+  }
+
+  // Favorites case
+  if (body?.length === 1 && body.includes("1")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          id: "1",
+          img: "img-1",
+          name: "Dog 1",
+          age: 10,
+          zip_code: "1",
+          breed: "Breed 1",
+        },
+      ])
+    );
+  }
+
+  // default case
   return Promise.resolve(
     createFetchResponse([
       {
@@ -85,6 +177,7 @@ export const setFakeDogs = (body?: string[]) => {
 };
 
 export const setFakeLocations = (body: string[] | null) => {
+  // Search case
   if (body?.includes("90210")) {
     return Promise.resolve(
       createFetchResponse([
@@ -97,6 +190,7 @@ export const setFakeLocations = (body: string[] | null) => {
     );
   }
 
+  // Sort By case
   if (body?.includes("3")) {
     return Promise.resolve(
       createFetchResponse([
@@ -114,6 +208,7 @@ export const setFakeLocations = (body: string[] | null) => {
     );
   }
 
+  // Order By case
   if (body?.includes("5")) {
     return Promise.resolve(
       createFetchResponse([
@@ -131,6 +226,74 @@ export const setFakeLocations = (body: string[] | null) => {
     );
   }
 
+  // Age Min case
+  if (body?.includes("7")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          zip_code: "7",
+          city: "City 7",
+          state: "State 7",
+        },
+        {
+          zip_code: "8",
+          city: "City 8",
+          state: "State 8",
+        },
+      ])
+    );
+  }
+
+  // Age Max case
+  if (body?.includes("9")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          zip_code: "9",
+          city: "City 9",
+          state: "State 9",
+        },
+        {
+          zip_code: "10",
+          city: "City 10",
+          state: "State 10",
+        },
+      ])
+    );
+  }
+
+  // Favorites case
+  if (body?.length === 1 && body?.includes("1")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          zip_code: "1",
+          city: "City 1",
+          state: "State 1",
+        },
+      ])
+    );
+  }
+
+  // Pagination next case
+  if (body?.includes("11")) {
+    return Promise.resolve(
+      createFetchResponse([
+        {
+          zip_code: "11",
+          city: "City 11",
+          state: "State 11",
+        },
+        {
+          zip_code: "12",
+          city: "City 12",
+          state: "State 12",
+        },
+      ])
+    );
+  }
+
+  // default case
   return Promise.resolve(
     createFetchResponse([
       {

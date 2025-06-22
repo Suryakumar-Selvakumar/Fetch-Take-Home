@@ -13,6 +13,7 @@ import Error from "@/components/Error";
 import Cards from "@/components/Cards";
 import PaginationFavorites from "@/components/PaginationFavorites";
 import Badge from "@/components/ui/badge";
+import useAuth from "@/hooks/useAuth";
 
 const PAGE_SIZE: number = 9;
 
@@ -26,13 +27,7 @@ export default function Favorties(): JSX.Element {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
 
-  const storedFavorites: null | string[] = (() => {
-    const data: string | null = localStorage.getItem("favorites");
-    return data ? JSON.parse(data) : null;
-  })();
-  const [favorites, setFavorites] = useState<FavoritesState>(
-    storedFavorites || []
-  );
+  const { favorites, setFavorites } = useAuth();
 
   function fetchDogIds(currPage: number): string[] {
     setPage(currPage);
@@ -90,7 +85,6 @@ export default function Favorties(): JSX.Element {
   }
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
     fetchFavoriteDogs(0);
     setMatch(null);
   }, [favorites]);
@@ -118,7 +112,10 @@ export default function Favorties(): JSX.Element {
       />
       <Navbar />
       <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-center pl-2">
-        <Badge className="text-xl text-valentino shadow-sm" variant={"secondary"}>
+        <Badge
+          className="text-xl text-valentino shadow-sm"
+          variant={"secondary"}
+        >
           {favorites.length} Dogs Favorited
         </Badge>
       </div>

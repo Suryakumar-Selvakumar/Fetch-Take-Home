@@ -1,6 +1,6 @@
 // libs
 import { render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, it, vi, expect } from "vitest";
+import { beforeEach, describe, it, vi, expect } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
@@ -17,10 +17,6 @@ describe("Filterbar", () => {
   beforeEach(() => {
     user = userEvent.setup();
     global.fetch = vi.fn(fakeFetchLoggedIn);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it("Sort By dropdown changes the sorting criteria", async () => {

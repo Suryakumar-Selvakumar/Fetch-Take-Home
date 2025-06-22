@@ -9,10 +9,19 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+export type FavoritesState = string[];
+
 const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userZip, setUserZip] = useState<string>("");
   const navigate: NavigateFunction = useNavigate();
+  const storedFavorites: null | string[] = (() => {
+    const data: string | null = localStorage.getItem("favorites");
+    return data ? JSON.parse(data) : null;
+  })();
+  const [favorites, setFavorites] = useState<FavoritesState>(
+    storedFavorites || []
+  );
 
   useEffect(() => {
     const retrieveZip = (): void => {
@@ -43,10 +52,17 @@ const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     }, 1000 * 60 * 60);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, userZip }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, userZip, favorites, setFavorites }}
+    >
       {children}
     </AuthContext.Provider>
   );

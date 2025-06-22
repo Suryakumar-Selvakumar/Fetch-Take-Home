@@ -12,7 +12,7 @@ https://fetch-match-theta.vercel.app/
 
 ## Features
 
-- Extensive Catalog - 10000+ shelter dogs across 120 breeds to choose from
+- Diverse Catalog - 10000+ shelter dogs across 120 breeds to choose from
 - Plenteous Customization - Filter through dogs using,
   - Location - City, State, ZIP Code
   - breed
@@ -22,15 +22,16 @@ https://fetch-match-theta.vercel.app/
   - breed
   - name
   - age
-- Dedicated Dogs data - Get information & images for all dogs
+- Curated Dogs Data - Get information & images for all dogs
 - User Matching - Select favorite dogs and generate a Match
-- Responsive Design - Mobile-Friendly with Unique Layouts
-- Natural Animations/Transitions - Made possible with [Motion](https://motion.dev/)
-- Client-side routing with Exclusive pages - Facilitated by [React Router](https://reactrouter.com/)
+- Responsive Design - Unique, Mobile-Friendly Layouts created with [Material Tailwind](https://www.material-tailwind.com/) & [Shadcn](https://ui.shadcn.com/) components
+- Seamless Animations/Transitions - Made possible with [Motion](https://motion.dev/)
+- Client-side routing with Exclusive pages - Implemented with [React Router](https://reactrouter.com/)
+- Flawless Integration - Comprehensive Integration Testing carried out using [Vitest](https://vitest.dev/) & [Testing Library](https://testing-library.com/)
 
 ## Technologies
 
-[![My Skills](https://skillicons.dev/icons?i=ts,react,tailwindcss,vite,vercel)](https://skillicons.dev)
+![My Skills](https://go-skill-icons.vercel.app/api/icons?i=ts,react,tailwindcss,shadcn,vite,vitest,testinglibrary,vercel&theme=dark)
 
 ## Screenshots
 
@@ -66,3 +67,7 @@ https://fetch-match-theta.vercel.app/
 ```bash
   npm run dev
 ```
+
+## Project Plan
+
+For a detailed thought process and planning behind building this project, please refer to the [Project Plan Document](./project-plan.md).

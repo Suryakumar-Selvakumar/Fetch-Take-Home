@@ -13,6 +13,7 @@ import Cards from "@/components/Cards";
 import { useLocation, type Location as RouterLocation } from "react-router-dom";
 import Badge from "@/components/ui/badge";
 import { Funnel, SlidersHorizontal } from "lucide-react";
+import useAuth from "@/hooks/useAuth";
 
 export type FiltersState = {
   search: string[];
@@ -52,8 +53,6 @@ export interface SearchResult {
   prev: string;
 }
 
-export type FavoritesState = string[];
-
 function Search(): JSX.Element {
   const location: RouterLocation = useLocation();
   const [filters, setFilters] = useState<FiltersState>({
@@ -75,14 +74,6 @@ function Search(): JSX.Element {
   });
   const [page, setPage] = useState<number>(0);
 
-  const storedFavorites: null | string[] = (() => {
-    const data: string | null = localStorage.getItem("favorites");
-    return data ? JSON.parse(data) : null;
-  })();
-  const [favorites, setFavorites] = useState<FavoritesState>(
-    storedFavorites || []
-  );
-
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -96,6 +87,8 @@ function Search(): JSX.Element {
     useState<boolean>(false);
 
   const signalRef = useRef<AbortController>(null);
+
+  const { favorites, setFavorites } = useAuth();
 
   function createAbortController() {
     signalRef.current?.abort();
@@ -200,10 +193,6 @@ function Search(): JSX.Element {
       ageMax: 15,
     });
   };
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
 
   useEffect(() => {
     setIsFilterPageVisible(false);

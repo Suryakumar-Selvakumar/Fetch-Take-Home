@@ -46,6 +46,7 @@ export default function PaginationSearch({
       <PaginationContent>
         <PaginationItem
           className="cursor-pointer"
+          data-testid="pagination-search-prev-button"
           onClick={() => {
             if (searchResult.prev) {
               fetchDogsData(page - 1, page);
@@ -63,6 +64,7 @@ export default function PaginationSearch({
         </PaginationItem>
         {page - 1 >= 0 && (
           <PaginationItem
+            data-testid="pagination-search-prev-page"
             className="cursor-pointer"
             onClick={() => {
               if (searchResult.prev) {
@@ -81,6 +83,7 @@ export default function PaginationSearch({
           <>
             <PaginationItem
               className="cursor-pointer"
+              data-testid="pagination-search-next-page"
               onClick={() => {
                 fetchDogsData(page + 1, page);
                 if (isMobileView) window.scrollTo(0, 0);
@@ -96,6 +99,7 @@ export default function PaginationSearch({
           </>
         )}
         <PaginationItem
+          data-testid="pagination-search-next-button"
           className="cursor-pointer"
           onClick={() => {
             if (Number(from) < searchResult.total) {

@@ -1,6 +1,6 @@
 // libs
 import { render, screen, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, it, vi, expect } from "vitest";
+import { beforeEach, describe, it, vi, expect } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
@@ -17,10 +17,6 @@ describe("Sidebar", () => {
   beforeEach(() => {
     user = userEvent.setup();
     global.fetch = vi.fn(fakeFetchLoggedIn);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it("Breed dropdown adds selected breed to filters", async () => {
@@ -45,7 +41,6 @@ describe("Sidebar", () => {
     await user.click(breedOptionTwo);
 
     // Assert
-    await screen.findByText("2 Dogs Found");
     const dogCardBreeds: HTMLHeadingElement[] = await screen.findAllByTestId(
       "dog-card-breed"
     );

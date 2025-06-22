@@ -1,6 +1,6 @@
 // libs
 import { render, screen, waitFor } from "@testing-library/react";
-import { afterEach, beforeEach, describe, it, vi, expect } from "vitest";
+import { beforeEach, describe, it, vi, expect } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
@@ -17,10 +17,6 @@ describe("Filterbar", () => {
   beforeEach(() => {
     user = userEvent.setup();
     global.fetch = vi.fn(fakeFetchLoggedIn);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it("Search input adds the input as a filter", async () => {
@@ -42,7 +38,8 @@ describe("Filterbar", () => {
     // Assert
     await screen.findByText("90210");
     await waitFor(() => {
-      const addressEls = screen.getAllByTestId("dog-card-address");
+      const addressEls: HTMLDivElement[] =
+        screen.getAllByTestId("dog-card-address");
       expect(addressEls.length).toBeGreaterThan(0);
       expect(addressEls[0].textContent).toContain("90210");
     });

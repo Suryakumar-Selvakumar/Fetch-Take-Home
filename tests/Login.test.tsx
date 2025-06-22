@@ -94,7 +94,7 @@ describe("Login", () => {
       await user.click(browseLink);
 
       // Assert
-      await screen.findByText("2 Dogs Found");
+      await screen.findByText("18 Dogs Found");
     });
 
     it("Logout logs out the user", async () => {
