@@ -9,7 +9,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "./ui/select";
-import { Button } from "./ui/button";
+import Button from "./ui/Button/button";
 import type { SearchResult } from "@/pages/Search";
 import Badge from "./ui/badge";
 import { cn } from "@/utils/cn";

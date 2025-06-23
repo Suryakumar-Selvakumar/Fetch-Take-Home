@@ -2,7 +2,13 @@ import useAuth from "@/hooks/useAuth";
 import type { Dog } from "@/pages/Search";
 import getDistance from "@/utils/getDistance";
 import { Dialog } from "@material-tailwind/react";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import ColourfulText from "./ui/colourful-text";
 import { NumberTicker } from "./ui/number-ticker";
 import { AuroraText } from "./ui/aurora-text";
@@ -37,7 +43,7 @@ export default function Modal({
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
-  async function getMatchDistance() {
+  const getMatchDistance = useCallback(async () => {
     try {
       const distance: Record<string, number> = await getDistance(userZip, [
         match?.zip_code as string,
@@ -48,13 +54,13 @@ export default function Modal({
     } catch {
       setDist(null);
     }
-  }
+  }, [userZip, match?.zip_code]);
 
   useEffect(() => {
     if (match) {
       getMatchDistance();
     }
-  }, [match]);
+  }, [match, getMatchDistance]);
 
   function generatePara() {
     if (dist) {

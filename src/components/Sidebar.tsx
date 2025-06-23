@@ -8,7 +8,7 @@ import {
 } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/utils/cn";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/Button/button";
 import {
   Command,
   CommandEmpty,

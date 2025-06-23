@@ -1,4 +1,5 @@
-import type { Dog, FavoritesState } from "@/pages/Search";
+import type { Dog } from "@/pages/Search";
+import { type FavoritesState } from "@/AuthProvider";
 import { Card } from "./Card";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";

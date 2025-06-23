@@ -1,14 +1,14 @@
-import { useEffect, useState, type JSX } from "react";
+import { useCallback, useEffect, useRef, useState, type JSX } from "react";
 import spotsBg from "@/assets/spots.png";
 import Modal from "@/components/Modal";
 import getMatch from "@/utils/getMatch";
-import type { Dog, FavoritesState } from "./Search";
+import type { Dog } from "./Search";
 import { toast } from "sonner";
-import { RainbowButton } from "@/components/ui/rainbow-button";
+import { RainbowButton } from "@/components/ui/Rainbow Button/rainbow-button";
 import { cn } from "@/utils/cn";
 import { getDogsData } from "@/utils/getDogsData";
 import Navbar from "@/components/Navbar";
-import { fireWorks, heartEmojis } from "@/components/ui/confetti";
+import { fireWorks } from "@/components/ui/confetti";
 import Error from "@/components/Error";
 import Cards from "@/components/Cards";
 import PaginationFavorites from "@/components/PaginationFavorites";
@@ -21,41 +21,38 @@ export default function Favorties(): JSX.Element {
   const [match, setMatch] = useState<Dog | null>(null);
   const [isMatchLoading, setIsMatchLoading] = useState<boolean>(false);
   const [showMatchModal, setShowMatchModal] = useState<boolean>(false);
-  const [confetti, setConfetti] = useState<number | undefined>(undefined);
   const [dogs, setDogs] = useState<Dog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
 
+  const confetti = useRef<number | null>(null);
+
   const { favorites, setFavorites } = useAuth();
 
-  function fetchDogIds(currPage: number): string[] {
-    setPage(currPage);
-    const start = currPage * PAGE_SIZE;
-    const end = start + PAGE_SIZE;
-    const favsCopy = favorites;
-    return favsCopy.slice(start, end);
-  }
+  const fetchFavoriteDogs = useCallback(
+    async (currPage: number): Promise<void | undefined> => {
+      setError(null);
+      setIsLoading(true);
+      setPage(currPage);
 
-  const fetchFavoriteDogs = async (
-    currPage: number
-  ): Promise<void | undefined> => {
-    setError(null);
-    setIsLoading(true);
+      const start = currPage * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const curDogIds: string[] = favorites.slice(start, end);
 
-    const curDogIds: string[] = fetchDogIds(currPage);
-
-    try {
-      const dogObjs: Dog[] = await getDogsData(curDogIds, null);
-      setDogs(dogObjs);
-    } catch (err: unknown) {
-      if (err instanceof Error || err instanceof TypeError) {
-        setError((err as Error).message);
-      } else setError("An unknown error occured");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      try {
+        const dogObjs: Dog[] = await getDogsData(curDogIds, null);
+        setDogs(dogObjs);
+      } catch (err: unknown) {
+        if (err instanceof Error || err instanceof TypeError) {
+          setError((err as Error).message);
+        } else setError("An unknown error occured");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [favorites]
+  );
 
   async function generateMatch(): Promise<void> {
     if (favorites.length === 0) {
@@ -87,13 +84,15 @@ export default function Favorties(): JSX.Element {
   useEffect(() => {
     fetchFavoriteDogs(0);
     setMatch(null);
-  }, [favorites]);
+  }, [fetchFavoriteDogs]);
 
   useEffect(() => {
     if (showMatchModal) {
-      setConfetti(fireWorks());
+      confetti.current = fireWorks();
+    } else if (confetti.current !== null) {
+      clearInterval(confetti.current);
+      confetti.current = null;
     }
-    if (!showMatchModal) window.clearInterval(confetti);
   }, [showMatchModal]);
 
   return (

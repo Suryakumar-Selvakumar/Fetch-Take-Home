@@ -1,6 +1,6 @@
 import type { FiltersState } from "@/pages/Search";
 import { X } from "lucide-react";
-import { Button } from "./ui/button";
+import Button from "./ui/Button/button";
 import { useEffect, useState } from "react";
 
 interface FiltersProps {
