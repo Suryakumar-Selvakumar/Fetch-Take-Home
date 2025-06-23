@@ -16,7 +16,9 @@ export default function HoverCard({
   navigateToSearch,
 }: HoverCardProps): JSX.Element {
   return (
-    <div
+    <button
+      type="button"
+      aria-label={`Search for ${name} dogs`}
       className="max-w-xs h-min cursor-pointer"
       onClick={() => navigateToSearch(name)}
       data-testid="hover-card"
@@ -32,6 +34,7 @@ export default function HoverCard({
         }
       >
         <div
+          aria-hidden="true"
           className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{
             backgroundImage: `url(${gifUrl})`,
@@ -40,16 +43,19 @@ export default function HoverCard({
             zIndex: 0,
           }}
         />
-        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500 z-10" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500 z-10"
+        />
         <div className="relative z-50">
-          <h1 className="font-bold text-xl lg:text-3xl text-gray-50 relative">
+          <h2 className="font-bold text-xl lg:text-3xl text-gray-50 relative">
             {name}
-          </h1>
+          </h2>
           <p className="font-normal text-base text-gray-50 relative my-4">
             {desc}
           </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

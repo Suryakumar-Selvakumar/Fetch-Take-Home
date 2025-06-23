@@ -209,7 +209,11 @@ function Search(): JSX.Element {
     >
       <Navbar />
       {isMobileView && (
-        <div className="flex items-center justify-between p-4">
+        <section
+          role="region"
+          aria-label="Search controls"
+          className="flex items-center justify-between p-4"
+        >
           <Badge
             className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
             variant={"outline"}
@@ -218,6 +222,8 @@ function Search(): JSX.Element {
             <SlidersHorizontal size={24} />
           </Badge>
           <Badge
+            role="status"
+            aria-live="polite"
             className="text-xl text-valentino shadow-sm"
             variant={"secondary"}
           >
@@ -235,7 +241,7 @@ function Search(): JSX.Element {
           >
             <Funnel size={24} />
           </Badge>
-        </div>
+        </section>
       )}
       <Filterbar
         setFilters={setFilters}
@@ -246,7 +252,10 @@ function Search(): JSX.Element {
         isFilterPageVisible={isFilterPageVisible}
         setIsFilterPageVisible={setIsFilterPageVisible}
       />
-      <div className="lg:mt-4 w-full lg:max-w-screen-2xl lg:self-center grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]">
+      <section
+        aria-label="Page content"
+        className="lg:mt-4 w-full lg:max-w-screen-2xl lg:self-center grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]"
+      >
         <Sidebar
           filters={filters}
           setFilters={setFilters}
@@ -260,7 +269,12 @@ function Search(): JSX.Element {
           clearFilters={clearFilters}
           updateFilters={updateFilters}
         />
-        <div className="col-span-full lg:col-span-1 lg:col-start-[2] lg:row-span-full flex flex-col px-6 lg:px-0">
+        <section
+          role="region"
+          aria-label="Results"
+          aria-live="polite"
+          className="col-span-full lg:col-span-1 lg:col-start-[2] lg:row-span-full flex flex-col px-6 lg:px-0"
+        >
           <Error error={error} />
           {dogs.length > 0 && !error && (
             <Cards
@@ -277,8 +291,8 @@ function Search(): JSX.Element {
               fetchDogsData={fetchDogsData}
             />
           )}
-        </div>
-      </div>
+        </section>
+      </section>
     </main>
   );
 }

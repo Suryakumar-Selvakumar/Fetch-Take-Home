@@ -64,12 +64,18 @@ export function Filters({
   return (
     <>
       {showFilterApplied && (
-        <div className="flex flex-col gap-2 p-4 select-none col-span-full lg:col-span-1 row-start-1 row-end-1 lg:row-start-2 lg:row-end-2">
-          <p className="text-base font-medium">Filters Applied</p>
-          <div className="flex lg:flex-wrap gap-4 overflow-x-scroll lg:overflow-auto">
+        <section
+          role="region"
+          aria-label="Applied Filters"
+          className="flex flex-col gap-2 p-4 select-none col-span-full lg:col-span-1 row-start-1 row-end-1 lg:row-start-2 lg:row-end-2"
+        >
+          <p role="heading" aria-level={3} className="text-base font-medium">
+            Filters Applied
+          </p>
+          <ul className="flex lg:flex-wrap gap-4 items-center overflow-x-scroll lg:overflow-auto">
             {filterArr.map(({ filter, value }) =>
               value != "0" && value != "15" ? (
-                <div
+                <li
                   key={`${filter}-${value}`}
                   className="bg-valentino-hv h-max py-1 px-2 rounded-sm text-white flex text-sm items-center justify-between gap-4"
                 >
@@ -77,30 +83,38 @@ export function Filters({
                     {processFilter(filter)}
                     {value}
                   </span>
-                  <X
-                    size={"16"}
-                    strokeWidth={"3"}
-                    data-testid="filter-close"
+                  <button
+                    type="button"
+                    aria-label={`Remove filter ${processFilter(
+                      filter
+                    )}${value}`}
                     onClick={() =>
                       updateFilters(filter as keyof FiltersState, value)
                     }
                     className="cursor-pointer"
-                  />
-                </div>
+                    data-testid="filter-close"
+                  >
+                    <X size={"16"} strokeWidth={"3"} />
+                  </button>
+                </li>
               ) : (
                 ""
               )
             )}
-            <Button
+            <li
+              aria-label="Clear all filters"
               data-testid="clear-all-button"
-              variant={"link"}
-              className="cursor-pointer p-0 text-valentino-hv"
               onClick={clearFilters}
             >
-              Clear All
-            </Button>
-          </div>
-        </div>
+              <Button
+                variant={"link"}
+                className="cursor-pointer p-0 text-valentino-hv max-h-min"
+              >
+                Clear All
+              </Button>
+            </li>
+          </ul>
+        </section>
       )}
     </>
   );

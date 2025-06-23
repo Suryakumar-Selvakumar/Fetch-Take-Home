@@ -8,8 +8,14 @@ export default function Error({
   return (
     <>
       {error && (
-        <div className="flex flex-col justify-start items-center pt-[3rem] text-red-700 gap-4">
+        <section
+          role="alert"
+          aria-live="assertive"
+          className="flex flex-col justify-start items-center pt-[3rem] text-red-700 gap-4"
+        >
           <svg
+            role="img"
+            aria-label="Error icon"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -40,9 +46,9 @@ export default function Error({
               />{" "}
             </g>
           </svg>
-          <h1>Error fetching dogs</h1>
+          <h2>Error fetching dogs</h2>
           <p>{error}</p>
-        </div>
+        </section>
       )}
     </>
   );

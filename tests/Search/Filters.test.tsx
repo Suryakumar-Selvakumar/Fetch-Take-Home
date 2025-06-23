@@ -39,9 +39,7 @@ describe("Filters", () => {
       "filter-text"
     );
     await expect(filterText).toHaveTextContent("Max Age: 14");
-    const filterX = screen.getByTestId(
-      "filter-close"
-    ) as unknown as SVGSVGElement;
+    const filterX: HTMLButtonElement = screen.getByTestId("filter-close");
     await user.click(filterX);
 
     // Assert
@@ -74,7 +72,7 @@ describe("Filters", () => {
     );
     await expect(filters[0]).toHaveTextContent("Min Age: 1");
     await expect(filters[1]).toHaveTextContent("Max Age: 14");
-    const clearAllButton: HTMLButtonElement =
+    const clearAllButton: HTMLLIElement =
       screen.getByTestId("clear-all-button");
     await user.click(clearAllButton);
 

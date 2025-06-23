@@ -25,8 +25,14 @@ export const Card = ({
   const distMissing: boolean = dist === "MISSING";
 
   return (
-    <div className="bg-white select-none grid grid-rows-[200px_125px] rounded-xl shadow-lg relative">
-      <div
+    <article
+      aria-label={`Dog card for ${dog.name}`}
+      className="bg-white select-none grid grid-rows-[200px_125px] rounded-xl shadow-lg relative"
+    >
+      <button
+        type="button"
+        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+        aria-pressed={!!favorite}
         style={{
           zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
         }}
@@ -57,7 +63,7 @@ export const Card = ({
             fill={favorite ? "var(--color-valentino-hv)" : "transparent"}
           ></path>
         </svg>
-      </div>
+      </button>
 
       <div className="w-full h-full rounded-t-xl">
         {(isLoading || distLoading || imageLoading) && (
@@ -89,7 +95,7 @@ export const Card = ({
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-full mt-1.5" />
         ) : (
-          <span className="flex justify-center w-full gap-2 h-6 animate-pop-in">
+          <p className="flex justify-center w-full gap-2 h-6 animate-pop-in">
             <span className="text-ellipsis overflow-hidden">
               {dog.age} {dog.age == 1 ? "year" : "years"} old
             </span>{" "}
@@ -97,7 +103,7 @@ export const Card = ({
             <span className="truncate" data-testid="dog-card-breed">
               {dog.breed}
             </span>
-          </span>
+          </p>
         )}
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
@@ -106,7 +112,7 @@ export const Card = ({
             {dog.city}, {dog.state}, {dog.zip_code}
           </p>
         ) : (
-          <span className="animate-pop-in">
+          <p className="animate-pop-in">
             <Tooltip>
               <TooltipTrigger data-testid="dog-card-address">
                 {dog.city ? `${dog.city}, ` : ""}
@@ -114,12 +120,14 @@ export const Card = ({
                 {dog.zip_code}
               </TooltipTrigger>
               <TooltipContent side="bottom" sideOffset={-5}>
-                <p data-testid="distance-tooltip">{Math.round(dist as number)} miles away</p>
+                <p data-testid="distance-tooltip">
+                  {Math.round(dist as number)} miles away
+                </p>
               </TooltipContent>
             </Tooltip>
-          </span>
+          </p>
         )}
       </div>
-    </div>
+    </article>
   );
 };

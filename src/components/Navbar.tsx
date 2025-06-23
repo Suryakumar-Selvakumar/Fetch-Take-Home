@@ -41,6 +41,7 @@ function NavList(): JSX.Element {
           "hover:text-valentino-hv transition-all duration-150 ease-in",
           currentPath === "/" && "text-valentino-hv"
         )}
+        aria-current={currentPath === "/" ? "page" : undefined}
         data-testid="home-nav"
       >
         <Link to="/" className="flex items-center gap-x-2 p-1">
@@ -49,23 +50,29 @@ function NavList(): JSX.Element {
       </li>
       <li
         onClick={() => handleNavigation("/search")}
+        aria-current={currentPath === "/search" ? "page" : undefined}
         data-testid="search-nav"
         className={cn(
-          "hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer",
+          "hover:text-valentino-hv transition-all duration-150 ease-in",
           currentPath === "/search" && "text-valentino-hv"
         )}
       >
-        <div className="flex items-center gap-x-2 p-1">Search</div>
+        <button className="flex items-center gap-x-2 p-1 cursor-pointer">
+          Search
+        </button>
       </li>
       <li
         onClick={() => handleNavigation("/favorites")}
+        aria-current={currentPath === "/favorites" ? "page" : undefined}
         data-testid="favorites-nav"
         className={cn(
-          "hover:text-valentino-hv transition-all duration-150 ease-in cursor-pointer",
+          "hover:text-valentino-hv transition-all duration-150 ease-in",
           currentPath === "/favorites" && "text-valentino-hv"
         )}
       >
-        <div className="flex items-center gap-x-2 p-1">Favorites</div>
+        <button className="flex items-center gap-x-2 p-1 cursor-pointer">
+          Favorites
+        </button>
       </li>
       {isLoggedIn ? (
         <li
@@ -73,9 +80,9 @@ function NavList(): JSX.Element {
           className="pt-2 lg:pt-0"
           onClick={() => handleLogout(setIsLoggedIn, navigate)}
         >
-          <div className="lg:hover:shadow-xs lg:ml-auto lg:inline-block text-center lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
+          <button className="lg:hover:shadow-xs lg:ml-auto lg:inline-block text-center w-full lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
             Logout
-          </div>
+          </button>
         </li>
       ) : (
         <li
@@ -83,9 +90,9 @@ function NavList(): JSX.Element {
           className="pt-2 lg:pt-0"
           onClick={() => navigate("/login")}
         >
-          <div className="lg:ml-auto lg:hover:shadow-xs lg:inline-block text-center lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
+          <button className="lg:ml-auto lg:hover:shadow-xs lg:inline-block text-center w-full lg:w-25 py-1 lg:py-2 bg-valentino text-white rounded-md hover:bg-valentino-hv hover:cursor-pointer transition duration-150 ease-in">
             Login
-          </div>
+          </button>
         </li>
       )}
     </ul>
@@ -109,7 +116,11 @@ export default function NavbarComp(): JSX.Element {
   return (
     <div className="bg-amber-400">
       <Toaster richColors position={"top-center"} />
-      <nav className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino">
+      <nav
+        role="navigation"
+        aria-label="Main navigation"
+        className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino"
+      >
         <div className="flex items-center gap-8 justify-between">
           <Link
             to={"/"}
@@ -123,11 +134,15 @@ export default function NavbarComp(): JSX.Element {
           </div>
           {openNav ? (
             <Xmark
+              aria-label="Close navigation menu"
+              role="button"
               onClick={() => setOpenNav(!openNav)}
               className="min-h-7 min-w-7 mr-2 relative left-1 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
             />
           ) : (
             <Menu
+              aria-label="Open navigation menu"
+              role="button"
               onClick={() => setOpenNav(!openNav)}
               className="h-6 w-6 mr-2 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
             />

@@ -110,19 +110,37 @@ export default function Favorties(): JSX.Element {
         setShowMatchModal={setShowMatchModal}
       />
       <Navbar />
-      <div className="w-full max-w-screen-2xl h-min py-3 flex self-center justify-center pl-2">
+      <div className="w-full max-w-screen-2xl h-min py-4 flex self-center justify-center">
         <Badge
+          role="status"
+          aria-live="polite"
+          aria-label={`${favorites.length} dogs favorited`}
           className="text-xl text-valentino shadow-sm"
           variant={"secondary"}
         >
           {favorites.length} Dogs Favorited
         </Badge>
       </div>
-      <div className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]">
-        <div className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-0 lg:pr-4 pb-4 lg:pt-8 lg:pl-2">
+      <section
+        aria-label="Page content"
+        className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]"
+      >
+        <section
+          role="region"
+          aria-label="Match generator"
+          className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-4 pb-3 lg:pt-8"
+        >
           <RainbowButton
+            aria-label={
+              match !== null
+                ? "Show your match"
+                : isMatchLoading
+                ? "Generating match"
+                : "Generate a match"
+            }
+            aria-busy={isMatchLoading}
             className={cn(
-              "w-full lg:w-[300px] text-base mt-1",
+              "w-full lg:w-[300px] text-base",
               isMatchLoading && "text-muted-foreground"
             )}
             data-testid="generate-match-button"
@@ -133,8 +151,13 @@ export default function Favorties(): JSX.Element {
           >
             {match !== null ? "Show Match" : "Generate Match"}
           </RainbowButton>
-        </div>
-        <div className="lg:col-start-[2] lg:row-span-full grid grid-rows-[1fr_max-content] px-6 lg:px-0">
+        </section>
+        <section
+          aria-live="polite"
+          role="region"
+          aria-label="Results"
+          className="lg:col-start-[2] lg:row-span-full grid grid-rows-[1fr_max-content] px-6 lg:px-0"
+        >
           <Error error={error} />
           {dogs.length > 0 && (
             <Cards
@@ -151,8 +174,8 @@ export default function Favorties(): JSX.Element {
               favoritesPages={Math.ceil(favorites.length / PAGE_SIZE)}
             />
           )}
-        </div>
-      </div>
+        </section>
+      </section>
     </main>
   );
 }

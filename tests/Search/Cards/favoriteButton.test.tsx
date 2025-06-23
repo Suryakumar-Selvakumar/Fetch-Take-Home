@@ -29,7 +29,7 @@ describe("Cards", () => {
         </Routes>
       </MemoryRouter>
     );
-    const [favoriteButton]: HTMLDivElement[] = await screen.findAllByTestId(
+    const [favoriteButton]: HTMLButtonElement[] = await screen.findAllByTestId(
       "favorite-button"
     );
 
@@ -76,7 +76,7 @@ describe("Cards", () => {
     await waitFor(async () => {
       user.click(searchItems[0]);
     });
-    const [favoriteButton]: HTMLDivElement[] = await screen.findAllByTestId(
+    const [favoriteButton]: HTMLButtonElement[] = await screen.findAllByTestId(
       "favorite-button"
     );
     await user.click(favoriteButton);

@@ -33,7 +33,7 @@ describe("Favorites", () => {
           <Routes>{FavoritesRoute}</Routes>
         </MemoryRouter>
       );
-      const favoriteButtons: HTMLDivElement[] = await screen.findAllByTestId(
+      const favoriteButtons: HTMLButtonElement[] = await screen.findAllByTestId(
         "favorite-button"
       );
       const favBtnTwo = favoriteButtons[1];
@@ -86,7 +86,7 @@ describe("Favorites", () => {
           <Routes>{FavoritesRoute}</Routes>
         </MemoryRouter>
       );
-      const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+      const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-next-button"
       );
 
@@ -108,7 +108,7 @@ describe("Favorites", () => {
           <Routes>{FavoritesRoute}</Routes>
         </MemoryRouter>
       );
-      const paginationNextPage: HTMLLIElement = await screen.findByTestId(
+      const paginationNextPage: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-next-page"
       );
 
@@ -130,10 +130,10 @@ describe("Favorites", () => {
           <Routes>{FavoritesRoute}</Routes>
         </MemoryRouter>
       );
-      const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+      const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-next-button"
       );
-      const paginationPrevButton: HTMLLIElement = await screen.findByTestId(
+      const paginationPrevButton: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-prev-button"
       );
 
@@ -160,7 +160,7 @@ describe("Favorites", () => {
           <Routes>{FavoritesRoute}</Routes>
         </MemoryRouter>
       );
-      const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+      const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-next-button"
       );
 
@@ -171,7 +171,7 @@ describe("Favorites", () => {
       );
       expect(dogCardNames[0].textContent?.includes("Name 11")).toBe(true);
       expect(dogCardNames[1].textContent?.includes("Name 12")).toBe(true);
-      const paginationPrevPage: HTMLLIElement = await screen.findByTestId(
+      const paginationPrevPage: HTMLAnchorElement = await screen.findByTestId(
         "pagination-favorites-prev-page"
       );
       await user.click(paginationPrevPage);
@@ -267,7 +267,7 @@ describe("Favorites", () => {
       expect(dogPara).toHaveTextContent(
         "Meet Dog 1, a 10 year old Breed 1 located in City 1, State 1, 1. Currently 50 miles away from you, this dog could be the perfect match to bring joy and companionship into your life."
       );
-      const modalCloseButton: HTMLSpanElement =
+      const modalCloseButton: HTMLButtonElement =
         screen.getByTestId("modal-close-button");
       await user.click(modalCloseButton);
 

@@ -154,7 +154,7 @@ describe("Home", () => {
             <Routes>{HomeRoute}</Routes>
           </MemoryRouter>
         );
-        const hoverCards: HTMLDivElement[] =
+        const hoverCards: HTMLButtonElement[] =
           screen.getAllByTestId("hover-card");
 
         // Act
@@ -252,7 +252,7 @@ describe("Home", () => {
         );
 
         // Act
-        const hoverCards: HTMLDivElement[] =
+        const hoverCards: HTMLButtonElement[] =
           screen.getAllByTestId("hover-card");
 
         // Act

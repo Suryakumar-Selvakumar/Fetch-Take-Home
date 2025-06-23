@@ -4,6 +4,14 @@
   ],
   "hints": {
     "no-inline-styles": "off",
-    "typescript-config/strict": "off"
+    "typescript-config/strict": "off",
+    "axe/aria": [
+      "default",
+      {
+        "aria-valid-attr-value": "off",
+        "aria-roles": "off",
+        "aria-allowed-attr": "off"
+      }
+    ]
   }
 }

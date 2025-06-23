@@ -80,9 +80,12 @@ export default function Modal({
 
   return (
     <Dialog
+      aria-labelledby="match-dialog-title"
+      aria-describedby="match-dialog-description"
+      aria-modal="true"
       {...({
         className:
-          "w-[calc(100vw-4rem)] lg:w-[700px] self-center justify-self-center p-8 flex flex-col gap-4 lg:gap-8",
+          "w-[calc(100vw-4rem)] lg:w-[700px] self-center justify-self-center p-8",
         open: showMatchModal,
         handler: handleClose,
         animate: {
@@ -91,63 +94,72 @@ export default function Modal({
         },
       } as unknown as React.ComponentProps<typeof Dialog>)}
     >
-      <span
+      <button
+        aria-label="Close modal"
         data-testid="modal-close-button"
         onClick={handleClose}
         className="absolute cursor-pointer -right-3 -top-3 p-1 rounded-full bg-[rgb(239,238,241)]"
       >
         <X />
-      </span>
-      <h1 className="scroll-m-20 text-center text-valentino-hv text-3xl lg:text-4xl font-extrabold tracking-tight text-balance">
-        You matched with
-        <p className="text-white">
-          <ColourfulText text={match?.name as string}></ColourfulText>
-        </p>
-      </h1>
-      <img
-        src={match?.img}
-        alt={match?.name}
-        className="object-fill h-[175px] lg:h-[350px] w-full rounded-lg"
-      />
-      <div className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4">
-        <span>
-          <b className="block lg:inline">Breed:</b>{" "}
-          <AuroraText variant="text">{match?.breed}</AuroraText>
-        </span>
-        <span>
-          <b className="block lg:inline">Age (yrs):</b>{" "}
-          <AuroraText variant={""}>
-            <NumberTicker value={match?.age as number} />
-          </AuroraText>
-        </span>
-        <span>
-          <b className="block lg:inline">City:</b>{" "}
-          <AuroraText variant="text">{match?.city}</AuroraText>
-        </span>
-        <span>
-          <b className="block lg:inline">State:</b>{" "}
-          <AuroraText variant="text">{match?.state}</AuroraText>
-        </span>
-        <span>
-          <b className="block lg:inline">ZIP Code: </b>{" "}
-          <AuroraText variant={""}>
-            <NumberTicker value={Number(match?.zip_code)} />
-          </AuroraText>
-        </span>
-        {dist && (
+      </button>
+      <article role="document" className="flex flex-col gap-4 lg:gap-8">
+        <h1
+          id="match-dialog-title"
+          className="scroll-m-20 text-center text-valentino-hv text-3xl lg:text-4xl font-extrabold tracking-tight text-balance"
+        >
+          You matched with
+          <p className="text-white">
+            <ColourfulText text={match?.name as string}></ColourfulText>
+          </p>
+        </h1>
+        <img
+          src={match?.img}
+          alt={match?.name}
+          className="object-fill h-[175px] lg:h-[350px] w-full rounded-lg"
+        />
+        <div
+          id="match-dialog-description"
+          className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4"
+        >
           <span>
-            <b className="block lg:inline">Distance (mi):</b>{" "}
+            <b className="block lg:inline">Breed:</b>{" "}
+            <AuroraText variant="text">{match?.breed}</AuroraText>
+          </span>
+          <span>
+            <b className="block lg:inline">Age (yrs):</b>{" "}
             <AuroraText variant={""}>
-              <NumberTicker value={dist as number} />
+              <NumberTicker value={match?.age as number} />
             </AuroraText>
           </span>
+          <span>
+            <b className="block lg:inline">City:</b>{" "}
+            <AuroraText variant="text">{match?.city}</AuroraText>
+          </span>
+          <span>
+            <b className="block lg:inline">State:</b>{" "}
+            <AuroraText variant="text">{match?.state}</AuroraText>
+          </span>
+          <span>
+            <b className="block lg:inline">ZIP Code: </b>{" "}
+            <AuroraText variant={""}>
+              <NumberTicker value={Number(match?.zip_code)} />
+            </AuroraText>
+          </span>
+          {dist && (
+            <span>
+              <b className="block lg:inline">Distance (mi):</b>{" "}
+              <AuroraText variant={""}>
+                <NumberTicker value={dist as number} />
+              </AuroraText>
+            </span>
+          )}
+        </div>
+        {!isMobileView && (
+          <p data-testid="dog-paragraph" className="lg:text-xl text-center">
+            {generatePara()}
+          </p>
         )}
-      </div>
-      {!isMobileView && (
-        <p data-testid="dog-paragraph" className="lg:text-xl text-center">
-          {generatePara()}
-        </p>
-      )}
+      </article>
     </Dialog>
   );
 }

@@ -26,7 +26,7 @@ describe("Pagination", () => {
         <Routes>{SearchRoute}</Routes>
       </MemoryRouter>
     );
-    const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+    const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-next-button"
     );
 
@@ -48,7 +48,7 @@ describe("Pagination", () => {
         <Routes>{SearchRoute}</Routes>
       </MemoryRouter>
     );
-    const paginationNextPage: HTMLLIElement = await screen.findByTestId(
+    const paginationNextPage: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-next-page"
     );
 
@@ -70,10 +70,10 @@ describe("Pagination", () => {
         <Routes>{SearchRoute}</Routes>
       </MemoryRouter>
     );
-    const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+    const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-next-button"
     );
-    const paginationPrevButton: HTMLLIElement = await screen.findByTestId(
+    const paginationPrevButton: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-prev-button"
     );
 
@@ -101,7 +101,7 @@ describe("Pagination", () => {
         <Routes>{SearchRoute}</Routes>
       </MemoryRouter>
     );
-    const paginationNextButton: HTMLLIElement = await screen.findByTestId(
+    const paginationNextButton: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-next-button"
     );
 
@@ -112,7 +112,7 @@ describe("Pagination", () => {
     );
     expect(dogCardNames[0].textContent?.includes("Name 11")).toBe(true);
     expect(dogCardNames[1].textContent?.includes("Name 12")).toBe(true);
-    const paginationPrevPage: HTMLLIElement = await screen.findByTestId(
+    const paginationPrevPage: HTMLAnchorElement = await screen.findByTestId(
       "pagination-search-prev-page"
     );
     await user.click(paginationPrevPage);

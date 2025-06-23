@@ -90,7 +90,10 @@ export default function Filterbar({
   };
 
   return (
-    <div
+    <section
+      role={isMobileView ? "dialog" : "region"}
+      aria-modal={isMobileView ? "true" : undefined}
+      aria-label="Filterbar"
       className={cn(
         "flex w-full lg:max-w-screen-2xl lg:h-min lg:py-3 lg:self-center lg:justify-between lg:px-4",
         isMobileView
@@ -109,11 +112,13 @@ export default function Filterbar({
       }}
     >
       {isMobileView && isFilterPageVisible && (
-        <Xmark
-          fontSize={"1.5rem"}
+        <button
+          aria-label="Close filter menu"
+          className="self-end rounded-sm"
           onClick={() => setIsFilterPageVisible(false)}
-          className="self-end"
-        />
+        >
+          <Xmark fontSize={"1.5rem"} />
+        </button>
       )}
       <div className="flex w-full lg:w-max gap-2 items-center">
         <Input
@@ -125,6 +130,7 @@ export default function Filterbar({
           placeholder="Enter City, State, or ZIP"
           onKeyDown={handleInputSubmit}
           data-testid="search-input"
+          aria-label="Search by city, state, or ZIP code"
         />
         <Button
           onClick={() => {
@@ -139,11 +145,14 @@ export default function Filterbar({
           data-testid="search-button"
           variant={"outline"}
           className="cursor-pointer"
+          aria-label="Search"
         >
           Search
         </Button>
       </div>
       <Badge
+        aria-live="polite"
+        role="status"
         className="hidden lg:block text-xl text-valentino shadow-sm"
         variant={"secondary"}
       >
@@ -157,6 +166,7 @@ export default function Filterbar({
       <div className="flex w-full lg:w-max flex-col lg:flex-row gap-8 lg:gap-4">
         <Select value={sort.sortBy} onValueChange={updateSortBy}>
           <SelectTrigger
+            aria-label="Sort dogs by"
             data-testid="sort-by-button"
             className="w-full lg:w-[155px] select-none bg-white cursor-pointer"
           >
@@ -183,6 +193,7 @@ export default function Filterbar({
         </Select>
         <Select value={sort.orderBy} onValueChange={updateOrderBy}>
           <SelectTrigger
+            aria-label="Order of sorting"
             data-testid="order-by-button"
             className="w-full lg:w-[200px] select-none bg-white cursor-pointer"
           >
@@ -208,6 +219,6 @@ export default function Filterbar({
           </SelectContent>
         </Select>
       </div>
-    </div>
+    </section>
   );
 }

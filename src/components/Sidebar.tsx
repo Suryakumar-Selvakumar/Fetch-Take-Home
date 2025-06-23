@@ -79,7 +79,10 @@ export default function Sidebar({
   };
 
   return (
-    <div
+    <section
+      role={isMobileView ? "dialog" : "region"}
+      aria-modal={isMobileView ? "true" : undefined}
+      aria-label="Sidebar"
       className={cn(
         "lg:h-max lg:w-max flex flex-col gap-8 lg:px-4 lg:pb-4 lg:pt-8",
         isMobileView
@@ -98,15 +101,19 @@ export default function Sidebar({
       }}
     >
       {isMobileView && isSidebarPageVisible && (
-        <Xmark
-          fontSize={"1.5rem"}
+        <button
+          aria-label="Close sidebar menu"
+          className="self-end rounded-sm"
           onClick={() => setIsSidebarPageVisible(false)}
-          className="self-end"
-        />
+        >
+          <Xmark fontSize={"1.5rem"} />
+        </button>
       )}
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            aria-haspopup="listbox"
+            aria-controls="breed-dropdown-list"
             variant="outlineAlt"
             data-testid="breed-button"
             role="combobox"
@@ -128,7 +135,7 @@ export default function Sidebar({
         <PopoverContent className="w-[calc(100vw-2rem)] lg:w-[300px] max-h-90 p-0">
           <Command>
             <CommandInput placeholder="Search..." className="h-9" />
-            <CommandList>
+            <CommandList id="breed-dropdown-list">
               <CommandEmpty>No breeds found.</CommandEmpty>
               <CommandGroup>
                 {allBreeds.map((breed) => (
@@ -183,6 +190,6 @@ export default function Sidebar({
           className="cursor-pointer w-full"
         />
       </div>
-    </div>
+    </section>
   );
 }

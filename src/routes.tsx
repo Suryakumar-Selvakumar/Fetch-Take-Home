@@ -28,6 +28,7 @@ export const routes: RouteObject[] = [
         </Layout>
       </AuthProvider>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/search",
@@ -38,6 +39,7 @@ export const routes: RouteObject[] = [
         </Layout>
       </AuthProvider>
     ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/favorites",
@@ -45,6 +47,17 @@ export const routes: RouteObject[] = [
       <AuthProvider>
         <Layout>
           <Favorties />
+        </Layout>
+      </AuthProvider>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "*",
+    element: (
+      <AuthProvider>
+        <Layout>
+          <ErrorPage />
         </Layout>
       </AuthProvider>
     ),
