@@ -58,7 +58,7 @@ export default function PaginationFavorites({
   };
 
   return (
-    <Pagination className="mb-8">
+    <Pagination className="mb-7.5">
       <PaginationContent>
         <PaginationItem className="cursor-pointer">
           <PaginationPrevious

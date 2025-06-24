@@ -1,16 +1,14 @@
 import type { Dog } from "@/pages/Search";
 import { Skeleton } from "./ui/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
-import { LocateFixed, Map, MapPin } from "lucide-react";
 
 interface CardProps {
   dog: Dog;
   favorite: boolean;
   toggleFavorite: (dogId: string) => void;
   isLoading: boolean;
-  dist: undefined | number | string;
+  toggleModal: (dogId: string) => void;
 }
 
 const Card = ({
@@ -18,12 +16,9 @@ const Card = ({
   favorite,
   toggleFavorite,
   isLoading,
-  dist,
+  toggleModal,
 }: CardProps) => {
   const [imageLoading, setImageLoading] = useState<boolean>(true);
-
-  const distLoading: boolean = dist === undefined;
-  const distMissing: boolean = dist === "MISSING";
 
   return (
     <article
@@ -35,7 +30,7 @@ const Card = ({
         aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
         aria-pressed={!!favorite}
         style={{
-          zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
+          zIndex: isLoading || imageLoading ? "-10" : "1",
         }}
         className={cn(
           "rounded-full p-2 absolute fill-transparent stroke-valentino-hv stroke-20 cursor-pointer right-3 top-3 hover:bg-[rgb(255,255,255,1)]",
@@ -66,89 +61,44 @@ const Card = ({
         </svg>
       </button>
       <div className="w-full h-full rounded-t-xl relative">
-        {(isLoading || distLoading || imageLoading) && (
-          <Skeleton className="h-[200px] w-full rounded-t-xl" />
+        {(isLoading || imageLoading) && (
+          <Skeleton className="h-[200px] w-full rounded-t-xl rounded-b-none absolute z-10" />
         )}
         {!isLoading && (
           <img
+            onClick={() => {
+              if (!imageLoading) {
+                toggleModal(dog.id);
+              }
+            }}
             onLoad={() => setImageLoading(false)}
             src={dog.img}
             alt={dog.name}
             style={{
-              opacity: imageLoading || distLoading ? "0" : "1",
+              opacity: imageLoading ? "0" : "1",
+              pointerEvents: imageLoading ? "none" : "auto",
             }}
-            className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
+            className="cursor-pointer object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
           />
         )}
-        {!distMissing && (
-          <span
-            aria-label={`Coordinates: Latitude ${dog.latitude}, Longitude ${dog.longitude}`}
-            style={{
-              zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
-            }}
-            className={cn(
-              "absolute bottom-13 left-2",
-              "bg-[rgb(255,255,255,0.7)] rounded-full hover:bg-[rgb(255,255,255,1)]",
-              "transition-colors ease-in duration-100",
-              "transition-opacity duration-500 ease-in"
-            )}
-          >
-            <Tooltip>
-              <TooltipTrigger className="rounded-full p-2 text-white">
-                <Map size={20} color="rgb(137, 0, 117)" />
-              </TooltipTrigger>
-              <TooltipContent
-                className="bg-white text-black"
-                side="right"
-                sideOffset={2.5}
-              >
-                <p data-testid="distance-tooltip">
-                  {Math.round(Number(dist))} miles away
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </span>
-        )}
-        <span
-          aria-label={`Coordinates: Latitude ${dog.latitude}, Longitude ${dog.longitude}`}
-          style={{
-            zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
-          }}
-          className={cn(
-            "absolute bottom-2 left-2",
-            "bg-[rgb(255,255,255,0.7)] rounded-full hover:bg-[rgb(255,255,255,1)]",
-            "transition-colors ease-in duration-100",
-            "transition-opacity duration-500 ease-in"
-          )}
-        >
-          <Tooltip>
-            <TooltipTrigger className="rounded-full p-2 text-white">
-              <MapPin size={20} color="rgb(137, 0, 117)" />
-            </TooltipTrigger>
-            <TooltipContent
-              className="bg-white text-black"
-              side="right"
-              sideOffset={2.5}
-            >
-              <p>
-                Lat: {dog.latitude.toFixed(2)}, Lon: {dog.longitude.toFixed(2)}
-              </p>
-            </TooltipContent>
-          </Tooltip>
-        </span>
       </div>
       <div className="flex flex-col items-center gap-2 mt-3.5 px-4">
-        {isLoading || distLoading ? (
+        {isLoading ? (
           <Skeleton className="h-5 w-[150px] mt-1.5" />
         ) : (
           <h4
+            onClick={() => {
+              if (!imageLoading) {
+                toggleModal(dog.id);
+              }
+            }}
             data-testid="dog-card-name"
-            className="scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in"
+            className="cursor-pointer scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in"
           >
             {dog.name}
           </h4>
         )}
-        {isLoading || distLoading ? (
+        {isLoading ? (
           <Skeleton className="h-4 w-full mt-1.5" />
         ) : (
           <p className="flex justify-center w-full gap-2 h-6 animate-pop-in">
@@ -161,7 +111,7 @@ const Card = ({
             </span>
           </p>
         )}
-        {isLoading || distLoading ? (
+        {isLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
         ) : (
           <p className="animate-pop-in" data-testid="dog-card-address">

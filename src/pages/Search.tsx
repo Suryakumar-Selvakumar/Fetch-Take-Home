@@ -14,6 +14,8 @@ import { useLocation, type Location as RouterLocation } from "react-router-dom";
 import Badge from "@/components/ui/badge";
 import { Funnel, SlidersHorizontal } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
+import Modal from "@/components/Modal";
+import type { FavoritesState } from "@/AuthProvider";
 
 export type FiltersState = {
   search: string[];
@@ -83,10 +85,14 @@ function Search(): JSX.Element {
     window.matchMedia("(max-width: 1024px)").matches
   );
 
+  const [openedDog, setOpenedDog] = useState<Dog | null>(null);
+
   const [isFilterPageVisible, setIsFilterPageVisible] =
     useState<boolean>(false);
   const [isSidebarPageVisible, setIsSidebarPageVisible] =
     useState<boolean>(false);
+
+  const [showCardModal, setShowCardModal] = useState<boolean>(false);
 
   const signalRef = useRef<AbortController>(null);
 
@@ -123,7 +129,6 @@ function Search(): JSX.Element {
           searchRes.resultIds,
           controller.signal
         );
-        console.log(dogObjs)
         setDogs(dogObjs);
       } catch (err: unknown) {
         if (err instanceof DOMException && err.name === "AbortError") {
@@ -201,6 +206,20 @@ function Search(): JSX.Element {
     setIsFilterPageVisible(false);
   }, [filters, sort]);
 
+  const toggleModal = (dogId: string): void => {
+    const chosenDog = dogs.find((dog) => dog.id === dogId);
+    setOpenedDog(chosenDog);
+    setShowCardModal(true);
+  };
+
+  const toggleFavorite = (dogId: string): void => {
+    setFavorites((favs: FavoritesState) => {
+      return favs.includes(dogId)
+        ? favs.filter((id) => id !== dogId)
+        : [...favs, dogId];
+    });
+  };
+
   return (
     <main
       className="w-full min-h-screen h-full flex flex-col"
@@ -211,6 +230,15 @@ function Search(): JSX.Element {
       }}
     >
       <Navbar />
+      <Modal
+        dog={openedDog}
+        showModal={showCardModal}
+        setShowModal={setShowCardModal}
+        displayingMatch={false}
+        favorite={openedDog ? favorites.includes(openedDog.id) : false}
+        toggleFavorite={toggleFavorite}
+        isInSearch={true}
+      />
       {isMobileView && (
         <section
           role="region"
@@ -283,8 +311,9 @@ function Search(): JSX.Element {
             <Cards
               dogs={dogs}
               favorites={favorites}
-              setFavorites={setFavorites}
+              toggleFavorite={toggleFavorite}
               isLoading={isLoading}
+              toggleModal={toggleModal}
             />
           )}
           {!error && dogs.length > 0 && (

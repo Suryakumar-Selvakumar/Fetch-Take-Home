@@ -14,6 +14,7 @@ import Cards from "@/components/Cards";
 import PaginationFavorites from "@/components/PaginationFavorites";
 import Badge from "@/components/ui/badge";
 import useAuth from "@/hooks/useAuth";
+import type { FavoritesState } from "@/AuthProvider";
 
 const PAGE_SIZE: number = 9;
 
@@ -25,6 +26,8 @@ export default function Favorties(): JSX.Element {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(0);
+  const [showCardModal, setShowCardModal] = useState<boolean>(false);
+  const [openedDog, setOpenedDog] = useState<Dog | null>(null);
 
   const confetti = useRef<number | null>(null);
 
@@ -95,6 +98,20 @@ export default function Favorties(): JSX.Element {
     }
   }, [showMatchModal]);
 
+  const toggleFavorite = (dogId: string): void => {
+    setFavorites((favs: FavoritesState) => {
+      return favs.includes(dogId)
+        ? favs.filter((id) => id !== dogId)
+        : [...favs, dogId];
+    });
+  };
+
+  const toggleModal = (dogId: string): void => {
+    const chosenDog = dogs.find((dog) => dog.id === dogId);
+    setOpenedDog(chosenDog);
+    setShowCardModal(true);
+  };
+
   return (
     <main
       className="w-full min-h-screen h-full flex flex-col"
@@ -104,10 +121,23 @@ export default function Favorties(): JSX.Element {
         backgroundSize: "contain",
       }}
     >
+      {/* Match Modal */}
       <Modal
-        match={match}
-        showMatchModal={showMatchModal}
-        setShowMatchModal={setShowMatchModal}
+        dog={match}
+        showModal={showMatchModal}
+        setShowModal={setShowMatchModal}
+        displayingMatch={true}
+        isInSearch={false}
+      />
+      {/* Card Modal */}
+      <Modal
+        dog={openedDog}
+        showModal={showCardModal}
+        setShowModal={setShowCardModal}
+        displayingMatch={false}
+        favorite={openedDog ? favorites.includes(openedDog.id) : false}
+        toggleFavorite={toggleFavorite}
+        isInSearch={false}
       />
       <Navbar />
       <div className="w-full max-w-screen-2xl h-min py-4 flex self-center justify-center">
@@ -163,8 +193,9 @@ export default function Favorties(): JSX.Element {
             <Cards
               dogs={dogs}
               favorites={favorites}
-              setFavorites={setFavorites}
+              toggleFavorite={toggleFavorite}
               isLoading={isLoading}
+              toggleModal={toggleModal}
             />
           )}
           {!error && dogs.length > 0 && (
