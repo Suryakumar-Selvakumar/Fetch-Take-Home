@@ -37,6 +37,7 @@ export interface Dog {
   zip_code: string;
   breed: string;
   city: string;
+  county: string;
   state: string;
   latitude: number;
   longitude: number;

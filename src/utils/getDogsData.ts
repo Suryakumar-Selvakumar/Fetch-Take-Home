@@ -60,6 +60,7 @@ export const getDogsData = async (
         {
           city: loc.city,
           state: loc.state,
+          county: loc.county,
           latitude: loc.latitude,
           longitude: loc.longitude,
         },
@@ -69,7 +70,13 @@ export const getDogsData = async (
   const updatedDogs: Dog[] = dogObjs.map((dog: Dog) => {
     const location: { city: string; state: string } = locationMap.get(
       dog.zip_code
-    ) as { city: string; state: string; latitude: number; longitude: number };
+    ) as {
+      city: string;
+      state: string;
+      county: string;
+      latitude: number;
+      longitude: number;
+    };
     return {
       ...dog,
       ...location,

@@ -159,12 +159,17 @@ export default function Modal({
                 <NumberTicker value={Number(dog?.zip_code)} />
               </AuroraText>
             </span>
-            {dist && (
+            {dist ? (
               <span>
                 <b className="block lg:inline">Distance (mi):</b>{" "}
                 <AuroraText variant={""}>
                   <NumberTicker value={dist as number} />
                 </AuroraText>
+              </span>
+            ) : (
+              <span>
+                <b className="block lg:inline">County:</b>{" "}
+                <AuroraText variant="text">{dog?.county}</AuroraText>
               </span>
             )}
             <span>
@@ -261,10 +266,15 @@ export default function Modal({
               <b className="block lg:inline">ZIP Code: </b>{" "}
               <span>{dog?.zip_code}</span>
             </span>
-            {dist && (
+            {dist ? (
               <span>
                 <b className="block lg:inline">Distance (mi):</b>{" "}
                 <span>{dist?.toFixed(2)}</span>
+              </span>
+            ) : (
+              <span>
+                <b className="block lg:inline">County:</b>{" "}
+                <span>{dog?.county}</span>
               </span>
             )}
             <span>
