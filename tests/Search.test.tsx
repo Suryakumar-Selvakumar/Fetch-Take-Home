@@ -1,5 +1,10 @@
 // libs
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { beforeEach, describe, it, vi, expect } from "vitest";
 import { MemoryRouter, Routes } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
@@ -394,7 +399,7 @@ describe("Search", () => {
       // Arrange
       localStorage.setItem("favorites", JSON.stringify(["1"]));
       render(
-        <MemoryRouter initialEntries={["/search"]}>
+        <MemoryRouter initialEntries={["/favorites"]}>
           <Routes>
             {SearchRoute}
             {FavoritesRoute}
@@ -403,11 +408,6 @@ describe("Search", () => {
       );
 
       // Act
-      const favoritesItems: HTMLLIElement[] =
-        screen.getAllByTestId("favorites-nav");
-      await waitFor(async () => {
-        user.click(favoritesItems[0]);
-      });
       await screen.findByText("1 Dogs Favorited");
       const dogCardBreed: HTMLHeadingElement = await screen.findByTestId(
         "dog-card-breed"
@@ -426,6 +426,184 @@ describe("Search", () => {
 
       // Assert
       await screen.findByText("0 Dogs Favorited");
+    });
+
+    it("Dog image opens the Dog modal", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/search"]}>
+          <Routes>{SearchRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByRole("status");
+      const img = await screen.getAllByTestId<HTMLImageElement>(
+        "dog-card-image"
+      )[0];
+      fireEvent.load(img);
+      await user.click(img);
+
+      // Assert
+      await screen.findByText("Age (yrs):");
+      await screen.findByText("Latitude:");
+      await screen.findByText("42.000");
+      await screen.findByText("72.000");
+      await screen.findByText("50.00");
+    });
+
+    it("Dog name opens the Dog modal", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/search"]}>
+          <Routes>{SearchRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByRole("status");
+      const dogNames: HTMLButtonElement[] = await screen.findAllByTestId(
+        "dog-card-name"
+      );
+      const img = await screen.getAllByTestId<HTMLImageElement>(
+        "dog-card-image"
+      )[0];
+      fireEvent.load(img);
+      await user.click(dogNames[0]);
+
+      // Assert
+      await screen.findByText("Age (yrs):");
+      await screen.findByText("Latitude:");
+      await screen.findByText("42.000");
+      await screen.findByText("72.000");
+      await screen.findByText("50.00");
+    });
+  });
+
+  describe("Modal", () => {
+    it("Favorite button adds the dog to favorites", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/search"]}>
+          <Routes>
+            {SearchRoute}
+            {FavoritesRoute}
+          </Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByRole("status");
+      const img = await screen.getAllByTestId<HTMLImageElement>(
+        "dog-card-image"
+      )[0];
+      fireEvent.load(img);
+      await user.click(img);
+      const modalDogName = screen.getByTestId("modal-dog-name");
+      expect(modalDogName).toHaveTextContent("Dog 1");
+      const modalFavoriteButton: HTMLButtonElement = await screen.findByTestId(
+        "modal-favorite-button"
+      );
+      await user.click(modalFavoriteButton);
+      const closeModalButton: HTMLButtonElement = await screen.findByTestId(
+        "modal-close-button"
+      );
+      await user.click(closeModalButton);
+      await waitFor(() => {
+        expect(screen.queryByTestId("modal-dog-name")).not.toBeInTheDocument();
+      });
+      const favoritesItems: HTMLLIElement[] =
+        screen.getAllByTestId("favorites-nav");
+      await waitFor(async () => {
+        user.click(favoritesItems[0]);
+      });
+
+      // Assert
+      await screen.findByText("1 Dogs Favorited");
+      const dogCardBreed: HTMLHeadingElement = await screen.findByTestId(
+        "dog-card-breed"
+      );
+      expect(dogCardBreed.textContent?.includes("Breed 1")).toBe(true);
+    });
+
+    it("Favorite button removes the dog from favorites", async () => {
+      // Arrange
+      localStorage.setItem("favorites", JSON.stringify(["1"]));
+      render(
+        <MemoryRouter initialEntries={["/favorites"]}>
+          <Routes>
+            {SearchRoute}
+            {FavoritesRoute}
+          </Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByText("1 Dogs Favorited");
+      const dogCardBreed: HTMLHeadingElement = await screen.findByTestId(
+        "dog-card-breed"
+      );
+      expect(dogCardBreed.textContent?.includes("Breed 1")).toBe(true);
+      const searchItems: HTMLLIElement[] = screen.getAllByTestId("search-nav");
+      await waitFor(async () => {
+        user.click(searchItems[0]);
+      });
+      await screen.findByRole("status");
+      const img = await screen.getAllByTestId<HTMLImageElement>(
+        "dog-card-image"
+      )[0];
+      fireEvent.load(img);
+      await user.click(img);
+      const modalDogName = screen.getByTestId("modal-dog-name");
+      expect(modalDogName).toHaveTextContent("Dog 1");
+      const modalFavoriteButton: HTMLButtonElement = await screen.findByTestId(
+        "modal-favorite-button"
+      );
+      await user.click(modalFavoriteButton);
+      const closeModalButton: HTMLButtonElement = await screen.findByTestId(
+        "modal-close-button"
+      );
+      await user.click(closeModalButton);
+      await waitFor(() => {
+        expect(screen.queryByTestId("modal-dog-name")).not.toBeInTheDocument();
+      });
+      await waitFor(async () => {
+        user.click(screen.getAllByTestId("favorites-nav")[0]);
+      });
+
+      // Assert
+      await screen.findByText("0 Dogs Favorited");
+    });
+
+    it("Close button closes the modal", async () => {
+      // Arrange
+      render(
+        <MemoryRouter initialEntries={["/search"]}>
+          <Routes>{SearchRoute}</Routes>
+        </MemoryRouter>
+      );
+
+      // Act
+      await screen.findByRole("status");
+      const img = await screen.getAllByTestId<HTMLImageElement>(
+        "dog-card-image"
+      )[0];
+      fireEvent.load(img);
+      await user.click(img);
+      await screen.findByText("42.000");
+      await screen.findByText("72.000");
+      await screen.findByText("50.00");
+      const modalDogName = screen.getByTestId("modal-dog-name");
+      expect(modalDogName).toHaveTextContent("Dog 1");
+      const closeModalButton: HTMLButtonElement = await screen.findByTestId(
+        "modal-close-button"
+      );
+      await user.click(closeModalButton);
+
+      // Assert
+      await waitFor(() => {
+        expect(screen.queryByTestId("modal-dog-name")).not.toBeInTheDocument();
+      });
     });
   });
 });

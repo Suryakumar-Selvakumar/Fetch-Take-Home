@@ -66,6 +66,7 @@ const Card = ({
         )}
         {!isLoading && (
           <img
+            data-testid="dog-card-image"
             onClick={() => {
               if (!imageLoading) {
                 toggleModal(dog.id);

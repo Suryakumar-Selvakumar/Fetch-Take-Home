@@ -154,7 +154,7 @@ export default function Modal({
               <AuroraText variant="text">{dog?.state}</AuroraText>
             </span>
             <span>
-              <b className="block lg:inline">ZIP Code: </b>{" "}
+              <b className="block lg:inline">ZIP Code:</b>{" "}
               <AuroraText variant={""}>
                 <NumberTicker value={Number(dog?.zip_code)} />
               </AuroraText>
@@ -173,13 +173,13 @@ export default function Modal({
               </span>
             )}
             <span>
-              <b className="block lg:inline">Latitude: </b>{" "}
+              <b className="block lg:inline">Latitude:</b>{" "}
               <AuroraText variant={""}>
                 <NumberTicker decimalPlaces={3} value={Number(dog?.latitude)} />
               </AuroraText>
             </span>
             <span>
-              <b className="block lg:inline">Longitude: </b>{" "}
+              <b className="block lg:inline">Longitude:</b>{" "}
               <AuroraText variant={""}>
                 <NumberTicker
                   decimalPlaces={3}
@@ -189,7 +189,10 @@ export default function Modal({
             </span>
           </div>
           {!isMobileView && (
-            <p data-testid="dog-paragraph" className="lg:text-xl text-center">
+            <p
+              data-testid="modal-dog-paragraph"
+              className="lg:text-xl text-center"
+            >
               {generatePara()}
             </p>
           )}
@@ -198,6 +201,7 @@ export default function Modal({
         <article role="document" className="flex flex-col gap-4 lg:gap-8">
           <h1
             id="dog-dialog-title"
+            data-testid="modal-dog-name"
             className="scroll-m-20 text-center text-valentino-hv text-2xl lg:text-4xl font-extrabold tracking-tight text-balance"
           >
             {dog?.name}
@@ -220,7 +224,7 @@ export default function Modal({
                 "transition-colors ease-in duration-100",
                 "transition-opacity duration-500 ease-in"
               )}
-              data-testid="favorite-button"
+              data-testid="modal-favorite-button"
               onClick={() => toggleFavorite(dog.id)}
             >
               <svg
@@ -263,7 +267,7 @@ export default function Modal({
               <span>{dog?.state}</span>
             </span>
             <span>
-              <b className="block lg:inline">ZIP Code: </b>{" "}
+              <b className="block lg:inline">ZIP Code:</b>{" "}
               <span>{dog?.zip_code}</span>
             </span>
             {dist ? (
@@ -278,11 +282,11 @@ export default function Modal({
               </span>
             )}
             <span>
-              <b className="block lg:inline">Latitude: </b>{" "}
+              <b className="block lg:inline">Latitude:</b>{" "}
               <span>{dog?.latitude.toFixed(3)}</span>
             </span>
             <span>
-              <b className="block lg:inline">Longitude: </b>{" "}
+              <b className="block lg:inline">Longitude:</b>{" "}
               <span>{dog?.longitude.toFixed(3)}</span>
             </span>
           </div>

@@ -263,7 +263,7 @@ describe("Favorites", () => {
       // Act
       await screen.findByText("2 Dogs Favorited");
       await user.click(generateMatchButton);
-      const dogPara: HTMLParagraphElement = screen.getByTestId("dog-paragraph");
+      const dogPara: HTMLParagraphElement = screen.getByTestId("modal-dog-paragraph");
       expect(dogPara).toHaveTextContent(
         "Meet Dog 1, a 10 year old Breed 1 located in City 1, State 1, 1. Currently 50 miles away from you, this dog could be the perfect match to bring joy and companionship into your life."
       );
@@ -273,7 +273,7 @@ describe("Favorites", () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.queryByTestId("dog-paragraph")).not.toBeInTheDocument();
+        expect(screen.queryByTestId("modal-dog-paragraph")).not.toBeInTheDocument();
       });
     });
   });
