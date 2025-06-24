@@ -1,6 +1,6 @@
 import type { Dog } from "@/pages/Search";
 import { type FavoritesState } from "@/AuthProvider";
-import { Card } from "./Card";
+import Card from "./Card";
 import useAuth from "@/hooks/useAuth";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import getDistance from "@/utils/getDistance";

@@ -36,6 +36,8 @@ export interface Dog {
   breed: string;
   city: string;
   state: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface Location {
@@ -121,6 +123,7 @@ function Search(): JSX.Element {
           searchRes.resultIds,
           controller.signal
         );
+        console.log(dogObjs)
         setDogs(dogObjs);
       } catch (err: unknown) {
         if (err instanceof DOMException && err.name === "AbortError") {

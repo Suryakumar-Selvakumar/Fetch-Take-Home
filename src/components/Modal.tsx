@@ -153,6 +153,18 @@ export default function Modal({
               </AuroraText>
             </span>
           )}
+          <span>
+            <b className="block lg:inline">Latitude: </b>{" "}
+            <AuroraText variant={""}>
+              <NumberTicker decimalPlaces={3} value={Number(match?.latitude)} />
+            </AuroraText>
+          </span>
+          <span>
+            <b className="block lg:inline">Longitude: </b>{" "}
+            <AuroraText variant={""}>
+              <NumberTicker decimalPlaces={3} value={Number(match?.longitude)} />
+            </AuroraText>
+          </span>
         </div>
         {!isMobileView && (
           <p data-testid="dog-paragraph" className="lg:text-xl text-center">

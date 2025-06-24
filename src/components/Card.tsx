@@ -3,6 +3,7 @@ import { Skeleton } from "./ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
+import { LocateFixed, Map, MapPin } from "lucide-react";
 
 interface CardProps {
   dog: Dog;
@@ -12,7 +13,7 @@ interface CardProps {
   dist: undefined | number | string;
 }
 
-export const Card = ({
+const Card = ({
   dog,
   favorite,
   toggleFavorite,
@@ -64,8 +65,7 @@ export const Card = ({
           ></path>
         </svg>
       </button>
-
-      <div className="w-full h-full rounded-t-xl">
+      <div className="w-full h-full rounded-t-xl relative">
         {(isLoading || distLoading || imageLoading) && (
           <Skeleton className="h-[200px] w-full rounded-t-xl" />
         )}
@@ -80,6 +80,62 @@ export const Card = ({
             className="object-fill h-[200px] w-full rounded-t-xl transition-opacity duration-500 ease-in"
           />
         )}
+        {!distMissing && (
+          <span
+            aria-label={`Coordinates: Latitude ${dog.latitude}, Longitude ${dog.longitude}`}
+            style={{
+              zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
+            }}
+            className={cn(
+              "absolute bottom-13 left-2",
+              "bg-[rgb(255,255,255,0.7)] rounded-full hover:bg-[rgb(255,255,255,1)]",
+              "transition-colors ease-in duration-100",
+              "transition-opacity duration-500 ease-in"
+            )}
+          >
+            <Tooltip>
+              <TooltipTrigger className="rounded-full p-2 text-white">
+                <Map size={20} color="rgb(137, 0, 117)" />
+              </TooltipTrigger>
+              <TooltipContent
+                className="bg-white text-black"
+                side="right"
+                sideOffset={2.5}
+              >
+                <p data-testid="distance-tooltip">
+                  {Math.round(Number(dist))} miles away
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </span>
+        )}
+        <span
+          aria-label={`Coordinates: Latitude ${dog.latitude}, Longitude ${dog.longitude}`}
+          style={{
+            zIndex: isLoading || distLoading || imageLoading ? "-10" : "1",
+          }}
+          className={cn(
+            "absolute bottom-2 left-2",
+            "bg-[rgb(255,255,255,0.7)] rounded-full hover:bg-[rgb(255,255,255,1)]",
+            "transition-colors ease-in duration-100",
+            "transition-opacity duration-500 ease-in"
+          )}
+        >
+          <Tooltip>
+            <TooltipTrigger className="rounded-full p-2 text-white">
+              <MapPin size={20} color="rgb(137, 0, 117)" />
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-white text-black"
+              side="right"
+              sideOffset={2.5}
+            >
+              <p>
+                Lat: {dog.latitude.toFixed(2)}, Lon: {dog.longitude.toFixed(2)}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </span>
       </div>
       <div className="flex flex-col items-center gap-2 mt-3.5 px-4">
         {isLoading || distLoading ? (
@@ -107,27 +163,14 @@ export const Card = ({
         )}
         {isLoading || distLoading ? (
           <Skeleton className="h-4 w-[175px] mt-2" />
-        ) : distMissing ? (
+        ) : (
           <p className="animate-pop-in" data-testid="dog-card-address">
             {dog.city}, {dog.state}, {dog.zip_code}
-          </p>
-        ) : (
-          <p className="animate-pop-in">
-            <Tooltip>
-              <TooltipTrigger data-testid="dog-card-address">
-                {dog.city ? `${dog.city}, ` : ""}
-                {dog.state ? `${dog.state}, ` : ""}
-                {dog.zip_code}
-              </TooltipTrigger>
-              <TooltipContent side="bottom" sideOffset={-5}>
-                <p data-testid="distance-tooltip">
-                  {Math.round(dist as number)} miles away
-                </p>
-              </TooltipContent>
-            </Tooltip>
           </p>
         )}
       </div>
     </article>
   );
 };
+
+export default Card;
