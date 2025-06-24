@@ -15,7 +15,6 @@ const setFakeDistance = (url: string) => {
     createFetchResponse({
       results: {
         "1": 50,
-        "2": 100,
       },
     })
   );

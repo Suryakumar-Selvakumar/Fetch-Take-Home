@@ -263,8 +263,11 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "90210",
+          latitude: 42,
+          longitude: 72,
           city: "City 1",
           state: "State 1",
+          county: "County 1",
         },
       ])
     );
@@ -276,13 +279,19 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "3",
+          latitude: 42,
+          longitude: 72,
           city: "City 3",
           state: "State 3",
+          county: "County 3",
         },
         {
           zip_code: "4",
+          latitude: 42,
+          longitude: 72,
           city: "City 4",
           state: "State 4",
+          county: "County 4",
         },
       ])
     );
@@ -294,13 +303,19 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "5",
+          latitude: 42,
+          longitude: 72,
           city: "City 5",
           state: "State 5",
+          county: "County 5",
         },
         {
           zip_code: "6",
+          latitude: 42,
+          longitude: 72,
           city: "City 6",
           state: "State 6",
+          county: "County 6",
         },
       ])
     );
@@ -312,13 +327,19 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "7",
+          latitude: 42,
+          longitude: 72,
           city: "City 7",
           state: "State 7",
+          county: "County 7",
         },
         {
           zip_code: "8",
+          latitude: 42,
+          longitude: 72,
           city: "City 8",
           state: "State 8",
+          county: "County 8",
         },
       ])
     );
@@ -330,13 +351,19 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "9",
+          latitude: 42,
+          longitude: 72,
           city: "City 9",
           state: "State 9",
+          county: "County 9",
         },
         {
           zip_code: "10",
+          latitude: 42,
+          longitude: 72,
           city: "City 10",
           state: "State 10",
+          county: "County 10",
         },
       ])
     );
@@ -348,8 +375,11 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "1",
+          latitude: 42,
+          longitude: 72,
           city: "City 1",
           state: "State 1",
+          county: "County 1",
         },
       ])
     );
@@ -361,48 +391,75 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "2",
+          latitude: 42,
+          longitude: 72,
           city: "City 2",
           state: "State 2",
+          county: "County 2",
         },
         {
           zip_code: "3",
+          latitude: 42,
+          longitude: 72,
           city: "City 3",
           state: "State 3",
+          county: "County 3",
         },
         {
           zip_code: "4",
+          latitude: 42,
+          longitude: 72,
           city: "City 4",
           state: "State 4",
+          county: "County 4",
         },
         {
           zip_code: "5",
+          latitude: 42,
+          longitude: 72,
           city: "City 5",
           state: "State 5",
+          county: "County 5",
         },
         {
           zip_code: "6",
+          latitude: 42,
+          longitude: 72,
           city: "City 6",
           state: "State 6",
+          county: "County 6",
         },
         {
           zip_code: "7",
+          latitude: 42,
+          longitude: 72,
           city: "City 7",
           state: "State 7",
+          county: "County 7",
         },
         {
           zip_code: "8",
+          latitude: 42,
+          longitude: 72,
           city: "City 8",
           state: "State 8",
+          county: "County 8",
         },
         {
           zip_code: "9",
+          latitude: 42,
+          longitude: 72,
           city: "City 9",
           state: "State 9",
+          county: "County 9",
         },
         {
           zip_code: "10",
+          latitude: 42,
+          longitude: 72,
           city: "City 10",
           state: "State 10",
+          county: "County 10",
         },
       ])
     );
@@ -414,13 +471,19 @@ export const setFakeLocations = (body: string[] | null) => {
       createFetchResponse([
         {
           zip_code: "11",
+          latitude: 42,
+          longitude: 72,
           city: "City 11",
           state: "State 11",
+          county: "County 11",
         },
         {
           zip_code: "12",
+          latitude: 42,
+          longitude: 72,
           city: "City 12",
           state: "State 12",
+          county: "County 12",
         },
       ])
     );
@@ -431,13 +494,19 @@ export const setFakeLocations = (body: string[] | null) => {
     createFetchResponse([
       {
         zip_code: "1",
+        latitude: 42,
+        longitude: 72,
         city: "City 1",
         state: "State 1",
+        county: "County 1",
       },
       {
         zip_code: "2",
+        latitude: 42,
+        longitude: 72,
         city: "City 2",
         state: "State 2",
+        county: "County 2",
       },
     ])
   );

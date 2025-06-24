@@ -86,7 +86,11 @@ const Card = ({
         {isLoading ? (
           <Skeleton className="h-5 w-[150px] mt-1.5" />
         ) : (
-          <h4
+          <button
+            type="button"
+            role="heading"
+            aria-level={4}
+            aria-label="Open dog modal"
             onClick={() => {
               if (!imageLoading) {
                 toggleModal(dog.id);
@@ -96,7 +100,7 @@ const Card = ({
             className="cursor-pointer scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in"
           >
             {dog.name}
-          </h4>
+          </button>
         )}
         {isLoading ? (
           <Skeleton className="h-4 w-full mt-1.5" />
