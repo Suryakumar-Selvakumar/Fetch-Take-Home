@@ -23,14 +23,20 @@ async function getZipCodes(search: string[]): Promise<string[]> {
     }
   });
 
-  const cityZipPromises: Promise<LocationsSearch>[] = cities.map((city) =>
-    fetch("https://frontend-take-home-service.fetch.com/locations/search", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ city }),
-    }).then((res) => res.json())
-  );
+  const cityZipPromises: Promise<LocationsSearch>[] | [] =
+    cities.length > 0
+      ? cities.map((city) =>
+          fetch(
+            "https://frontend-take-home-service.fetch.com/locations/search",
+            {
+              method: "POST",
+              credentials: "include",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ city, size: 10000 }),
+            }
+          ).then((res) => res.json())
+        )
+      : [];
 
   const stateZipPromise: Promise<LocationsSearch> | [] =
     states.length > 0
@@ -40,7 +46,7 @@ async function getZipCodes(search: string[]): Promise<string[]> {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ states }),
+          body: JSON.stringify({ states, size: 10000 }),
         }).then((res) => res.json())
       : [];
 
@@ -55,8 +61,9 @@ async function getZipCodes(search: string[]): Promise<string[]> {
       : []
   );
 
-  const stateZips: string[] =
-    stateResult.results?.map((loc: Location) => loc.zip_code) ?? [];
+  const stateZips: string[] = Array.isArray(stateResult)
+    ? []
+    : stateResult.results?.map((loc: Location) => loc.zip_code);
 
   const allZips: string[] = [...zips, ...cityZips, ...stateZips];
   const dedupedZips: string[] = Array.from(new Set(allZips));

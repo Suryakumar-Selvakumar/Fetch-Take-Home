@@ -135,7 +135,9 @@ function Search(): JSX.Element {
         if (err instanceof DOMException && err.name === "AbortError") {
           return;
         } else if (err instanceof Error || err instanceof TypeError) {
-          setError((err as Error).message);
+          if ((err as Error).message === "Failed to fetch")
+            setError("Internal Server Error");
+          else setError((err as Error).message);
         } else setError("An Unknown error has occured");
       } finally {
         setIsLoading(false);

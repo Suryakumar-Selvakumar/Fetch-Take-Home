@@ -1,8 +1,5 @@
 import type { Dog } from "@/pages/Search";
 import Card from "./Card";
-import useAuth from "@/hooks/useAuth";
-import { useEffect, useState } from "react";
-import getDistance from "@/utils/getDistance";
 
 interface CardsProps {
   dogs: Dog[];
