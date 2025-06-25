@@ -22,7 +22,7 @@ const Card = ({
 
   return (
     <article
-      aria-label={`Dog card for ${dog.name}`}
+      aria-label={`Dog card for ${dog?.name}`}
       className="bg-white select-none grid grid-rows-[200px_125px] rounded-xl shadow-lg relative"
     >
       <button
@@ -39,7 +39,7 @@ const Card = ({
           "transition-opacity duration-500 ease-in"
         )}
         data-testid="favorite-button"
-        onClick={() => toggleFavorite(dog.id)}
+        onClick={() => toggleFavorite(dog?.id)}
       >
         <svg
           width="24px"
@@ -69,12 +69,12 @@ const Card = ({
             data-testid="dog-card-image"
             onClick={() => {
               if (!imageLoading) {
-                toggleModal(dog.id);
+                toggleModal(dog?.id);
               }
             }}
             onLoad={() => setImageLoading(false)}
-            src={dog.img}
-            alt={dog.name}
+            src={dog?.img}
+            alt={dog?.name}
             style={{
               opacity: imageLoading ? "0" : "1",
               pointerEvents: imageLoading ? "none" : "auto",
@@ -94,13 +94,13 @@ const Card = ({
             aria-label="Open dog modal"
             onClick={() => {
               if (!imageLoading) {
-                toggleModal(dog.id);
+                toggleModal(dog?.id);
               }
             }}
             data-testid="dog-card-name"
             className="cursor-pointer scroll-m-20 text-xl font-semibold tracking-tight text-valentino-hv animate-pop-in"
           >
-            {dog.name}
+            {dog?.name}
           </button>
         )}
         {isLoading ? (
@@ -108,11 +108,11 @@ const Card = ({
         ) : (
           <p className="flex justify-center w-full gap-2 h-6 animate-pop-in">
             <span className="text-ellipsis overflow-hidden">
-              {dog.age} {dog.age == 1 ? "year" : "years"} old
+              {dog?.age} {dog?.age == 1 ? "year" : "years"} old
             </span>{" "}
             <span>&bull;</span>
             <span className="truncate" data-testid="dog-card-breed">
-              {dog.breed}
+              {dog?.breed}
             </span>
           </p>
         )}
@@ -120,7 +120,9 @@ const Card = ({
           <Skeleton className="h-4 w-[175px] mt-2" />
         ) : (
           <p className="animate-pop-in" data-testid="dog-card-address">
-            {dog.city}, {dog.state}, {dog.zip_code}
+            {dog?.city ? `${dog?.city}, ` : ""}
+            {dog?.state ? `${dog?.state}, ` : ""}
+            {dog?.zip_code ? `${dog?.zip_code}` : ""}
           </p>
         )}
       </div>
