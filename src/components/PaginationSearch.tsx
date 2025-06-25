@@ -105,7 +105,7 @@ export default function PaginationSearch({
           <PaginationLink
             isActive
             aria-current="page"
-            className="hover:bg-transparent"
+            className="hover:bg-white"
           >
             {page}
           </PaginationLink>

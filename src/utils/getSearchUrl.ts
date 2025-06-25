@@ -1,5 +1,6 @@
 import type { FiltersState, SortState } from "@/pages/Search";
 import getZipCodes from "./getZipCodes";
+import normalizeQueryArrayIndices from "./normalizeQueryArrayIndices";
 
 export default async function getSearchUrl(
   filters: FiltersState,
@@ -7,7 +8,7 @@ export default async function getSearchUrl(
   query: string
 ): Promise<string> {
   if (query != "") {
-    return `https://frontend-take-home-service.fetch.com${query}`;
+    return `https://frontend-take-home-service.fetch.com${normalizeQueryArrayIndices(query)}`;
   } else {
     const { search, breeds, ageMin, ageMax }: FiltersState = filters;
     const { sortBy, orderBy }: SortState = sort;

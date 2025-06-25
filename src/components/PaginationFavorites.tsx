@@ -96,7 +96,7 @@ export default function PaginationFavorites({
           <PaginationLink
             isActive
             aria-current="page"
-            className="hover:bg-transparent"
+            className="hover:bg-white"
           >
             {page}
           </PaginationLink>

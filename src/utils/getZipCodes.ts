@@ -32,7 +32,7 @@ async function getZipCodes(search: string[]): Promise<string[]> {
               method: "POST",
               credentials: "include",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ city, size: 10000 }),
+              body: JSON.stringify({ city }),
             }
           ).then((res) => res.json())
         )
@@ -46,7 +46,7 @@ async function getZipCodes(search: string[]): Promise<string[]> {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ states, size: 10000 }),
+          body: JSON.stringify({ states }),
         }).then((res) => res.json())
       : [];
 
