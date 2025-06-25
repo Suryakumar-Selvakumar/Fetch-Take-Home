@@ -210,7 +210,7 @@ function Search(): JSX.Element {
   }, [filters, sort]);
 
   const toggleModal = (dogId: string): void => {
-    const chosenDog = dogs.find((dog) => dog.id === dogId);
+    const chosenDog: Dog = dogs.find((dog) => dog.id === dogId)!;
     setOpenedDog(chosenDog);
     setShowCardModal(true);
   };

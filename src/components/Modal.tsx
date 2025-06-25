@@ -225,7 +225,7 @@ export default function Modal({
                 "transition-opacity duration-500 ease-in"
               )}
               data-testid="modal-favorite-button"
-              onClick={() => toggleFavorite(dog.id)}
+              onClick={() => toggleFavorite!(dog?.id as string)}
             >
               <svg
                 width="24px"

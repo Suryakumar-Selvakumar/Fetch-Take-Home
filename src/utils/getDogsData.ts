@@ -54,7 +54,7 @@ export const getDogsData = async (
 
   const locationMap = new Map(
     dogLocObjs
-      .filter((loc): loc is Location => loc !== null)
+      .filter((loc: Location): loc is Location => loc !== null)
       .map((loc: Location) => [
         loc.zip_code,
         {

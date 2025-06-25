@@ -3,10 +3,11 @@ import { Toaster as Sonner } from "sonner";
 
 const Toaster = ({ ...props }) => {
   const { theme = "system" } = useTheme();
+  const safeTheme = theme as "light" | "dark" | "system";
 
   return (
     <Sonner
-      theme={theme["theme"]}
+      theme={safeTheme}
       className="toaster group font-bold"
       style={
         {
