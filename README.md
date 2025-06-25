@@ -24,7 +24,7 @@ https://fetch-match-theta.vercel.app/
   - age
 - Curated Dogs Data - Get information & images for all dogs
 - User Matching - Select favorite dogs and generate a Match
-- Responsive Design - Unique, Mobile-Friendly Layouts created with [Material Tailwind](https://www.material-tailwind.com/) & [Shadcn](https://ui.shadcn.com/) components
+- Responsive Design - Unique, Mobile-Friendly Layouts created with [Tailwind CSS](https://tailwindcss.com/) and [Material Tailwind](https://www.material-tailwind.com/) & [Shadcn](https://ui.shadcn.com/) components
 - Seamless Animations/Transitions - Made possible with [Motion](https://motion.dev/)
 - Client-side routing with Exclusive pages - Implemented with [React Router](https://reactrouter.com/)
 - Flawless Integration - Comprehensive Integration Testing carried out using [Vitest](https://vitest.dev/) & [Testing Library](https://testing-library.com/)
