@@ -23,8 +23,6 @@ async function getZipCodes(search: string[]): Promise<string[]> {
     }
   });
 
-  console.log(states);
-
   const cityZipPromises: Promise<LocationsSearch>[] | [] =
     cities.length > 0
       ? cities.map((city) =>
