@@ -23,6 +23,8 @@ async function getZipCodes(search: string[]): Promise<string[]> {
     }
   });
 
+  console.log(states);
+
   const cityZipPromises: Promise<LocationsSearch>[] | [] =
     cities.length > 0
       ? cities.map((city) =>
@@ -38,21 +40,26 @@ async function getZipCodes(search: string[]): Promise<string[]> {
         )
       : [];
 
-  const stateZipPromise: Promise<LocationsSearch> | [] =
+  const stateZipPromises: Promise<LocationsSearch>[] | [] =
     states.length > 0
-      ? fetch("https://frontend-take-home-service.fetch.com/locations/search", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ states }),
-        }).then((res) => res.json())
+      ? states.map((state) =>
+          fetch(
+            "https://frontend-take-home-service.fetch.com/locations/search",
+            {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ states: [state] }),
+            }
+          ).then((res) => res.json())
+        )
       : [];
 
-  const [cityResults, stateResult] = await Promise.all([
+  const [cityResults, stateResults] = await Promise.all([
     Promise.allSettled(cityZipPromises),
-    stateZipPromise,
+    Promise.allSettled(stateZipPromises),
   ]);
 
   const cityZips: string[] = cityResults.flatMap((result) =>
@@ -61,9 +68,11 @@ async function getZipCodes(search: string[]): Promise<string[]> {
       : []
   );
 
-  const stateZips: string[] = Array.isArray(stateResult)
-    ? []
-    : stateResult.results?.map((loc: Location) => loc.zip_code);
+  const stateZips: string[] = stateResults.flatMap((result) =>
+    result.status === "fulfilled"
+      ? result.value.results.map((loc: Location) => loc.zip_code)
+      : []
+  );
 
   const allZips: string[] = [...zips, ...cityZips, ...stateZips];
   const dedupedZips: string[] = Array.from(new Set(allZips));
