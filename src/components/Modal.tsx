@@ -133,7 +133,7 @@ export default function Modal({
           />
           <div
             id="dog-dialog-description"
-            className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[400px_1fr] gap-4"
+            className="lg:text-2xl grid grid-cols-2 lg:grid-cols-[397.5px_1fr] gap-4"
           >
             <span>
               <b className="block lg:inline">Breed:</b>{" "}
@@ -181,14 +181,14 @@ export default function Modal({
             <span>
               <b className="block lg:inline">Latitude:</b>{" "}
               <AuroraText variant={""}>
-                <NumberTicker decimalPlaces={3} value={Number(dog?.latitude)} />
+                <NumberTicker decimalPlaces={2} value={Number(dog?.latitude)} />
               </AuroraText>
             </span>
             <span>
               <b className="block lg:inline">Longitude:</b>{" "}
               <AuroraText variant={""}>
                 <NumberTicker
-                  decimalPlaces={3}
+                  decimalPlaces={2}
                   value={Number(dog?.longitude)}
                 />
               </AuroraText>
