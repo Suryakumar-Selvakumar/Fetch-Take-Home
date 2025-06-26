@@ -156,7 +156,13 @@ export default function Modal({
             <span>
               <b className="block lg:inline">ZIP Code:</b>{" "}
               <AuroraText variant={""}>
-                <NumberTicker value={Number(dog?.zip_code)} />
+                {dog?.zip_code.startsWith("0") ? (
+                  <>
+                    0<NumberTicker value={Number(dog?.zip_code)} />
+                  </>
+                ) : (
+                  <NumberTicker value={Number(dog?.zip_code)} />
+                )}
               </AuroraText>
             </span>
             {dist ? (
