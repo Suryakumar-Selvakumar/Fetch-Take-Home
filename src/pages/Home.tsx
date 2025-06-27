@@ -125,7 +125,7 @@ function Home() {
             Find your new best friend
           </h1>
           <p className="lg:text-3xl text-white text-shadow-md text-center">
-            Browse 10,000+ dogs from our network of over 14,500 shelters and
+            Browse 10,000+ dogs from a network of over 14,500 shelters and
             rescues.
           </p>
         </section>
