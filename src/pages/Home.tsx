@@ -90,72 +90,74 @@ function Home() {
   }, []);
 
   return (
-    <main
-      className="w-full lg:h-screen min-h-screen h-full flex flex-col overflow-x-hidden"
-      style={{
-        background: isMobileView ? `url(${spotsBg})` : "none",
-        backgroundRepeat: isMobileView ? "repeat" : "none",
-        backgroundSize: isMobileView ? "contain" : "none",
-      }}
-    >
+    <>
       <Navbar />
-      <div
-        aria-hidden="true"
+      <main
+        className="w-full lg:h-screen min-h-screen h-full flex flex-col overflow-x-hidden"
         style={{
-          background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: isMobileView ? "42% 100%" : "40% 55%",
+          background: isMobileView ? `url(${spotsBg})` : "none",
+          backgroundRepeat: isMobileView ? "repeat" : "none",
+          backgroundSize: isMobileView ? "contain" : "none",
         }}
-        className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
-      />
-      <section
-        aria-label="Website description"
-        role="region"
-        className="lg:relative flex flex-col items-center justify-center"
       >
+        <div
+          aria-hidden="true"
+          style={{
+            background: `radial-gradient(rgba(255,255,255,0.1), rgba(0,0,0,0.3)), url(${dogFamImg})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: isMobileView ? "42% 100%" : "40% 55%",
+          }}
+          className={`lg:h-325 h-100 border-b-10 border-b-amber-400`}
+        />
         <section
-          aria-labelledby="page-heading"
-          className="lg:absolute relative -top-40 lg:-top-50 flex flex-col items-center justify-center"
-        >
-          <h1
-            id="page-heading"
-            className="lg:text-5xl text-3xl text-white font-medium text-shadow-md"
-          >
-            Find your new best friend
-          </h1>
-          <p className="lg:text-3xl text-white text-shadow-md text-center">
-            Browse 10,000+ dogs from a network of over 14,500 shelters and
-            rescues.
-          </p>
-        </section>
-        <section
+          aria-label="Website description"
           role="region"
-          aria-label="Dog cards"
-          className="relative mx-4 -mb-25 lg:-mb-0 lg:absolute flex flex-wrap lg:flex-nowrap justify-center items-center -top-35 lg:-top-20 2xl:gap-8 xl:gap-6 gap-4"
+          className="lg:relative flex flex-col items-center justify-center"
         >
-          {dogsData.map(({ imgUrl, gifUrl, name, desc }) => (
-            <HoverCard
-              key={name}
-              imgUrl={imgUrl}
-              gifUrl={gifUrl}
-              name={name}
-              desc={desc}
-              navigateToSearch={navigateToSearch}
-            />
-          ))}
+          <section
+            aria-labelledby="page-heading"
+            className="lg:absolute relative -top-40 lg:-top-50 flex flex-col items-center justify-center"
+          >
+            <h1
+              id="page-heading"
+              className="lg:text-5xl text-3xl text-white font-medium text-shadow-md"
+            >
+              Find your new best friend
+            </h1>
+            <p className="lg:text-3xl text-white text-shadow-md text-center">
+              Browse 10,000+ dogs from a network of over 14,500 shelters and
+              rescues.
+            </p>
+          </section>
+          <section
+            role="region"
+            aria-label="Dog cards"
+            className="relative mx-4 -mb-25 lg:-mb-0 lg:absolute flex flex-wrap lg:flex-nowrap justify-center items-center -top-35 lg:-top-20 2xl:gap-8 xl:gap-6 gap-4"
+          >
+            {dogsData.map(({ imgUrl, gifUrl, name, desc }) => (
+              <HoverCard
+                key={name}
+                imgUrl={imgUrl}
+                gifUrl={gifUrl}
+                name={name}
+                desc={desc}
+                navigateToSearch={navigateToSearch}
+              />
+            ))}
+          </section>
         </section>
-      </section>
-      <div
-        aria-hidden="true"
-        className="hidden lg:block lg:h-full lg:overflow-hidden"
-        style={{
-          background: `url(${spotsBg})`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "contain",
-        }}
-      />
-    </main>
+        <div
+          aria-hidden="true"
+          className="hidden lg:block lg:h-full lg:overflow-hidden"
+          style={{
+            background: `url(${spotsBg})`,
+            backgroundRepeat: "repeat",
+            backgroundSize: "contain",
+          }}
+        />
+      </main>
+    </>
   );
 }
 

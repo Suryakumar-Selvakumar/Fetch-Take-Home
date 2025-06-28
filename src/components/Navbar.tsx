@@ -114,10 +114,9 @@ export default function NavbarComp(): JSX.Element {
   }, []);
 
   return (
-    <div className="bg-amber-400">
+    <header role="navigation" className="bg-amber-400">
       <Toaster richColors position={"top-center"} />
       <nav
-        role="navigation"
         aria-label="Main navigation"
         className="lg:mx-auto w-full lg:max-w-screen-2xl px-2 h-min py-3 bg-transparent border-none shadow-none text-valentino"
       >
@@ -152,6 +151,6 @@ export default function NavbarComp(): JSX.Element {
           <NavList />
         </Collapse>
       </nav>
-    </div>
+    </header>
   );
 }

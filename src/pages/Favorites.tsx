@@ -113,100 +113,102 @@ export default function Favorties(): JSX.Element {
   };
 
   return (
-    <main
-      className="w-full min-h-screen h-full flex flex-col"
-      style={{
-        background: `url(${spotsBg})`,
-        backgroundRepeat: "repeat",
-        backgroundSize: "contain",
-      }}
-    >
-      {/* Match Modal */}
-      <Modal
-        dog={match}
-        showModal={showMatchModal}
-        setShowModal={setShowMatchModal}
-        displayingMatch={true}
-        isInSearch={false}
-      />
-      {/* Card Modal */}
-      <Modal
-        dog={openedDog}
-        showModal={showCardModal}
-        setShowModal={setShowCardModal}
-        displayingMatch={false}
-        favorite={openedDog ? favorites.includes(openedDog.id) : false}
-        toggleFavorite={toggleFavorite}
-        isInSearch={false}
-      />
+    <>
       <Navbar />
-      <div className="w-full max-w-screen-2xl h-min py-4 flex self-center justify-center">
-        <Badge
-          role="status"
-          aria-live="polite"
-          aria-label={`${favorites.length} dogs favorited`}
-          className="text-xl text-valentino shadow-sm"
-          variant={"secondary"}
-        >
-          {favorites.length} Dogs Favorited
-        </Badge>
-      </div>
-      <section
-        aria-label="Page content"
-        className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]"
+      <main
+        className="w-full min-h-screen h-full flex flex-col"
+        style={{
+          background: `url(${spotsBg})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "contain",
+        }}
       >
-        <section
-          role="region"
-          aria-label="Match generator"
-          className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-4 pb-3 lg:pt-8"
-        >
-          <RainbowButton
-            aria-label={
-              match !== null
-                ? "Show your match"
-                : isMatchLoading
-                ? "Generating match"
-                : "Generate a match"
-            }
-            aria-busy={isMatchLoading}
-            className={cn(
-              "w-full lg:w-[300px] text-base",
-              isMatchLoading && "text-muted-foreground"
-            )}
-            data-testid="generate-match-button"
-            variant={"outline"}
-            size={"lg"}
-            onClick={generateMatch}
-            disabled={isMatchLoading}
+        {/* Match Modal */}
+        <Modal
+          dog={match}
+          showModal={showMatchModal}
+          setShowModal={setShowMatchModal}
+          displayingMatch={true}
+          isInSearch={false}
+        />
+        {/* Card Modal */}
+        <Modal
+          dog={openedDog}
+          showModal={showCardModal}
+          setShowModal={setShowCardModal}
+          displayingMatch={false}
+          favorite={openedDog ? favorites.includes(openedDog.id) : false}
+          toggleFavorite={toggleFavorite}
+          isInSearch={false}
+        />
+        <div className="w-full max-w-screen-2xl h-min py-4 flex self-center justify-center">
+          <Badge
+            role="status"
+            aria-live="polite"
+            aria-label={`${favorites.length} dogs favorited`}
+            className="text-xl text-valentino shadow-sm"
+            variant={"secondary"}
           >
-            {match !== null ? "Show Match" : "Generate Match"}
-          </RainbowButton>
-        </section>
+            {favorites.length} Dogs Favorited
+          </Badge>
+        </div>
         <section
-          aria-live="polite"
-          role="region"
-          aria-label="Results"
-          className="lg:col-start-[2] lg:row-span-full grid grid-rows-[1fr_max-content] px-6 lg:px-0"
+          aria-label="Page content"
+          className="mt-4 w-full max-w-screen-2xl self-center grid grid-cols-1 lg:grid-cols-[min-content_1fr] h-full grid-rows-[min-content_1fr]"
         >
-          <Error error={error} />
-          {dogs.length > 0 && (
-            <Cards
-              dogs={dogs}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-              isLoading={isLoading}
-              toggleModal={toggleModal}
-            />
-          )}
-          {!error && dogs.length > 0 && (
-            <PaginationFavorites
-              page={page}
-              fetchFavoriteDogs={fetchFavoriteDogs}
-              favoritesPages={Math.ceil(favorites.length / PAGE_SIZE)}
-            />
-          )}
+          <section
+            role="region"
+            aria-label="Match generator"
+            className="row-start-1 h-max w-full lg:w-max flex flex-col px-10 lg:px-4 pb-3 lg:pt-8"
+          >
+            <RainbowButton
+              aria-label={
+                match !== null
+                  ? "Show your match"
+                  : isMatchLoading
+                  ? "Generating match"
+                  : "Generate a match"
+              }
+              aria-busy={isMatchLoading}
+              className={cn(
+                "w-full lg:w-[300px] text-base",
+                isMatchLoading && "text-muted-foreground"
+              )}
+              data-testid="generate-match-button"
+              variant={"outline"}
+              size={"lg"}
+              onClick={generateMatch}
+              disabled={isMatchLoading}
+            >
+              {match !== null ? "Show Match" : "Generate Match"}
+            </RainbowButton>
+          </section>
+          <section
+            aria-live="polite"
+            role="region"
+            aria-label="Results"
+            className="lg:col-start-[2] lg:row-span-full grid grid-rows-[1fr_max-content] px-6 lg:px-0"
+          >
+            <Error error={error} />
+            {dogs.length > 0 && (
+              <Cards
+                dogs={dogs}
+                favorites={favorites}
+                toggleFavorite={toggleFavorite}
+                isLoading={isLoading}
+                toggleModal={toggleModal}
+              />
+            )}
+            {!error && dogs.length > 0 && (
+              <PaginationFavorites
+                page={page}
+                fetchFavoriteDogs={fetchFavoriteDogs}
+                favoritesPages={Math.ceil(favorites.length / PAGE_SIZE)}
+              />
+            )}
+          </section>
         </section>
-      </section>
-    </main>
+      </main>
+    </>
   );
 }
