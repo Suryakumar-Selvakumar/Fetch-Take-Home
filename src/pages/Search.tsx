@@ -224,113 +224,111 @@ function Search(): JSX.Element {
   };
 
   return (
-    <>
+    <main
+      className="w-full min-h-screen h-full flex flex-col"
+      style={{
+        background: `url(${spotsBg})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "contain",
+      }}
+    >
       <Navbar />
-      <main
-        className="w-full min-h-screen h-full flex flex-col"
-        style={{
-          background: `url(${spotsBg})`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "contain",
-        }}
-      >
-        <Modal
-          dog={openedDog}
-          showModal={showCardModal}
-          setShowModal={setShowCardModal}
-          displayingMatch={false}
-          favorite={openedDog ? favorites.includes(openedDog.id) : false}
-          toggleFavorite={toggleFavorite}
-          isInSearch={true}
-        />
-        {isMobileView && (
-          <section
-            role="region"
-            aria-label="Search controls"
-            className="flex items-center justify-between p-4"
+      <Modal
+        dog={openedDog}
+        showModal={showCardModal}
+        setShowModal={setShowCardModal}
+        displayingMatch={false}
+        favorite={openedDog ? favorites.includes(openedDog.id) : false}
+        toggleFavorite={toggleFavorite}
+        isInSearch={true}
+      />
+      {isMobileView && (
+        <section
+          role="region"
+          aria-label="Search controls"
+          className="flex items-center justify-between p-4"
+        >
+          <Badge
+            className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
+            variant={"outline"}
+            onClick={() => setIsSidebarPageVisible(true)}
           >
-            <Badge
-              className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
-              variant={"outline"}
-              onClick={() => setIsSidebarPageVisible(true)}
-            >
-              <SlidersHorizontal size={24} />
-            </Badge>
-            <Badge
-              role="status"
-              aria-live="polite"
-              className="text-xl text-valentino shadow-sm"
-              variant={"secondary"}
-            >
-              {searchResult.total < 1000
-                ? searchResult.total
-                : String(searchResult.total / 1000).includes(".")
-                ? `${(searchResult.total / 1000).toFixed(1)}K`
-                : `${searchResult.total / 1000}K`}{" "}
-              Dogs Found
-            </Badge>
-            <Badge
-              className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
-              variant={"outline"}
-              onClick={() => setIsFilterPageVisible(true)}
-            >
-              <Funnel size={24} />
-            </Badge>
-          </section>
-        )}
-        <Filterbar
+            <SlidersHorizontal size={24} />
+          </Badge>
+          <Badge
+            role="status"
+            aria-live="polite"
+            className="text-xl text-valentino shadow-sm"
+            variant={"secondary"}
+          >
+            {searchResult.total < 1000
+              ? searchResult.total
+              : String(searchResult.total / 1000).includes(".")
+              ? `${(searchResult.total / 1000).toFixed(1)}K`
+              : `${searchResult.total / 1000}K`}{" "}
+            Dogs Found
+          </Badge>
+          <Badge
+            className="w-max h-max cursor-pointer bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0))] backdrop-blur-lg shadow-xs"
+            variant={"outline"}
+            onClick={() => setIsFilterPageVisible(true)}
+          >
+            <Funnel size={24} />
+          </Badge>
+        </section>
+      )}
+      <Filterbar
+        setFilters={setFilters}
+        updateSortBy={updateSortBy}
+        updateOrderBy={updateOrderBy}
+        sort={sort}
+        searchResult={searchResult}
+        isFilterPageVisible={isFilterPageVisible}
+        setIsFilterPageVisible={setIsFilterPageVisible}
+      />
+      <section
+        aria-label="Page content"
+        className="lg:mt-4 w-full lg:max-w-screen-2xl lg:self-center grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]"
+      >
+        <Sidebar
+          filters={filters}
           setFilters={setFilters}
-          updateSortBy={updateSortBy}
-          updateOrderBy={updateOrderBy}
-          sort={sort}
-          searchResult={searchResult}
-          isFilterPageVisible={isFilterPageVisible}
-          setIsFilterPageVisible={setIsFilterPageVisible}
+          updateAgeMin={updateAgeMin}
+          updateAgeMax={updateAgeMax}
+          isSidebarPageVisible={isSidebarPageVisible}
+          setIsSidebarPageVisible={setIsSidebarPageVisible}
+        />
+        <Filters
+          filters={filters}
+          clearFilters={clearFilters}
+          updateFilters={updateFilters}
         />
         <section
-          aria-label="Page content"
-          className="lg:mt-4 w-full lg:max-w-screen-2xl lg:self-center grid grid-cols-[min-content_1fr] grid-rows-[min-content_1fr]"
+          role="region"
+          aria-label="Results"
+          aria-live="polite"
+          className="col-span-full lg:col-span-1 lg:col-start-[2] lg:row-span-full flex flex-col px-6 lg:px-0"
         >
-          <Sidebar
-            filters={filters}
-            setFilters={setFilters}
-            updateAgeMin={updateAgeMin}
-            updateAgeMax={updateAgeMax}
-            isSidebarPageVisible={isSidebarPageVisible}
-            setIsSidebarPageVisible={setIsSidebarPageVisible}
-          />
-          <Filters
-            filters={filters}
-            clearFilters={clearFilters}
-            updateFilters={updateFilters}
-          />
-          <section
-            role="region"
-            aria-label="Results"
-            aria-live="polite"
-            className="col-span-full lg:col-span-1 lg:col-start-[2] lg:row-span-full flex flex-col px-6 lg:px-0"
-          >
-            <Error error={error} />
-            {dogs.length > 0 && !error && (
-              <Cards
-                dogs={dogs}
-                favorites={favorites}
-                toggleFavorite={toggleFavorite}
-                isLoading={isLoading}
-                toggleModal={toggleModal}
-              />
-            )}
-            {!error && dogs.length > 0 && (
-              <PaginationSearch
-                page={page}
-                searchResult={searchResult}
-                fetchDogsData={fetchDogsData}
-              />
-            )}
-          </section>
+          <Error error={error} />
+          {dogs.length > 0 && !error && (
+            <Cards
+              dogs={dogs}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              isLoading={isLoading}
+              toggleModal={toggleModal}
+            />
+          )}
+          {!error && dogs.length > 0 && (
+            <PaginationSearch
+              page={page}
+              searchResult={searchResult}
+              fetchDogsData={fetchDogsData}
+            />
+          )}
         </section>
-      </main>
-    </>
+      </section>
+    </main>
   );
 }
 

@@ -63,8 +63,6 @@ function Login(): JSX.Element {
   }, []);
 
   return (
-    <>
-      <Navbar />
       <main
         className="w-full lg:h-screen min-h-screen h-full flex flex-col overflow-x-hidden"
         style={{
@@ -73,6 +71,7 @@ function Login(): JSX.Element {
           backgroundSize: isMobileView ? "contain" : "none",
         }}
       >
+         <Navbar />
         <div
           aria-hidden="true"
           style={{
@@ -208,7 +207,6 @@ function Login(): JSX.Element {
           }}
         />
       </main>
-    </>
   );
 }
 
