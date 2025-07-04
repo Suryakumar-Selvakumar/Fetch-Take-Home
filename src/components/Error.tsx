@@ -10,7 +10,7 @@ export default function Error({
       {error && (
         <section
           role="alert"
-          aria-live="assertive"
+          aria-labelledby="error-heading"
           className="flex flex-col justify-start items-center pt-[3rem] text-red-700 gap-4"
         >
           <svg
@@ -46,7 +46,7 @@ export default function Error({
               />{" "}
             </g>
           </svg>
-          <h2>Error fetching dogs</h2>
+          <h2 id="error-heading">Error fetching dogs</h2>
           <p>{error}</p>
         </section>
       )}
